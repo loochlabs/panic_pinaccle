@@ -12,6 +12,28 @@ namespace PanicPinnacle.Input {
 	[System.Serializable]
 	public class PlayerInput : CombatantInput {
 
+		/// <summary>
+		/// Gets the direction of movement for this Player.
+		/// </summary>
+		/// <param name="combatant">The combatant requesting their movement direction.</param>
+		/// <returns>The direction the Player is trying to move towards..</returns>
+		public override Vector3 GetMovementDirection(Combatant combatant) {
+			// TODO: Replace this with something that doesn't call UnityEngine.Input. It's. It's not very good.
+			float horizontalInput = UnityEngine.Input.GetAxisRaw("Horizontal");
+			float verticalInput = UnityEngine.Input.GetAxisRaw("Vertical");
+			// Assemble those two axes into a new vector and return it.
+			return new Vector3(x: horizontalInput, y: verticalInput, z: 0f);
+		}
+		/// <summary>
+		/// Grabs whether or not this combatant is trying to jump.
+		/// </summary>
+		/// <param name="combatant">The combatant that may or may not be trying to jump.</param>
+		/// <returns>Whether or not this combatant is trying to jump.</returns>
+		public override bool GetJumpInput(Combatant combatant) {
+			// Just get the value of the jump button being pressed.
+			return UnityEngine.Input.GetButtonDown("Jump");
+		}
+
 		#region FIELDS - INSPECTOR JUNK
 		/// <summary>
 		/// A static string for the description so that every OnInspectorGUI doesn't create and throw away a new string every frame or whatever.
@@ -26,20 +48,5 @@ namespace PanicPinnacle.Input {
 			}
 		}
 		#endregion
-
-		/// <summary>
-		/// Gets the direction of movement for this Player.
-		/// </summary>
-		/// <param name="combatant">The combatant requesting their movement direction.</param>
-		/// <returns>The direction the Player is trying to move towards..</returns>
-		public override Vector3 GetMovementDirection(Combatant combatant) {
-			// TODO: Replace this with something that doesn't call UnityEngine.Input. It's. It's not very good.
-			float horizontalInput = UnityEngine.Input.GetAxisRaw("Horizontal");
-			float verticalInput = UnityEngine.Input.GetAxisRaw("Vertical");
-			// Assemble those two axes into a new vector and return it.
-			return new Vector3(x: horizontalInput, y: verticalInput, z: 0f);
-		}
 	}
-
-
 }

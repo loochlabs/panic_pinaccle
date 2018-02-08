@@ -36,3 +36,4 @@ MonoBehaviour:
   combatantName: Debug Player
   runSpeed: 20
   jumpPower: 1000
+  maxVelocity: {x: 50, y: 10}

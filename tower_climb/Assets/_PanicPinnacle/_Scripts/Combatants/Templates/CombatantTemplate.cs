@@ -89,6 +89,19 @@ namespace PanicPinnacle.Combatants {
 				return this.jumpPower;
 			}
 		}
+		/// <summary>
+		/// The maximum velocity that the body is allowed to move. Contains definition for both axes.
+		/// </summary>
+		[TabGroup("Physics", "Physics"), PropertyTooltip("The maximum velocity that the body is allowed to move. Contains definition for both axes."), SerializeField]
+		private Vector2 maxVelocity = new Vector2();
+		/// <summary>
+		/// The maximum velocity that the body is allowed to move. Contains definition for both axes.
+		/// </summary>
+		public Vector2 MaxVelocity {
+			get {
+				return this.maxVelocity;
+			}
+		}
 		#endregion
 
 	}

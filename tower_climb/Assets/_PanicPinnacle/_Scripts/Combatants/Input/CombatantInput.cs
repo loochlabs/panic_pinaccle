@@ -48,7 +48,12 @@ namespace PanicPinnacle.Input {
 		/// <param name="combatant">The combatant who is requesting their movement direction.</param>
 		/// <returns>The direction of movement for this combatant.</returns>
 		public abstract Vector3 GetMovementDirection(Combatant combatant);
-
+		/// <summary>
+		/// Grabs whether or not this combatant is trying to jump.
+		/// </summary>
+		/// <param name="combatant">The combatant that may or may not be trying to jump.</param>
+		/// <returns>Whether or not this combatant is trying to jump.</returns>
+		public abstract bool GetJumpInput(Combatant combatant);
 	}
 
 
