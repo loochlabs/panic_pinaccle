@@ -10,11 +10,17 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 	[System.Serializable]
 	public class StandardFixedUpdateBehavior : CombatantFixedUpdateBehavior {
 
-		/// <summary>
-		/// So far nothing really needs to be prepared for the standard fixed update behavior.
-		/// </summary>
-		/// <param name="combatant"></param>
-		public override void Prepare(Combatant combatant) {
+        #region FIELDS
+
+        private Vector3 moveDirection = Vector3.zero;
+
+        #endregion
+
+        /// <summary>
+        /// So far nothing really needs to be prepared for the standard fixed update behavior.
+        /// </summary>
+        /// <param name="combatant"></param>
+        public override void Prepare(Combatant combatant) {
 		
 		}
 		/// <summary>
@@ -22,14 +28,27 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		/// </summary>
 		/// <param name="combatant">The combatant who owns this behavior.</param>
 		public override void FixedUpdate(Combatant combatant) {
-			// Apply a force to the comabtant body based on the movement input.
-			combatant.CombatantBody.AddForce(
-				// The direction should only have the x component of the movement direction.
-				direction: new Vector3(x: combatant.CombatantInput.GetMovementDirection(combatant: combatant).x, y: 0f),
+            Debug.Log("input axis: " + combatant.CombatantInput.GetMovementDirection(combatant: combatant).ToString());
+            //Horizontal Movement
+            moveDirection = combatant.CombatantInput.GetMovementDirection(combatant: combatant);
+            moveDirection.y = 0;
+            moveDirection.z = 0;
+            combatant.CombatantBody.AddForce(
+                direction: this.moveDirection,
 				magnitude: combatant.CombatantTemplate.RunSpeed);
 
+            //Vertical Movement 
+            //jump
+            if(combatant.CombatantInput.GetMovementDirection(combatant: combatant).y < 0
+                && combatant.CombatantBody.IsGrounded)
+            {
+                Debug.Log("JUMP");
+                // If they're able to jump, add that force amount.
+                combatant.CombatantBody.AddForce(y: combatant.CombatantTemplate.JumpPower);
+            }
+
 			// Also check if the combatant is trying to jump and if they're grounded.
-			if (combatant.CombatantInput.GetJumpInput(combatant: combatant) == true && combatant.CombatantBody.IsGrounded == true) {
+			if (combatant.CombatantInput.GetJumpInput(combatant: combatant) && combatant.CombatantBody.IsGrounded) {
 				Debug.Log("JUMP");
 				// If they're able to jump, add that force amount.
 				combatant.CombatantBody.AddForce(y: combatant.CombatantTemplate.JumpPower);

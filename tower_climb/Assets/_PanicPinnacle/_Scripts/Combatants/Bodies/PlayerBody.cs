@@ -25,7 +25,7 @@ namespace PanicPinnacle.Combatants {
 						end: groundTransform.position, 
 						layerMask: 1 << LayerMask.NameToLayer("Ground"));
 					// If it hits just one, the body is grounded.
-					if (linecastHit == true) {
+					if (linecastHit) {
 						return true;
 					}
 				}

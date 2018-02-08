@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using PanicPinnacle.Legacy.Globals;
+using PanicPinnacle.Combatants;
+using TeamUtility.IO;
+
 namespace PanicPinnacle.Legacy {
 
 	public class MainManager : MonoBehaviour {
@@ -16,9 +19,9 @@ namespace PanicPinnacle.Legacy {
 		}
 
 		public GameObject playerPrefab;
-		public float roundLength_Intro;
-		public float roundLength_Active;
-		public float roundLength_Outro;
+		public float roundLength_Intro = 4;
+		public float roundLength_Active = 300;
+		public float roundLength_Outro = 5;
 		public Transform[] playerSpawns;
 		public Color[] playerColors;
 		public Transform startTransform;
@@ -26,8 +29,8 @@ namespace PanicPinnacle.Legacy {
 		public float endDistanceThresh;
 		public Transform boundsTransform;
 		public GameObject[] boundsObjects;
-		public float boundsMoveRate;
-		public float boundsScaleRate;
+		public float boundsMoveRate = 0.5f;
+        public float boundsScaleRate = 0.5f;
 		//ui
 		public GameObject[] playerInfoSlots;
 		public Text alertText;
@@ -71,16 +74,40 @@ namespace PanicPinnacle.Legacy {
 
 			//player settings
 			//ui
-			players = new GameObject[4];
+			players = new GameObject[4]; //@CLEANUP get global/round manager const
 			playerAliveCount = 0;
 			playerCompleteCount = 0;
 			for (int i = 0; i < PLAYER_COUNT; i++) {
 				players[i] = Instantiate(playerPrefab, playerSpawns[i]);
 				playerAliveCount++;
-				players[i].GetComponent<PlayerControls>().Init(i + 1, PlayerControls.PlayerState.INTRO, playerColors[i]);
+
+                //@CLEANUP need to cast int to PlayerID
+                PlayerID pid;
+                switch (i + 1) {
+                    case 1:
+                        pid = PlayerID.One;
+                        break;
+                    case 2:
+                        pid = PlayerID.Two;
+                        break;
+                    case 3:
+                        pid = PlayerID.Three;
+                        break;
+                    case 4:
+                        pid = PlayerID.Four;
+                        break;
+                    default:
+                        pid = PlayerID.One;
+                        break;
+                }
+                
+				players[i].GetComponent<Player>().Prepare(pid, playerColors[i]);
+                //start our player out in intro phase
+                //@TODO might want to manager this better with a RoundManager.SetState(state)
+                players[i].GetComponent<Player>().SetState(PlayerState.intro);
 				//ui
 				playerInfoSlots[i].SetActive(true);
-				playerInfoSlots[i].GetComponentInChildren<Text>().color = players[i].GetComponent<PlayerControls>().Color;
+				playerInfoSlots[i].GetComponentInChildren<Text>().color = players[i].GetComponent<Player>().Color;
 
 			}
 		}
@@ -94,7 +121,7 @@ namespace PanicPinnacle.Legacy {
 						roundState = RoundState.PLAYING;
 						currentRoundTime = roundLength_Active;
 						foreach (GameObject p in players) {
-							if (p) { p.GetComponent<PlayerControls>().SetState(PlayerControls.PlayerState.PLAYING); }
+							if (p) { p.GetComponent<Player>().SetState(PlayerState.playing); }
 						}
 					}
 
@@ -108,7 +135,7 @@ namespace PanicPinnacle.Legacy {
 
 						//deactivate players
 						foreach (GameObject p in players) {
-							if (p) { p.GetComponent<PlayerControls>().SetState(PlayerControls.PlayerState.OUTRO); }
+							if (p) { p.GetComponent<Player>().SetState(PlayerState.outro); }
 						}
 					}
 
@@ -167,9 +194,9 @@ namespace PanicPinnacle.Legacy {
 				if (!players[i]) continue;
 
 				//Display player position for this round if knockedout
-				if (players[i].GetComponent<PlayerControls>().State == PlayerControls.PlayerState.DEAD
-					|| players[i].GetComponent<PlayerControls>().State == PlayerControls.PlayerState.OUTRO) {
-					switch (players[i].GetComponent<PlayerControls>().RoundPosition) {
+				if (players[i].GetComponent<Player>().State == PlayerState.dead
+					|| players[i].GetComponent<Player>().State == PlayerState.outro) {
+					switch (players[i].GetComponent<Player>().FinalRoundPosition) {
 						case 1:
 							playerInfoSlots[i].GetComponentInChildren<Text>().text = "1st";
 							break;
@@ -191,5 +218,6 @@ namespace PanicPinnacle.Legacy {
 			}
 		}
 	}
+    
 
 }

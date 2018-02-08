@@ -13,12 +13,12 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 	/// The behavior that should get run on a Combatant every FixedUpdate call.
 	/// </summary>
 	public abstract class CombatantFixedUpdateBehavior {
-
-		/// <summary>
-		/// Preps this behavior with the default information it needs to get going.
-		/// </summary>
-		/// <param name="combatant">The combatant this behavior is being assigned to.</param>
-		public abstract void Prepare(Combatant combatant);
+        
+        /// <summary>
+        /// Preps this behavior with the default information it needs to get going.
+        /// </summary>
+        /// <param name="combatant">The combatant this behavior is being assigned to.</param>
+        public abstract void Prepare(Combatant combatant);
 		/// <summary>
 		/// The implementation of FixedUpdate for the combatant.
 		/// </summary>

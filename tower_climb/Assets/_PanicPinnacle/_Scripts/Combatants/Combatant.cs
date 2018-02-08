@@ -4,6 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using PanicPinnacle.Input;
 using PanicPinnacle.Combatants.Behaviors.Updates;
+using TeamUtility.IO;
 
 namespace PanicPinnacle.Combatants {
 
@@ -64,6 +65,17 @@ namespace PanicPinnacle.Combatants {
 				return this.combatantBody;
 			}
 		}
+
+        /// <summary>
+        /// PlayerID assigned to this for InputManager. Pull from a manager from Pregame setup.
+        /// </summary>
+        private PlayerID playerid;
+
+        public PlayerID Playerid {
+            get { return playerid; }
+            set { playerid = value; }
+        }
+
 		#endregion
 
 		#region UNITY FUNCTIONS
