@@ -17,6 +17,7 @@ namespace PanicPinnacle.Combatants {
         //round info
         private Color roundColor;
         private PlayerState state = PlayerState.none;
+        //represents the player's position/rank this round 
         private int finalRoundPosition;
         #endregion
 
@@ -70,6 +71,13 @@ namespace PanicPinnacle.Combatants {
 
         }
 
+        #endregion
+
+        #region UNITY FUNCTIONS
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            
+        }
         #endregion
     }
 

@@ -25,12 +25,42 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 			// https://www.youtube.com/watch?v=-RFunvF0mDw
 		}
 
+        public override void OnCollisionEnter2D(Combatant combatant, Collider2D collision)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnCollisionExit2D(Combatant combatant, Collider2D collision)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnCollisionStay2D(Combatant combatant, Collider2D collision)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnTriggerExit2D(Combatant combatant, Collider2D collision)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnTriggerStay2D(Combatant combatant, Collider2D collision)
+        {
+            throw new System.NotImplementedException();
+        }
 
 
 
 
-		#region INSPECTOR JUNK
-		private static string behaviorDescription = "An empty method that doesn't do anything. Good for if the combatant just needs to wait.";
+
+        #region INSPECTOR JUNK
+        private static string behaviorDescription = "An empty method that doesn't do anything. Good for if the combatant just needs to wait.";
 		protected override string InspectorDescription {
 			get {
 				return behaviorDescription;

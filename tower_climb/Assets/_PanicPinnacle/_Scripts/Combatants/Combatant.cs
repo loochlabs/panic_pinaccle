@@ -76,6 +76,19 @@ namespace PanicPinnacle.Combatants {
             set { playerid = value; }
         }
 
+        /// <summary>
+        /// Current orientation of the player.
+        /// This will be the last known directional input.
+        /// </summary>
+        private OrientationType orientation;
+
+        public OrientationType Orientation
+        {
+            get { return orientation; }
+            set { orientation = value; }
+        }
+
+
 		#endregion
 
 		#region UNITY FUNCTIONS
@@ -93,15 +106,22 @@ namespace PanicPinnacle.Combatants {
 				fixedUpdateBehavior.FixedUpdate(combatant: this);
 			}
 		}
-		#endregion
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
+            {
+                fixedUpdateBehavior.OnTriggerEnter2D(combatant: this, collision: collision);
+            }
+        }
+        #endregion
 
 
-		#region PREPARATION
-		/// <summary>
-		/// Prepares this combatant with the information stored in a CombatantTemplate.
-		/// </summary>
-		/// <param name="combatantTemplate">The template to use for initialization.</param>
-		public void Prepare(CombatantTemplate combatantTemplate) {
+        #region PREPARATION
+        /// <summary>
+        /// Prepares this combatant with the information stored in a CombatantTemplate.
+        /// </summary>
+        /// <param name="combatantTemplate">The template to use for initialization.</param>
+        public void Prepare(CombatantTemplate combatantTemplate) {
 			// Save a reference to the template, because it will be needed.
 			this.combatantTemplate = combatantTemplate;
 			// Grab the CombatantInput from the template. Remember that this returns as a clone.

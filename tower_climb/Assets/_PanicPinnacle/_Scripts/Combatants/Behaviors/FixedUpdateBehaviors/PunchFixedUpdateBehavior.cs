@@ -34,9 +34,9 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		/// </summary>
 		[TabGroup("Punch Behavior", "Attributes"), PropertyTooltip("How long should this punch be active for?"), SerializeField]
 		private float punchDuration = 0.5f;
-		#endregion
+        #endregion
 
-		#region FIELDS - FLAGS AND TIMERS
+        #region FIELDS - FLAGS AND TIMERS
 		/// <summary>
 		/// Can this combatant punch right now?
 		/// </summary>
@@ -51,20 +51,24 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 				return this.canPunch;
 			}
 		}
-		#endregion
+        
+        #endregion
 
-		#region FIELDS - SCENE REFERENCES
-		/// <summary>
-		/// A reference to the GameObject that contains the box used for when this combatant punches.
-		/// </summary>
-		private GameObject punchBoxGameObject;
-		#endregion
+        #region FIELDS - SCENE REFERENCES
+        /// <summary>
+        /// A reference to the GameObject that contains the box used for when this combatant punches.
+        /// </summary>
+        private GameObject punchBoxGameObject;
 
-		/// <summary>
-		/// Make sure this behavior has access to the parts of the combatant that are related to the punching and whatnot.
-		/// </summary>
-		/// <param name="combatant">The combatant this behavior is being assigned to.</param>
-		public override void Prepare(Combatant combatant) {
+        //collection of targets active in punch hitbox
+        private List<Player> targetsToPunch = new List<Player>();
+        #endregion
+
+        /// <summary>
+        /// Make sure this behavior has access to the parts of the combatant that are related to the punching and whatnot.
+        /// </summary>
+        /// <param name="combatant">The combatant this behavior is being assigned to.</param>
+        public override void Prepare(Combatant combatant) {
 			Debug.Log("NOTE: This will fail if the combatant does not have the proper objects as part of their children. See if this can be refactored.");
 			// Look for the punch box in this combatant's children.
 			this.punchBoxGameObject = combatant.gameObject.transform.Find("Punch Box").gameObject;
@@ -85,6 +89,26 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		public override void FixedUpdate(Combatant combatant) {
 			// First, see if the combatant is trying to punch and if they are allowed to.
 			if (combatant.CombatantInput.GetPunchInput(combatant: combatant) == true && this.CanPunch == true) {
+
+                //set Orientation for punch box
+                Vector3 punchboxRotation = Vector3.zero;
+                switch (combatant.Orientation) {
+                    case OrientationType.N:
+                        punchboxRotation.z = 0;
+                        break;
+                    case OrientationType.W:
+                        punchboxRotation.z = 90;
+                        break;
+                    case OrientationType.S:
+                        punchboxRotation.z = 180;
+                        break;
+                    case OrientationType.E:
+                        punchboxRotation.z = 270;
+                        break;
+                }
+                punchBoxGameObject.transform.localEulerAngles = punchboxRotation;
+
+
 				// Create a new sequence.
 				// TODO: See if I can just make this in Prepare() and reuse it. If it's playing, it would mean CanPunch is false.
 				Sequence seq = DOTween.Sequence();
@@ -110,9 +134,51 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 				seq.Play();
 			}
 		}
+        
 
-		#region INSPECTOR JUNK
-		private static string behaviorDescription = "Allows the combatant to use the Punch move.";
+        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision)
+        {
+            if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
+            {
+                Debug.Log("PUNCH ENTER: " + combatant.Playerid + " into " + collision.gameObject.GetComponent<Player>().Playerid);
+            }
+        }
+
+        public override void OnTriggerExit2D(Combatant combatant, Collider2D collision)
+        {
+            if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
+            {
+                Debug.Log("PUNCH EXIT: " + combatant.Playerid + " into " + collision.gameObject.GetComponent<Player>().Playerid);
+            }
+        }
+
+
+
+        #region UNUSED WRAPPERS
+
+        public override void OnCollisionEnter2D(Combatant combatant, Collider2D collision)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnCollisionExit2D(Combatant combatant, Collider2D collision)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnCollisionStay2D(Combatant combatant, Collider2D collision)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnTriggerStay2D(Combatant combatant, Collider2D collision)
+        {
+            throw new System.NotImplementedException();
+        }
+        #endregion
+
+        #region INSPECTOR JUNK
+        private static string behaviorDescription = "Allows the combatant to use the Punch move.";
 		protected override string InspectorDescription {
 			get {
 				return behaviorDescription;
