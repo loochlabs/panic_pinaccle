@@ -12,7 +12,12 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 
         #region FIELDS
 
+        //Movement direction of joystick inputs
         private Vector3 moveDirection = Vector3.zero;
+
+        //Track if a jump is active
+        //prevents user from holding UP and jumping repeatedly 
+        private bool jumpActive;
 
         #endregion
 
@@ -21,38 +26,50 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
         /// </summary>
         /// <param name="combatant"></param>
         public override void Prepare(Combatant combatant) {
-		
+		    
 		}
 		/// <summary>
 		/// The standard FixedUpdate behavior. Just checks CombatantInput and executes in response to that.
 		/// </summary>
 		/// <param name="combatant">The combatant who owns this behavior.</param>
 		public override void FixedUpdate(Combatant combatant) {
-            Debug.Log("input axis: " + combatant.CombatantInput.GetMovementDirection(combatant: combatant).ToString());
             //Horizontal Movement
             moveDirection = combatant.CombatantInput.GetMovementDirection(combatant: combatant);
             moveDirection.y = 0;
             moveDirection.z = 0;
-            combatant.CombatantBody.AddForce(
-                direction: this.moveDirection,
-				magnitude: combatant.CombatantTemplate.RunSpeed);
-
-            //Vertical Movement 
-            //jump
-            if(combatant.CombatantInput.GetMovementDirection(combatant: combatant).y < 0
-                && combatant.CombatantBody.IsGrounded)
+            if (moveDirection.magnitude > 0) {
+                combatant.CombatantBody.AddForce(
+                    direction: this.moveDirection,
+                    magnitude: combatant.CombatantTemplate.RunSpeed);
+            }
+            else
             {
-                Debug.Log("JUMP");
-                // If they're able to jump, add that force amount.
-                combatant.CombatantBody.AddForce(y: combatant.CombatantTemplate.JumpPower);
+                //no player input -> hard stop horizontal
+                combatant.CombatantBody.StopHorizontal();
             }
 
-			// Also check if the combatant is trying to jump and if they're grounded.
-			if (combatant.CombatantInput.GetJumpInput(combatant: combatant) && combatant.CombatantBody.IsGrounded) {
-				Debug.Log("JUMP");
-				// If they're able to jump, add that force amount.
-				combatant.CombatantBody.AddForce(y: combatant.CombatantTemplate.JumpPower);
-			}
+            //Vertical Movement 
+            //reset vertical velocity
+            if (combatant.CombatantBody.IsGrounded)
+            {
+                combatant.CombatantBody.StopVertical();
+
+                //reset jump once player is grounded and releases joystick from UP
+                if(jumpActive && combatant.CombatantInput.GetMovementDirection(combatant: combatant).y >= 0)
+                {
+                    jumpActive = false;
+                }
+            }
+
+            //jump
+            if (combatant.CombatantInput.GetMovementDirection(combatant: combatant).y < 0
+                && combatant.CombatantBody.IsGrounded
+                && !jumpActive)
+            {
+                // If they're able to jump, add that force amount.
+                combatant.CombatantBody.AddForce(y: combatant.CombatantTemplate.JumpPower);
+                jumpActive = true;
+            }
 		}
 		
 		#region INSPECTOR JUNK

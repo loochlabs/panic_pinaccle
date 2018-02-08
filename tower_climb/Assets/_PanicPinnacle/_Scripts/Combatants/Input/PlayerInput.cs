@@ -15,6 +15,9 @@ namespace PanicPinnacle.Input {
 
         #region FIELDS
 
+        /// <summary>
+        /// Direction of joystick movement axis
+        /// </summary>
         private Vector3 direction = Vector3.zero;
 
         #endregion
