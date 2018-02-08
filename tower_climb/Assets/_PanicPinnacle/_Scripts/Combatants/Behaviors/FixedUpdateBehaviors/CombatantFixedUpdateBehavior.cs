@@ -51,8 +51,19 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		public static CombatantFixedUpdateBehavior CloneAndPrepare(CombatantFixedUpdateBehavior fixedUpdateBehavior, Combatant combatant) {
 			// Create a clone of the behavior.
 			CombatantFixedUpdateBehavior clone = (CombatantFixedUpdateBehavior)fixedUpdateBehavior.MemberwiseClone();
-			// Prep it for use by the specified combatant.
-			clone.Prepare(combatant: combatant);
+			try {
+				// Try to prepare the cloned behavior. There may be behaviors that this will just fail completely on depending on the context.
+				clone.Prepare(combatant: combatant);
+			} catch (System.Exception e) {
+				// Log out the error that was just caught.
+				Debug.LogError("Couldn't prepare CombatantFixedUpdateBehavior for combatant " + combatant.CombatantTemplate.CombatantName + "! Reason: " + e);
+				// Since the preparation failed, just make the clone a new instance of an empty behavior.
+				// This means it will remain in the combatant's list, but its functionality will be empty.
+				clone = new EmptyFixedUpdateBehavior();
+				// Prepare it because why not.
+				clone.Prepare(combatant: combatant);
+			}
+			
 			// All set! Return it.
 			return clone;
 		}

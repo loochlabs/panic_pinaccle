@@ -14,6 +14,33 @@ namespace PanicPinnacle.Input {
 	/// </summary>
 	public abstract class CombatantInput {
 
+		/**
+		 * 
+		 * TODO: If needed, refactor this so I don't need to make a new functino like GetJumpInput() or GetPunchInput() every time I have a new thing that requires input.
+		 * Not critical but maybe a little annoying?? idk
+		 * 
+		 * */
+
+		/// <summary>
+		/// Grabs the direction of movement that this combatant is attempting to move towards.
+		/// </summary>
+		/// <param name="combatant">The combatant who is requesting their movement direction.</param>
+		/// <returns>The direction of movement for this combatant.</returns>
+		public abstract Vector3 GetMovementDirection(Combatant combatant);
+		/// <summary>
+		/// Grabs whether or not this combatant is trying to jump.
+		/// </summary>
+		/// <param name="combatant">The combatant that may or may not be trying to jump.</param>
+		/// <returns>Whether or not this combatant is trying to jump.</returns>
+		public abstract bool GetJumpInput(Combatant combatant);
+		/// <summary>
+		/// Grabs whether or not this combatant is trying to punch.
+		/// </summary>
+		/// <param name="combatant">The combatant that may or may not be trying to punch.</param>
+		/// <returns>Whether or not this combatatant is trying to punch.</returns>
+		public abstract bool GetPunchInput(Combatant combatant);
+
+
 		#region FIELDS - INSPECTOR JUNK
 #if UNITY_EDITOR
 		/// <summary>
@@ -42,18 +69,6 @@ namespace PanicPinnacle.Input {
 		}
 		#endregion
 
-		/// <summary>
-		/// Grabs the direction of movement that this combatant is attempting to move towards.
-		/// </summary>
-		/// <param name="combatant">The combatant who is requesting their movement direction.</param>
-		/// <returns>The direction of movement for this combatant.</returns>
-		public abstract Vector3 GetMovementDirection(Combatant combatant);
-		/// <summary>
-		/// Grabs whether or not this combatant is trying to jump.
-		/// </summary>
-		/// <param name="combatant">The combatant that may or may not be trying to jump.</param>
-		/// <returns>Whether or not this combatant is trying to jump.</returns>
-		public abstract bool GetJumpInput(Combatant combatant);
 	}
 
 

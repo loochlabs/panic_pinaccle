@@ -33,6 +33,15 @@ namespace PanicPinnacle.Input {
 			// Just get the value of the jump button being pressed.
 			return UnityEngine.Input.GetButtonDown("Jump");
 		}
+		/// <summary>
+		/// Grabs whether or not this combatant is trying to punch.
+		/// </summary>
+		/// <param name="combatant">The combatant that may or may not be trying to punch.</param>
+		/// <returns>Whether or not this combatatant is trying to punch.</returns>
+		public override bool GetPunchInput(Combatant combatant) {
+			// Just get the value of the punch button being pressed.
+			return UnityEngine.Input.GetButtonDown("Punch");
+		}
 
 		#region FIELDS - INSPECTOR JUNK
 		/// <summary>
