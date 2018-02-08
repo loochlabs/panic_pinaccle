@@ -24,7 +24,8 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		public override void FixedUpdate(Combatant combatant) {
 			// Apply a force to the comabtant body based on the movement input.
 			combatant.CombatantBody.AddForce(
-				direction: combatant.CombatantInput.GetMovementDirection(combatant: combatant),
+				// The direction should only have the x component of the movement direction.
+				direction: new Vector3(x: combatant.CombatantInput.GetMovementDirection(combatant: combatant).x, y: 0f),
 				magnitude: combatant.CombatantTemplate.RunSpeed);
 
 			// Also check if the combatant is trying to jump and if they're grounded.

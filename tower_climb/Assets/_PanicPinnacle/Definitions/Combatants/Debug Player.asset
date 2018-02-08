@@ -44,6 +44,18 @@ MonoBehaviour:
       Entry: 7
       Data: 3|PanicPinnacle.Combatants.Behaviors.Updates.PunchFixedUpdateBehavior,
         Assembly-CSharp
+    - Name: propellentForceMagnitude
+      Entry: 4
+      Data: 10
+    - Name: impactForceMagnitude
+      Entry: 4
+      Data: 10
+    - Name: bodyGravityModifier
+      Entry: 4
+      Data: 1
+    - Name: punchDuration
+      Entry: 4
+      Data: 0.5
     - Name: 
       Entry: 8
       Data: 
