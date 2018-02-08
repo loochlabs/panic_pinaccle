@@ -4,4 +4,7 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_PanicPinnacle/_Scenes/Debug Round 1.unity
+    guid: 90991594e3c0f064d8c8d3906720a1ec
