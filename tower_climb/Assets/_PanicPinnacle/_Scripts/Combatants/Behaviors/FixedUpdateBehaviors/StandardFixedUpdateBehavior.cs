@@ -11,6 +11,13 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 	public class StandardFixedUpdateBehavior : CombatantFixedUpdateBehavior {
 
 		/// <summary>
+		/// So far nothing really needs to be prepared for the standard fixed update behavior.
+		/// </summary>
+		/// <param name="combatant"></param>
+		public override void Prepare(Combatant combatant) {
+		
+		}
+		/// <summary>
 		/// The standard FixedUpdate behavior. Just checks CombatantInput and executes in response to that.
 		/// </summary>
 		/// <param name="combatant">The combatant who owns this behavior.</param>

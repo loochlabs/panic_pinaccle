@@ -45,20 +45,27 @@ namespace PanicPinnacle.Combatants {
 			}
 		}
 		/// <summary>
-		/// The class that should be called every FixedUpdate on the Combatant.
+		/// The classes that should be called every FixedUpdate on the Combatant.
 		/// Handles implementation for that FixedUpdate call.
 		/// </summary>
-		[TabGroup("Behavior", "Fixed Update"), PropertyTooltip("The class that should be called every FixedUpdate on the Combatant."), SerializeField]
-		private CombatantFixedUpdateBehavior fixedUpdateBehavior;
+		[TabGroup("Behavior", "Fixed Update"), PropertyTooltip("The classes that should be called every FixedUpdate on the Combatant."), SerializeField]
+		private List<CombatantFixedUpdateBehavior> fixedUpdateBehaviors = new List<CombatantFixedUpdateBehavior>();
 		/// <summary>
-		/// The class that should be called every FixedUpdate on the Combatant.
-		/// Handles implementation for that FixedUpdate call.
+		/// Gets the list of behaviors that should be called every FixedUpdate on the combatant.
+		/// Order matters.
 		/// </summary>
-		public CombatantFixedUpdateBehavior FixedUpdateBehavior {
-			get {
-				Debug.Log("Cloning CombatantFixedUpdateBehavior from template for " + this.CombatantName);
-				return CombatantFixedUpdateBehavior.Clone(fixedUpdateBehavior: this.fixedUpdateBehavior);
+		/// <param name="combatant">The combatant these FixedUpdateBehaviors will be applied to. Needed so that it can be prepared before setting.</param>
+		/// <returns>The CombatantFixedUpdateBehaviors, fully prepared for use by the combatant.</returns>
+		public List<CombatantFixedUpdateBehavior> GetFixedUpdateBehaviors(Combatant combatant) {
+			Debug.Log("Cloning CombatantFixedUpdateBehaviors from template for " + this.CombatantName);
+			// Create a new list to store the FixedUpdateBehaviors.
+			List<CombatantFixedUpdateBehavior> clonedBehaviors = new List<CombatantFixedUpdateBehavior>();
+			// Go through each behavior in this template and clone/prep it.
+			foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors) {
+				clonedBehaviors.Add(CombatantFixedUpdateBehavior.CloneAndPrepare(fixedUpdateBehavior: fixedUpdateBehavior, combatant: combatant));
 			}
+			// After all the behaviors are cloned and prepped, return the new list.
+			return clonedBehaviors;
 		}
 		#endregion
 

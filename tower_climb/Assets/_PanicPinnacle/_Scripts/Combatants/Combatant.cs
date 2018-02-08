@@ -33,9 +33,10 @@ namespace PanicPinnacle.Combatants {
 
 		#region FIELDS - BEHAVIORS AND INPUT
 		/// <summary>
-		/// The implementation for how this combatant should handle FixedUpdate() calls.
+		/// A list of behaviors that this combatant should run every FixedUpdate.
+		/// Order matters if one behavior depends on the results of another.
 		/// </summary>
-		private CombatantFixedUpdateBehavior fixedUpdateBehavior;
+		private List<CombatantFixedUpdateBehavior> fixedUpdateBehaviors = new List<CombatantFixedUpdateBehavior>();
 		/// <summary>
 		/// The class that provides the input for the combatant.
 		/// </summary>
@@ -75,8 +76,10 @@ namespace PanicPinnacle.Combatants {
 			this.Prepare(combatantTemplate: this.combatantTemplate);
 		}
 		private void FixedUpdate() {
-			// Allow the CombatantFixedUpdateBehavior to handle implementation of the FixedUpdate call.
-			this.fixedUpdateBehavior.FixedUpdate(combatant: this);
+			// Go through each CombatantFixedUpdateBehavior and run it. (As of right now, there's only like. Two/Three.)
+			foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors) {
+				fixedUpdateBehavior.FixedUpdate(combatant: this);
+			}
 		}
 		#endregion
 
@@ -91,8 +94,8 @@ namespace PanicPinnacle.Combatants {
 			this.combatantTemplate = combatantTemplate;
 			// Grab the CombatantInput from the template. Remember that this returns as a clone.
 			this.combatantInput = combatantTemplate.CombatantInput;
-			// Also grab the CombatantFixedUpdateBehavior. This is also returned as a clone.
-			this.fixedUpdateBehavior = combatantTemplate.FixedUpdateBehavior;
+			// Also grab a list of the FixedUpdateBehaviors. This also preps them for use. Handy!
+			this.fixedUpdateBehaviors = combatantTemplate.GetFixedUpdateBehaviors(combatant: this);
 		}
 		#endregion
 
