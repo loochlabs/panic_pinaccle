@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace PanicPinnacle.UI {
 	/// <summary>
@@ -41,7 +42,8 @@ namespace PanicPinnacle.UI {
 
 		#region MENUITEM IMPLEMENTATION
 		public override void OnCancel(BaseEventData eventData) {
-			
+			// Execute onCancelEvent
+			this.onCancelEvent.Invoke();
 		}
 		public override void OnDeselect(BaseEventData eventData) {
 			// When this button is deselected, make it white again.
@@ -53,19 +55,21 @@ namespace PanicPinnacle.UI {
 			// When this button is selected, change its color.
 			this.menuItemBackground.CrossFadeColor(targetColor: Color.red, duration: 0f, ignoreTimeScale: true, useAlpha: true);
 			// Also change the text..
-			this.menuItemLabel.Text = "<c=white>" + this.menuItemText;
+			this.menuItemLabel.Text = "<j=sample><c=white>" + this.menuItemText;
 		}
 		public override void OnSubmit(BaseEventData eventData) {
 			// When this button is submited, make it white again.
 			this.menuItemBackground.CrossFadeColor(targetColor: Color.white, duration: 0f, ignoreTimeScale: true, useAlpha: true);
 			// Also revert the text.
 			this.menuItemLabel.Text = "<c=black>" + this.menuItemText;
+			// Execute onSubmitEvent
+			this.onSubmitEvent.Invoke();
 		}
 		public override void OnPointerEnter(PointerEventData eventData) {
 			// When this button is selected, change its color.
 			this.menuItemBackground.CrossFadeColor(targetColor: Color.red, duration: 0f, ignoreTimeScale: true, useAlpha: true);
 			// Also change the text..
-			this.menuItemLabel.Text = "<c=white>" + this.menuItemText;
+			this.menuItemLabel.Text = "<j=sample><c=white>" + this.menuItemText;
 		}
 		public override void OnPointerExit(PointerEventData eventData) {
 			// When this button is deselected, make it white again.
