@@ -33,6 +33,10 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		/// </summary>
 		/// <param name="combatant">The combatant who owns this behavior.</param>
 		public override void FixedUpdate(Combatant combatant) {
+            //DAZED
+            //@TODO add vfx feedback to dazed state
+            if (combatant.State == CombatantState.dazed) { return; }
+
             //ORIENTATION
             //grab a reference here
             Vector3 inputDirection = combatant.CombatantInput.GetMovementDirection(combatant: combatant);
@@ -80,35 +84,14 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
             }
 		}
 
-        public override void OnCollisionEnter2D(Combatant combatant, Collider2D collision)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void OnCollisionExit2D(Combatant combatant, Collider2D collision)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void OnCollisionStay2D(Combatant combatant, Collider2D collision)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void OnTriggerExit2D(Combatant combatant, Collider2D collision)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void OnTriggerStay2D(Combatant combatant, Collider2D collision)
-        {
-            throw new System.NotImplementedException();
-        }
+        #region UNUSED WRAPPERS
+        public override void OnCollisionEnter2D(Combatant combatant, Collider2D collision) { }
+        public override void OnCollisionExit2D(Combatant combatant, Collider2D collision) { }
+        public override void OnCollisionStay2D(Combatant combatant, Collider2D collision) { }
+        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision) { }
+        public override void OnTriggerExit2D(Combatant combatant, Collider2D collision) { }
+        public override void OnTriggerStay2D(Combatant combatant, Collider2D collision) { }
+        #endregion
 
         #region INSPECTOR JUNK
         private static string behaviorDescription = "The standard FixedUpdate behavior. Just checks CombatantInput and executes in response to that.";

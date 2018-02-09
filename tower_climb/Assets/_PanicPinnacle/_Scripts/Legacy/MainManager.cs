@@ -104,7 +104,7 @@ namespace PanicPinnacle.Legacy {
 				players[i].GetComponent<Player>().Prepare(pid, playerColors[i]);
                 //start our player out in intro phase
                 //@TODO might want to manager this better with a RoundManager.SetState(state)
-                players[i].GetComponent<Player>().SetState(PlayerState.intro);
+                players[i].GetComponent<Player>().SetState(CombatantState.intro);
 				//ui
 				playerInfoSlots[i].SetActive(true);
 				playerInfoSlots[i].GetComponentInChildren<Text>().color = players[i].GetComponent<Player>().Color;
@@ -121,7 +121,7 @@ namespace PanicPinnacle.Legacy {
 						roundState = RoundState.PLAYING;
 						currentRoundTime = roundLength_Active;
 						foreach (GameObject p in players) {
-							if (p) { p.GetComponent<Player>().SetState(PlayerState.playing); }
+							if (p) { p.GetComponent<Player>().SetState(CombatantState.playing); }
 						}
 					}
 
@@ -135,7 +135,7 @@ namespace PanicPinnacle.Legacy {
 
 						//deactivate players
 						foreach (GameObject p in players) {
-							if (p) { p.GetComponent<Player>().SetState(PlayerState.outro); }
+							if (p) { p.GetComponent<Player>().SetState(CombatantState.outro); }
 						}
 					}
 
@@ -194,8 +194,8 @@ namespace PanicPinnacle.Legacy {
 				if (!players[i]) continue;
 
 				//Display player position for this round if knockedout
-				if (players[i].GetComponent<Player>().State == PlayerState.dead
-					|| players[i].GetComponent<Player>().State == PlayerState.outro) {
+				if (players[i].GetComponent<Player>().State == CombatantState.dead
+					|| players[i].GetComponent<Player>().State == CombatantState.outro) {
 					switch (players[i].GetComponent<Player>().FinalRoundPosition) {
 						case 1:
 							playerInfoSlots[i].GetComponentInChildren<Text>().text = "1st";

@@ -88,11 +88,19 @@ namespace PanicPinnacle.Combatants {
             set { orientation = value; }
         }
 
+        /// <summary>
+        /// All the different states a player can be in a given round.
+        /// </summary>
+        private CombatantState state = CombatantState.none;
 
-		#endregion
+        public CombatantState State
+        {
+            get { return state; }
+        }
+        #endregion
 
-		#region UNITY FUNCTIONS
-		private void Awake() {
+        #region UNITY FUNCTIONS
+        private void Awake() {
 			// Find the CombatantBody attached to this Combatant.
 			this.combatantBody = GetComponentInChildren<CombatantBody>();
 		}
@@ -129,8 +137,28 @@ namespace PanicPinnacle.Combatants {
 			// Also grab a list of the FixedUpdateBehaviors. This also preps them for use. Handy!
 			this.fixedUpdateBehaviors = combatantTemplate.GetFixedUpdateBehaviors(combatant: this);
 		}
-		#endregion
+        #endregion
 
-	}
+        /// <summary>
+        /// Control state here. Seperate function call for plans on extra functionallity when changing states.
+        /// </summary>
+        /// <param name="state"></param>
+        public void SetState(CombatantState state)
+        {
+            this.state = state;
+        }
+    }
 
+
+    #region ENUMS
+    public enum CombatantState
+    {
+        none = 0,
+        intro = 1,
+        playing = 2,
+        dead = 3,
+        dazed = 4,
+        outro = 5
+    }
+    #endregion
 }
