@@ -34,9 +34,9 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		/// </summary>
 		[TabGroup("Punch Behavior", "Attributes"), PropertyTooltip("How long should this punch be active for?"), SerializeField]
 		private float punchDuration = 0.5f;
-		#endregion
+        #endregion
 
-		#region FIELDS - FLAGS AND TIMERS
+        #region FIELDS - FLAGS AND TIMERS
 		/// <summary>
 		/// Can this combatant punch right now?
 		/// </summary>
@@ -51,20 +51,24 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 				return this.canPunch;
 			}
 		}
-		#endregion
+        
+        #endregion
 
-		#region FIELDS - SCENE REFERENCES
-		/// <summary>
-		/// A reference to the GameObject that contains the box used for when this combatant punches.
-		/// </summary>
-		private GameObject punchBoxGameObject;
-		#endregion
+        #region FIELDS - SCENE REFERENCES
+        /// <summary>
+        /// A reference to the GameObject that contains the box used for when this combatant punches.
+        /// </summary>
+        private GameObject punchBoxGameObject;
 
-		/// <summary>
-		/// Make sure this behavior has access to the parts of the combatant that are related to the punching and whatnot.
-		/// </summary>
-		/// <param name="combatant">The combatant this behavior is being assigned to.</param>
-		public override void Prepare(Combatant combatant) {
+        //collection of targets active in punch hitbox
+        private List<Player> targetsToPunch;
+        #endregion
+
+        /// <summary>
+        /// Make sure this behavior has access to the parts of the combatant that are related to the punching and whatnot.
+        /// </summary>
+        /// <param name="combatant">The combatant this behavior is being assigned to.</param>
+        public override void Prepare(Combatant combatant) {
 			Debug.Log("NOTE: This will fail if the combatant does not have the proper objects as part of their children. See if this can be refactored.");
 			// Look for the punch box in this combatant's children.
 			this.punchBoxGameObject = combatant.gameObject.transform.Find("Punch Box").gameObject;
@@ -73,18 +77,60 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 				throw new System.Exception("Couldn't find the Punch Box on this combatant! Is it named properly?");
 			} else {
 				// If it WAS found, turn it off. It might already be off but do it anyway. Thanks.
-				this.punchBoxGameObject.SetActive(false);
+				//this.punchBoxGameObject.SetActive(false);
 			}
 			// Reset the canPunch flag. Hopefully I won't need it later.
 			this.canPunch = true;
-		}
+            targetsToPunch = new List<Player>();
+
+        }
 		/// <summary>
 		/// Checks whether or not this combatant wants to punch and, if they do, does so.
 		/// </summary>
 		/// <param name="combatant">The combatant who owns this behavior.</param>
 		public override void FixedUpdate(Combatant combatant) {
-			// First, see if the combatant is trying to punch and if they are allowed to.
-			if (combatant.CombatantInput.GetPunchInput(combatant: combatant) == true && this.CanPunch == true) {
+
+            //set Orientation for punch box
+            Vector3 punchboxRotation = Vector3.zero;
+            Vector2 impactDirection = Vector2.zero;
+            switch (combatant.Orientation)
+            {
+                case OrientationType.N:
+                    punchboxRotation.z = 0;
+                    impactDirection.y = 1;
+                    break;
+                case OrientationType.W:
+                    punchboxRotation.z = 90;
+                    impactDirection.x = -1;
+                    impactDirection.y = 1;
+                    break;
+                case OrientationType.S:
+                    punchboxRotation.z = 180;
+                    impactDirection.y = -1;
+                    break;
+                case OrientationType.E:
+                    punchboxRotation.z = 270;
+                    impactDirection.x = 1;
+                    impactDirection.y = 1;
+                    break;
+            }
+            punchBoxGameObject.transform.localEulerAngles = punchboxRotation;
+
+            // First, see if the combatant is trying to punch and if they are allowed to.
+            if (combatant.CombatantInput.GetPunchInput(combatant: combatant) == true && this.CanPunch == true) {
+                
+                Debug.Log("targets : " + combatant.Playerid + "," + targetsToPunch.Count);
+                foreach (Player target in targetsToPunch)
+                {
+                    target.SetState(CombatantState.dazed);
+                    //Vector3 direction = target.transform.position - combatant.transform.position;
+
+                    target.CombatantBody.AddForce(impactDirection, impactForceMagnitude);
+                }
+
+                //clear current targets
+                targetsToPunch.Clear();
+
 				// Create a new sequence.
 				// TODO: See if I can just make this in Prepare() and reuse it. If it's playing, it would mean CanPunch is false.
 				Sequence seq = DOTween.Sequence();
@@ -93,17 +139,14 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 					// Disable the canPunch flag.
 					this.canPunch = false;
 					// Turn on the punch box game object.
-					this.punchBoxGameObject.SetActive(true);
-					Debug.LogWarning("Need to implement ability to move/rotate punch box based on input.");
+					//this.punchBoxGameObject.SetActive(true);
 				}));
 				// Wait for the punch duration.
 				seq.AppendInterval(interval: this.punchDuration);
 				// Wrap up the punch.
 				seq.AppendCallback(new TweenCallback(delegate {
-					// Make sure the combatant can punch again.
 					this.canPunch = true;
-					// Turn the punch box game object back off.
-					this.punchBoxGameObject.SetActive(false);
+					//this.punchBoxGameObject.SetActive(false);
 				}));
 
 				// Play the sequence of events I just wrote out.
@@ -111,8 +154,39 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 			}
 		}
 
-		#region INSPECTOR JUNK
-		private static string behaviorDescription = "Allows the combatant to use the Punch move.";
+        
+        /// <summary>
+        /// Collision detection for punch targets
+        /// </summary>
+        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision)
+        {
+            if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
+            {
+                targetsToPunch.Add(collision.gameObject.GetComponent<Player>());
+            }
+        }
+
+        public override void OnTriggerExit2D(Combatant combatant, Collider2D collision)
+        {
+            if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
+            {
+                targetsToPunch.Remove(collision.gameObject.GetComponent<Player>());
+            }
+        }
+
+
+
+        #region UNUSED WRAPPERS
+        public override void OnTriggerStay2D(Combatant combatant, Collider2D collision) { }
+        public override void OnCollisionEnter2D(Combatant combatant, Collision2D collision) { }
+        public override void OnCollisionExit2D(Combatant combatant, Collision2D collision) { }
+        public override void OnCollisionStay2D(Combatant combatant, Collision2D collision) { }
+
+        
+        #endregion
+
+        #region INSPECTOR JUNK
+        private static string behaviorDescription = "Allows the combatant to use the Punch move.";
 		protected override string InspectorDescription {
 			get {
 				return behaviorDescription;

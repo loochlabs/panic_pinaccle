@@ -29,9 +29,17 @@ namespace PanicPinnacle.Combatants {
 		/// Needed so I can actually apply forces and whatnot.
 		/// </summary>
 		protected Rigidbody2D rigidBody;
-		#endregion
+        #endregion
 
-		private void Awake() {
+        #region FIELDS 
+
+        //Vectors used to functional returns
+        private Vector3 forceToAdd = Vector3.zero;
+        private Vector2 velocityToSet = Vector2.zero;
+
+        #endregion
+
+        private void Awake() {
 			// Grab a reference to the rigidbody.
 			this.rigidBody = GetComponent<Rigidbody2D>();
 			// Also get a reference to the Combatant.
@@ -67,8 +75,11 @@ namespace PanicPinnacle.Combatants {
 		/// <param name="y">The y-component of the force.</param>
 		/// <param name="z">The z-component of the force.</param>
 		public void AddForce(float x = 0f, float y = 0f, float z = 0f) {
-			// Just call the version of the method here that takes a vector.
-			this.AddForce(force: new Vector3(x, y, z));
+            // Just call the version of the method here that takes a vector.
+            forceToAdd.x = x;
+            forceToAdd.y = y;
+            forceToAdd.z = z;
+			this.AddForce(force: forceToAdd);
 		}
 		/// <summary>
 		/// Returns a new velocity vector if the body is going too fast.
@@ -78,20 +89,42 @@ namespace PanicPinnacle.Combatants {
 		/// <returns></returns>
 		private Vector3 ClampBodyVelocity(Combatant combatant, Vector3 currentVelocity) {
 			// Get the values of the x/y values clamped.
-			float x = Mathf.Clamp(value: currentVelocity.x, min: -combatant.CombatantTemplate.MaxVelocity.x, max: combatant.CombatantTemplate.MaxVelocity.x);
-			float y = Mathf.Clamp(value: currentVelocity.y, min: -combatant.CombatantTemplate.MaxVelocity.y, max: combatant.CombatantTemplate.MaxVelocity.y);
-			// Return it as a new vector.
-			return new Vector3(x, y, 0);
+			forceToAdd.x = Mathf.Clamp(value: currentVelocity.x, min: -combatant.CombatantTemplate.MaxVelocity.x, max: combatant.CombatantTemplate.MaxVelocity.x);
+			forceToAdd.y = Mathf.Clamp(value: currentVelocity.y, min: -combatant.CombatantTemplate.MaxVelocity.y, max: combatant.CombatantTemplate.MaxVelocity.y);
+            forceToAdd.z = 0;
+            // Return it as a new vector.
+			return forceToAdd;
 		}
-		#endregion
+
+        //@CLEANUP possibly cleaner way to do these functions, didn't want to expose rigidBody for now
+        /// <summary>
+        /// Hard stop this body's horizontal velocity. 
+        /// </summary>
+        public void StopHorizontal()
+        {
+            velocityToSet.x = 0;
+            velocityToSet.y = rigidBody.velocity.y;
+            rigidBody.velocity = velocityToSet;
+        }
+
+        /// <summary>
+        /// Hard stop this body's horizontal velocity. 
+        /// </summary>
+        public void StopVertical()
+        {
+            velocityToSet.x = rigidBody.velocity.x;
+            velocityToSet.y = 0;
+            rigidBody.velocity = velocityToSet;
+        }
+        #endregion
 
 
-		#region FIELDS - INSPECTOR JUNK
+        #region FIELDS - INSPECTOR JUNK
 #if UNITY_EDITOR
-		/// <summary>
-		/// This is what I need to use for making sure info boxes appear in the inspector without actually having to assign a field to accompany it.
-		/// </summary>
-		[PropertyOrder(int.MinValue), OnInspectorGUI]
+        /// <summary>
+        /// This is what I need to use for making sure info boxes appear in the inspector without actually having to assign a field to accompany it.
+        /// </summary>
+        [PropertyOrder(int.MinValue), OnInspectorGUI]
 		private void DrawIntroInfoBox() {
 			SirenixEditorGUI.InfoMessageBox(this.InspectorDescription);
 		}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using PanicPinnacle.Combatants;
 using UnityEngine;
+using TeamUtility.IO;
 
 namespace PanicPinnacle.Input {
 
@@ -12,17 +13,25 @@ namespace PanicPinnacle.Input {
 	[System.Serializable]
 	public class PlayerInput : CombatantInput {
 
-		/// <summary>
-		/// Gets the direction of movement for this Player.
-		/// </summary>
-		/// <param name="combatant">The combatant requesting their movement direction.</param>
-		/// <returns>The direction the Player is trying to move towards..</returns>
-		public override Vector3 GetMovementDirection(Combatant combatant) {
-			// TODO: Replace this with something that doesn't call UnityEngine.Input. It's. It's not very good.
-			float horizontalInput = UnityEngine.Input.GetAxisRaw("Horizontal");
-			float verticalInput = UnityEngine.Input.GetAxisRaw("Vertical");
+        #region FIELDS
+
+        /// <summary>
+        /// Direction of joystick movement axis
+        /// </summary>
+        private Vector3 direction = Vector3.zero;
+
+        #endregion
+
+        /// <summary>
+        /// Gets the direction of movement for this Player.
+        /// </summary>
+        /// <param name="combatant">The combatant requesting their movement direction.</param>
+        /// <returns>The direction the Player is trying to move towards..</returns>
+        public override Vector3 GetMovementDirection(Combatant combatant) {
 			// Assemble those two axes into a new vector and return it.
-			return new Vector3(x: horizontalInput, y: verticalInput, z: 0f);
+            direction.x = InputManager.GetAxisRaw("Horizontal", combatant.Playerid);
+            direction.y = InputManager.GetAxisRaw("Vertical", combatant.Playerid);
+            return direction;
 		}
 		/// <summary>
 		/// Grabs whether or not this combatant is trying to jump.
@@ -30,8 +39,9 @@ namespace PanicPinnacle.Input {
 		/// <param name="combatant">The combatant that may or may not be trying to jump.</param>
 		/// <returns>Whether or not this combatant is trying to jump.</returns>
 		public override bool GetJumpInput(Combatant combatant) {
-			// Just get the value of the jump button being pressed.
-			return UnityEngine.Input.GetButtonDown("Jump");
+            // Just get the value of the jump button being pressed.
+            //return InputManager.GetButtonDown("Jump", combatant.Playerid);
+            return false; //@TEMP;
 		}
 		/// <summary>
 		/// Grabs whether or not this combatant is trying to punch.
@@ -40,7 +50,7 @@ namespace PanicPinnacle.Input {
 		/// <returns>Whether or not this combatatant is trying to punch.</returns>
 		public override bool GetPunchInput(Combatant combatant) {
 			// Just get the value of the punch button being pressed.
-			return UnityEngine.Input.GetButtonDown("Punch");
+			return InputManager.GetButtonDown("PrimaryAction", combatant.Playerid);
 		}
 
 		#region FIELDS - INSPECTOR JUNK

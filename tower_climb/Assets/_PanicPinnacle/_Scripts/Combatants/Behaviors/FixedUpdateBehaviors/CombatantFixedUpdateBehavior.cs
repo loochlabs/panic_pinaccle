@@ -13,24 +13,32 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 	/// The behavior that should get run on a Combatant every FixedUpdate call.
 	/// </summary>
 	public abstract class CombatantFixedUpdateBehavior {
-
-		/// <summary>
-		/// Preps this behavior with the default information it needs to get going.
-		/// </summary>
-		/// <param name="combatant">The combatant this behavior is being assigned to.</param>
-		public abstract void Prepare(Combatant combatant);
+        
+        /// <summary>
+        /// Preps this behavior with the default information it needs to get going.
+        /// </summary>
+        /// <param name="combatant">The combatant this behavior is being assigned to.</param>
+        public abstract void Prepare(Combatant combatant);
 		/// <summary>
 		/// The implementation of FixedUpdate for the combatant.
 		/// </summary>
 		/// <param name="combatant">The combatant who owns this FixedUpdate behavior.</param>
 		public abstract void FixedUpdate(Combatant combatant);
 
-		#region FIELDS - INSPECTOR JUNK
+        //Collision Wrappers
+        public abstract void OnCollisionEnter2D(Combatant combatant, Collision2D collision);
+        public abstract void OnCollisionExit2D(Combatant combatant, Collision2D collision);
+        public abstract void OnCollisionStay2D(Combatant combatant, Collision2D collision);
+        public abstract void OnTriggerEnter2D(Combatant combatant, Collider2D collision);
+        public abstract void OnTriggerExit2D(Combatant combatant, Collider2D collision);
+        public abstract void OnTriggerStay2D(Combatant combatant, Collider2D collision);
+
+        #region FIELDS - INSPECTOR JUNK
 #if UNITY_EDITOR
-		/// <summary>
-		/// This is what I need to use for making sure info boxes appear in the inspector without actually having to assign a field to accompany it.
-		/// </summary>
-		[PropertyOrder(int.MinValue), OnInspectorGUI]
+        /// <summary>
+        /// This is what I need to use for making sure info boxes appear in the inspector without actually having to assign a field to accompany it.
+        /// </summary>
+        [PropertyOrder(int.MinValue), OnInspectorGUI]
 		private void DrawIntroInfoBox() {
 			SirenixEditorGUI.InfoMessageBox(this.InspectorDescription);
 		}
