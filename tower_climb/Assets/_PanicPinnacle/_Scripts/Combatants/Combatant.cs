@@ -121,6 +121,42 @@ namespace PanicPinnacle.Combatants {
                 fixedUpdateBehavior.OnTriggerEnter2D(combatant: this, collision: collision);
             }
         }
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
+            {
+                fixedUpdateBehavior.OnTriggerExit2D(combatant: this, collision: collision);
+            }
+        }
+        private void OnTriggerStay2D(Collider2D collision)
+        {
+            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
+            {
+                fixedUpdateBehavior.OnTriggerStay2D(combatant: this, collision: collision);
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
+            {
+                fixedUpdateBehavior.OnCollisionEnter2D(combatant: this, collision: collision);
+            }
+        }
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
+            {
+                fixedUpdateBehavior.OnCollisionExit2D(combatant: this, collision: collision);
+            }
+        }
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
+            {
+                fixedUpdateBehavior.OnCollisionStay2D(combatant: this, collision: collision);
+            }
+        }
         #endregion
 
 

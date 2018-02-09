@@ -154,52 +154,33 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 			}
 		}
 
-        public override void OnTriggerStay2D(Combatant combatant, Collider2D collision)
+        
+        /// <summary>
+        /// Collision detection for punch targets
+        /// </summary>
+        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision)
         {
             if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
             {
-                if (!targetsToPunch.Contains(collision.gameObject.GetComponent<Player>()))
-                {
-                    targetsToPunch.Add(collision.gameObject.GetComponent<Player>());
-                }
-            }
-
-            Debug.Log("TEST ");
-        }
-
-        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision)
-        {
-            /*if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
-            {
-                Debug.Log("PUNCH ENTER: " + combatant.Playerid + " into " + collision.gameObject.GetComponent<Player>().Playerid);
                 targetsToPunch.Add(collision.gameObject.GetComponent<Player>());
-            }*/
+            }
         }
 
         public override void OnTriggerExit2D(Combatant combatant, Collider2D collision)
         {
-            /*if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
+            if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
             {
-                Debug.Log("PUNCH EXIT: " + combatant.Playerid + " into " + collision.gameObject.GetComponent<Player>().Playerid);
                 targetsToPunch.Remove(collision.gameObject.GetComponent<Player>());
-            }*/
+            }
         }
 
 
 
         #region UNUSED WRAPPERS
-
-        public override void OnCollisionEnter2D(Combatant combatant, Collider2D collision)
-        {
-        }
-
-        public override void OnCollisionExit2D(Combatant combatant, Collider2D collision)
-        {
-        }
-
-        public override void OnCollisionStay2D(Combatant combatant, Collider2D collision)
-        {
-        }
+        public override void OnTriggerStay2D(Combatant combatant, Collider2D collision) { }
+        public override void OnCollisionEnter2D(Combatant combatant, Collision2D collision) { }
+        public override void OnCollisionExit2D(Combatant combatant, Collision2D collision) { }
+        public override void OnCollisionStay2D(Combatant combatant, Collision2D collision) { }
 
         
         #endregion

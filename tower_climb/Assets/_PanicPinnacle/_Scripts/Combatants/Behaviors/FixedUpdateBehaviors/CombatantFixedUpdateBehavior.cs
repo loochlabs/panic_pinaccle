@@ -26,9 +26,9 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		public abstract void FixedUpdate(Combatant combatant);
 
         //Collision Wrappers
-        public abstract void OnCollisionEnter2D(Combatant combatant, Collider2D collision);
-        public abstract void OnCollisionExit2D(Combatant combatant, Collider2D collision);
-        public abstract void OnCollisionStay2D(Combatant combatant, Collider2D collision);
+        public abstract void OnCollisionEnter2D(Combatant combatant, Collision2D collision);
+        public abstract void OnCollisionExit2D(Combatant combatant, Collision2D collision);
+        public abstract void OnCollisionStay2D(Combatant combatant, Collision2D collision);
         public abstract void OnTriggerEnter2D(Combatant combatant, Collider2D collision);
         public abstract void OnTriggerExit2D(Combatant combatant, Collider2D collision);
         public abstract void OnTriggerStay2D(Combatant combatant, Collider2D collision);
