@@ -46,13 +46,13 @@ MonoBehaviour:
         Assembly-CSharp
     - Name: propellentForceMagnitude
       Entry: 4
-      Data: 10
+      Data: 412.67
     - Name: impactForceMagnitude
       Entry: 4
-      Data: 10
+      Data: 1462.12
     - Name: bodyGravityModifier
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: punchDuration
       Entry: 4
       Data: 0.5
@@ -67,5 +67,6 @@ MonoBehaviour:
       Data: 
   combatantName: Debug Player
   runSpeed: 116.9
-  jumpPower: 1089.62
-  maxVelocity: {x: 10, y: 100}
+  jumpPower: 1088
+  maxVelocity: {x: 10, y: 25}
+  dazeDuration: 1

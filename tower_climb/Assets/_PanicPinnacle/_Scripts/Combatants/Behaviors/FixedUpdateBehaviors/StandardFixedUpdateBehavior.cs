@@ -11,10 +11,6 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 	public class StandardFixedUpdateBehavior : CombatantFixedUpdateBehavior {
 
         #region FIELDS
-
-        //Movement direction of joystick inputs
-        private Vector3 moveDirection = Vector3.zero;
-
         //Track if a jump is active
         //prevents user from holding UP and jumping repeatedly 
         private bool jumpActive;
@@ -36,6 +32,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
             //DAZED
             //@TODO add vfx feedback to dazed state
             if (combatant.State == CombatantState.dazed) { return; }
+            if (combatant.State == CombatantState.punching) { return; }
 
             //ORIENTATION
             //grab a reference here
@@ -46,18 +43,17 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
             if (inputDirection.y < 0) { combatant.Orientation = OrientationType.N; }
 
             //Horizontal Movement
-            moveDirection = inputDirection;
-            moveDirection.y = 0;
-            moveDirection.z = 0;
-            if (moveDirection.magnitude > 0) {
-                combatant.CombatantBody.AddForce(
-                    direction: this.moveDirection,
-                    magnitude: combatant.CombatantTemplate.RunSpeed);
+            //calc all directional movement, AddForce after all calculations complete
+            Vector3 moveDirection= Vector3.zero;
+
+            //no player input -> hard stop horizontal
+            if(inputDirection.x == 0)
+            {
+                combatant.CombatantBody.StopHorizontal();
             }
             else
             {
-                //no player input -> hard stop horizontal
-                combatant.CombatantBody.StopHorizontal();
+                moveDirection.x = inputDirection.x * combatant.CombatantTemplate.RunSpeed;
             }
 
             //Vertical Movement 
@@ -79,15 +75,20 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
                 && !jumpActive)
             {
                 // If they're able to jump, add that force amount.
-                combatant.CombatantBody.AddForce(y: combatant.CombatantTemplate.JumpPower);
+                //combatant.CombatantBody.AddForce(y: combatant.CombatantTemplate.JumpPower);
+                moveDirection.y = combatant.CombatantTemplate.JumpPower;
                 jumpActive = true;
             }
-		}
+
+            //add movement force with all conditions
+            combatant.CombatantBody.AddForce(moveDirection);
+
+        }
 
         #region UNUSED WRAPPERS
-        public override void OnCollisionEnter2D(Combatant combatant, Collider2D collision) { }
-        public override void OnCollisionExit2D(Combatant combatant, Collider2D collision) { }
-        public override void OnCollisionStay2D(Combatant combatant, Collider2D collision) { }
+        public override void OnCollisionEnter2D(Combatant combatant, Collision2D collision) { }
+        public override void OnCollisionExit2D(Combatant combatant, Collision2D collision) { }
+        public override void OnCollisionStay2D(Combatant combatant, Collision2D collision) { }
         public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision) { }
         public override void OnTriggerExit2D(Combatant combatant, Collider2D collision) { }
         public override void OnTriggerStay2D(Combatant combatant, Collider2D collision) { }

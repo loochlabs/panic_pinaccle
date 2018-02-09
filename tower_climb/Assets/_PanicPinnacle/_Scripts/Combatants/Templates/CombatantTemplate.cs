@@ -109,8 +109,19 @@ namespace PanicPinnacle.Combatants {
 				return this.maxVelocity;
 			}
 		}
-		#endregion
 
-	}
+        /// <summary>
+        /// Duration of a dazed effect (after a player has been punched)
+        /// </summary>
+        [TabGroup("Physics", "Physics"), PropertyTooltip("Duration of a dazed effect (after a player has been punched)."), SerializeField]
+        private float dazeDuration = 1f;
+
+        public float DazeDuration
+        {
+            get { return dazeDuration; }
+        }
+        #endregion
+
+    }
 
 }

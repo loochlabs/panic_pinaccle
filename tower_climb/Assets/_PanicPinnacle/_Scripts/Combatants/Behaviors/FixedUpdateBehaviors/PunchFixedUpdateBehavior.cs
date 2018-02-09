@@ -28,7 +28,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		/// How much should the CombatantBody's gravity be scaled by when the combatant punches?
 		/// </summary>
 		[TabGroup("Punch Behavior", "Attributes"), PropertyTooltip("How much should the CombatantBody's gravity be scaled by when the combatant punches?"), SerializeField]
-		private float bodyGravityModifier = 0.5f;
+		private float bodyGravityModifier = 0.05f;
 		/// <summary>
 		/// How long should this punch be active for?
 		/// </summary>
@@ -40,17 +40,17 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		/// <summary>
 		/// Can this combatant punch right now?
 		/// </summary>
-		private bool canPunch = true;
+		//private bool canPunch = true;
 		/// <summary>
 		/// Can this combatant punch right now?
 		/// </summary>
-		private bool CanPunch {
-			get {
+		//private bool CanPunch {
+			//get {
 				// Just returning canPunch for rn. I actually don't like using a flag like this.
 				// TODO: Calculate the conditions for punching and see if this combatant can actually punch.
-				return this.canPunch;
-			}
-		}
+				//return this.canPunch;
+			//}
+		//}
         
         #endregion
 
@@ -62,6 +62,9 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 
         //collection of targets active in punch hitbox
         private List<Player> targetsToPunch;
+
+        //Original grav modifier at beginning of scene
+        private float originalGravModifier;
         #endregion
 
         /// <summary>
@@ -79,10 +82,9 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 				// If it WAS found, turn it off. It might already be off but do it anyway. Thanks.
 				//this.punchBoxGameObject.SetActive(false);
 			}
-			// Reset the canPunch flag. Hopefully I won't need it later.
-			this.canPunch = true;
-            targetsToPunch = new List<Player>();
 
+            originalGravModifier = combatant.CombatantBody.Body.gravityScale;
+            targetsToPunch = new List<Player>();
         }
 		/// <summary>
 		/// Checks whether or not this combatant wants to punch and, if they do, does so.
@@ -90,116 +92,129 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		/// <param name="combatant">The combatant who owns this behavior.</param>
 		public override void FixedUpdate(Combatant combatant) {
 
+            if (combatant.State == CombatantState.dazed) { return; }
+            if (combatant.State == CombatantState.punching) { return; }
+
             //set Orientation for punch box
             Vector3 punchboxRotation = Vector3.zero;
-            Vector2 impactDirection = Vector2.zero;
             switch (combatant.Orientation)
             {
                 case OrientationType.N:
                     punchboxRotation.z = 0;
-                    impactDirection.y = 1;
                     break;
                 case OrientationType.W:
                     punchboxRotation.z = 90;
-                    impactDirection.x = -1;
-                    impactDirection.y = 1;
                     break;
                 case OrientationType.S:
                     punchboxRotation.z = 180;
-                    impactDirection.y = -1;
                     break;
                 case OrientationType.E:
                     punchboxRotation.z = 270;
-                    impactDirection.x = 1;
-                    impactDirection.y = 1;
                     break;
             }
             punchBoxGameObject.transform.localEulerAngles = punchboxRotation;
 
             // First, see if the combatant is trying to punch and if they are allowed to.
-            if (combatant.CombatantInput.GetPunchInput(combatant: combatant) == true && this.CanPunch == true) {
+            if (combatant.CombatantInput.GetPunchInput(combatant: combatant) == true) {
                 
-                Debug.Log("targets : " + combatant.Playerid + "," + targetsToPunch.Count);
+                //impact direction to send targets
+                Vector2 impactDirection = Vector2.zero;
                 foreach (Player target in targetsToPunch)
                 {
                     target.SetState(CombatantState.dazed);
-                    //Vector3 direction = target.transform.position - combatant.transform.position;
+
+                    //calculate trajectory of impact
+                    Vector3 dv = target.transform.position - combatant.transform.position;
+                    if (dv.x > 0) { impactDirection.x = 1; }
+                    if (dv.x < 0) { impactDirection.x = -1; }
+                    if (dv.y > 0) { impactDirection.y = 1; }
+                    if (dv.y < 0) { impactDirection.y = -1; }
 
                     target.CombatantBody.AddForce(impactDirection, impactForceMagnitude);
+
+                    //Daze target for specified daze duration
+                    Sequence dazeSeq = DOTween.Sequence();
+                    dazeSeq.AppendCallback(new TweenCallback(delegate {
+                        target.SetState(CombatantState.dazed);
+                    }));
+                    dazeSeq.AppendInterval(target.CombatantTemplate.DazeDuration);
+                    dazeSeq.AppendCallback(new TweenCallback(delegate {
+                        target.SetState(CombatantState.playing);
+                    }));
+                    dazeSeq.Play();
                 }
 
                 //clear current targets
                 targetsToPunch.Clear();
 
-				// Create a new sequence.
+				// Set this players properties for punching, for punch duration
 				// TODO: See if I can just make this in Prepare() and reuse it. If it's playing, it would mean CanPunch is false.
 				Sequence seq = DOTween.Sequence();
-				// Append a callback that starts up the punch.
 				seq.AppendCallback(new TweenCallback(delegate {
-					// Disable the canPunch flag.
-					this.canPunch = false;
-					// Turn on the punch box game object.
-					//this.punchBoxGameObject.SetActive(true);
+                    combatant.SetState(CombatantState.punching);
+                    combatant.CombatantBody.Body.gravityScale = bodyGravityModifier;
+                    //this.punchBoxGameObject.SetActive(true);
 				}));
-				// Wait for the punch duration.
 				seq.AppendInterval(interval: this.punchDuration);
-				// Wrap up the punch.
 				seq.AppendCallback(new TweenCallback(delegate {
-					this.canPunch = true;
-					//this.punchBoxGameObject.SetActive(false);
+                    combatant.SetState(CombatantState.playing);
+                    combatant.CombatantBody.Body.gravityScale = originalGravModifier;
+                    //this.punchBoxGameObject.SetActive(false);
 				}));
-
-				// Play the sequence of events I just wrote out.
 				seq.Play();
+
+                //reset combatant body velocity
+                combatant.CombatantBody.StopHorizontal();
+                combatant.CombatantBody.StopVertical();
+
+                //Determine punch propellent direction
+                Vector2 propellDirection = Vector2.zero;
+                switch (combatant.Orientation)
+                {
+                    case OrientationType.N:
+                        propellDirection.y = 1;
+                        break;
+                    case OrientationType.W:
+                        propellDirection.x = -1;
+                        break;
+                    case OrientationType.S:
+                        propellDirection.y = -1;
+                        break;
+                    case OrientationType.E:
+                        propellDirection.x = 1;
+                        break;
+                }
+                combatant.CombatantBody.AddForce(direction: propellDirection, magnitude: propellentForceMagnitude);
 			}
 		}
 
-        public override void OnTriggerStay2D(Combatant combatant, Collider2D collision)
+        
+        /// <summary>
+        /// Collision detection for punch targets
+        /// </summary>
+        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision)
         {
             if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
             {
-                if (!targetsToPunch.Contains(collision.gameObject.GetComponent<Player>()))
-                {
-                    targetsToPunch.Add(collision.gameObject.GetComponent<Player>());
-                }
-            }
-
-            Debug.Log("TEST ");
-        }
-
-        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision)
-        {
-            /*if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
-            {
-                Debug.Log("PUNCH ENTER: " + combatant.Playerid + " into " + collision.gameObject.GetComponent<Player>().Playerid);
                 targetsToPunch.Add(collision.gameObject.GetComponent<Player>());
-            }*/
+            }
         }
 
         public override void OnTriggerExit2D(Combatant combatant, Collider2D collision)
         {
-            /*if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
+            if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
             {
-                Debug.Log("PUNCH EXIT: " + combatant.Playerid + " into " + collision.gameObject.GetComponent<Player>().Playerid);
                 targetsToPunch.Remove(collision.gameObject.GetComponent<Player>());
-            }*/
+            }
         }
 
 
 
         #region UNUSED WRAPPERS
-
-        public override void OnCollisionEnter2D(Combatant combatant, Collider2D collision)
-        {
-        }
-
-        public override void OnCollisionExit2D(Combatant combatant, Collider2D collision)
-        {
-        }
-
-        public override void OnCollisionStay2D(Combatant combatant, Collider2D collision)
-        {
-        }
+        public override void OnTriggerStay2D(Combatant combatant, Collider2D collision) { }
+        public override void OnCollisionEnter2D(Combatant combatant, Collision2D collision) { }
+        public override void OnCollisionExit2D(Combatant combatant, Collision2D collision) { }
+        public override void OnCollisionStay2D(Combatant combatant, Collision2D collision) { }
 
         
         #endregion

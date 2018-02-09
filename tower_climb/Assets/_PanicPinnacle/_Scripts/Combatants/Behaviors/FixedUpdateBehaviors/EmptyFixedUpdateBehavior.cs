@@ -25,17 +25,17 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 			// https://www.youtube.com/watch?v=-RFunvF0mDw
 		}
 
-        public override void OnCollisionEnter2D(Combatant combatant, Collider2D collision)
+        public override void OnCollisionEnter2D(Combatant combatant, Collision2D collision)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void OnCollisionExit2D(Combatant combatant, Collider2D collision)
+        public override void OnCollisionExit2D(Combatant combatant, Collision2D collision)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void OnCollisionStay2D(Combatant combatant, Collider2D collision)
+        public override void OnCollisionStay2D(Combatant combatant, Collision2D collision)
         {
             throw new System.NotImplementedException();
         }
