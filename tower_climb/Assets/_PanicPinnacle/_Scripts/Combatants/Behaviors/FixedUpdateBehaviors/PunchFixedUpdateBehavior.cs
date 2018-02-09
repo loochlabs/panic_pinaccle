@@ -89,29 +89,23 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		/// </summary>
 		/// <param name="combatant">The combatant who owns this behavior.</param>
 		public override void FixedUpdate(Combatant combatant) {
-
+            Debug.Log("player: " + combatant.Playerid + " | " + combatant.State);
             //set Orientation for punch box
             Vector3 punchboxRotation = Vector3.zero;
-            Vector2 impactDirection = Vector2.zero;
+            
             switch (combatant.Orientation)
             {
                 case OrientationType.N:
                     punchboxRotation.z = 0;
-                    impactDirection.y = 1;
                     break;
                 case OrientationType.W:
                     punchboxRotation.z = 90;
-                    impactDirection.x = -1;
-                    impactDirection.y = 1;
                     break;
                 case OrientationType.S:
                     punchboxRotation.z = 180;
-                    impactDirection.y = -1;
                     break;
                 case OrientationType.E:
                     punchboxRotation.z = 270;
-                    impactDirection.x = 1;
-                    impactDirection.y = 1;
                     break;
             }
             punchBoxGameObject.transform.localEulerAngles = punchboxRotation;
@@ -120,12 +114,30 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
             if (combatant.CombatantInput.GetPunchInput(combatant: combatant) == true && this.CanPunch == true) {
                 
                 Debug.Log("targets : " + combatant.Playerid + "," + targetsToPunch.Count);
+                Vector2 impactDirection = Vector2.zero;
                 foreach (Player target in targetsToPunch)
                 {
                     target.SetState(CombatantState.dazed);
-                    //Vector3 direction = target.transform.position - combatant.transform.position;
+
+                    //calculate trajectory of impact
+                    Vector3 dv = target.transform.position - combatant.transform.position;
+                    if (dv.x > 0) { impactDirection.x = 1; }
+                    if (dv.x < 0) { impactDirection.x = -1; }
+                    if (dv.y > 0) { impactDirection.y = 1; }
+                    if (dv.y < 0) { impactDirection.y = -1; }
 
                     target.CombatantBody.AddForce(impactDirection, impactForceMagnitude);
+
+                    //Daze target
+                    Sequence dazeSeq = DOTween.Sequence();
+                    dazeSeq.AppendCallback(new TweenCallback(delegate {
+                        target.SetState(CombatantState.dazed);
+                    }));
+                    dazeSeq.AppendInterval(target.CombatantTemplate.DazeDuration);
+                    dazeSeq.AppendCallback(new TweenCallback(delegate {
+                        target.SetState(CombatantState.playing);
+                    }));
+                    dazeSeq.Play();
                 }
 
                 //clear current targets
