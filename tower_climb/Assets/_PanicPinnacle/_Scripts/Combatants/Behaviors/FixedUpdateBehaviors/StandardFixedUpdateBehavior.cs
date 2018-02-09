@@ -32,6 +32,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
             //DAZED
             //@TODO add vfx feedback to dazed state
             if (combatant.State == CombatantState.dazed) { return; }
+            if (combatant.State == CombatantState.punching) { return; }
 
             //ORIENTATION
             //grab a reference here

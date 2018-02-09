@@ -194,7 +194,8 @@ namespace PanicPinnacle.Combatants {
         playing = 2,
         dead = 3,
         dazed = 4,
-        outro = 5
+        punching = 5,
+        outro = 6
     }
     #endregion
 }
