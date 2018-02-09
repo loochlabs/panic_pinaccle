@@ -128,7 +128,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 
                     target.CombatantBody.AddForce(impactDirection, impactForceMagnitude);
 
-                    //Daze target
+                    //Daze target for specified daze duration
                     Sequence dazeSeq = DOTween.Sequence();
                     dazeSeq.AppendCallback(new TweenCallback(delegate {
                         target.SetState(CombatantState.dazed);
