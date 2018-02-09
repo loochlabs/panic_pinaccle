@@ -66,6 +66,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   combatantName: Debug Player
-  runSpeed: 301.51
-  jumpPower: 220
-  maxVelocity: {x: 10, y: 10}
+  runSpeed: 116.9
+  jumpPower: 1089.62
+  maxVelocity: {x: 10, y: 100}

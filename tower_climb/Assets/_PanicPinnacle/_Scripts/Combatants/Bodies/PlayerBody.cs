@@ -17,13 +17,15 @@ namespace PanicPinnacle.Combatants {
 		/// </summary>
 		public override bool IsGrounded {
 			get {
-				// Go through each of the transforms that exist to check if theyre next to the ground.
-				foreach (Transform groundTransform in this.groundTransforms) {
+                // Go through each of the transforms that exist to check if theyre next to the ground.
+                int mask = 1 << LayerMask.NameToLayer("Ground");
+                
+                foreach (Transform groundTransform in this.groundTransforms) {
 					// Figure out if a linecast hits a ground collider.
 					bool linecastHit = Physics2D.Linecast(
 						start: this.transform.position,
 						end: groundTransform.position, 
-						layerMask: 1 << LayerMask.NameToLayer("Ground"));
+						layerMask: mask);
 					// If it hits just one, the body is grounded.
 					if (linecastHit) {
 						return true;

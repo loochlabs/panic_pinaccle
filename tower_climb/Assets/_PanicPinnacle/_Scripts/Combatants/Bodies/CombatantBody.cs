@@ -33,7 +33,9 @@ namespace PanicPinnacle.Combatants {
 
         #region FIELDS 
 
+        //Vectors used to functional returns
         private Vector3 forceToAdd = Vector3.zero;
+        private Vector2 velocityToSet = Vector2.zero;
 
         #endregion
 
@@ -93,15 +95,36 @@ namespace PanicPinnacle.Combatants {
             // Return it as a new vector.
 			return forceToAdd;
 		}
-		#endregion
+
+        //@CLEANUP possibly cleaner way to do these functions, didn't want to expose rigidBody for now
+        /// <summary>
+        /// Hard stop this body's horizontal velocity. 
+        /// </summary>
+        public void StopHorizontal()
+        {
+            velocityToSet.x = 0;
+            velocityToSet.y = rigidBody.velocity.y;
+            rigidBody.velocity = velocityToSet;
+        }
+
+        /// <summary>
+        /// Hard stop this body's horizontal velocity. 
+        /// </summary>
+        public void StopVertical()
+        {
+            velocityToSet.x = rigidBody.velocity.x;
+            velocityToSet.y = 0;
+            rigidBody.velocity = velocityToSet;
+        }
+        #endregion
 
 
-		#region FIELDS - INSPECTOR JUNK
+        #region FIELDS - INSPECTOR JUNK
 #if UNITY_EDITOR
-		/// <summary>
-		/// This is what I need to use for making sure info boxes appear in the inspector without actually having to assign a field to accompany it.
-		/// </summary>
-		[PropertyOrder(int.MinValue), OnInspectorGUI]
+        /// <summary>
+        /// This is what I need to use for making sure info boxes appear in the inspector without actually having to assign a field to accompany it.
+        /// </summary>
+        [PropertyOrder(int.MinValue), OnInspectorGUI]
 		private void DrawIntroInfoBox() {
 			SirenixEditorGUI.InfoMessageBox(this.InspectorDescription);
 		}

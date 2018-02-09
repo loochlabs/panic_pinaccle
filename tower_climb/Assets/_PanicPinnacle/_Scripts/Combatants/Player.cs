@@ -16,7 +16,7 @@ namespace PanicPinnacle.Combatants {
         private SpriteRenderer playerBodySprite; 
         //round info
         private Color roundColor;
-        private PlayerState state = PlayerState.none;
+        //represents the player's position/rank this round 
         private int finalRoundPosition;
         #endregion
 
@@ -26,12 +26,6 @@ namespace PanicPinnacle.Combatants {
             get { return roundColor; }
         }
         
-        public PlayerState State
-        {
-            get { return state; }
-            set { state = value; }
-        }
-
         public int FinalRoundPosition
         {
             get { return finalRoundPosition; }
@@ -49,40 +43,10 @@ namespace PanicPinnacle.Combatants {
             //apply round properties to this
             playerBodySprite.color = color;
         }
-
-        public void SetState(PlayerState state)
-        {
-            this.state = state;
-            switch (state) {
-                case PlayerState.none:
-                    break;
-                case PlayerState.intro:
-                    break;
-                case PlayerState.playing:
-                    break;
-                case PlayerState.dead:
-                    break;
-                case PlayerState.dazed:
-                    break;
-                case PlayerState.outro:
-                    break;
-            }
-
-        }
-
+        
         #endregion
     }
 
-    #region ENUMS
-    public enum PlayerState
-    {
-        none = 0,
-        intro = 1,
-        playing = 2,
-        dead = 3,
-        dazed = 4,
-        outro = 5
-    }
-    #endregion
+    
 
 }
