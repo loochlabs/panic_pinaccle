@@ -29,6 +29,14 @@ namespace PanicPinnacle.Combatants {
 		/// Needed so I can actually apply forces and whatnot.
 		/// </summary>
 		protected Rigidbody2D rigidBody;
+
+        /// <summary>
+        /// Exposing rigidbody. Its just easier to work with this.
+        /// </summary>
+        public Rigidbody2D Body
+        {
+            get { return rigidBody; }
+        }
         #endregion
 
         #region FIELDS 
