@@ -2,15 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour {
+namespace PanicPinnacle {
 
-	// Use this for initialization
-	void Start () {
-		
+	/// <summary>
+	/// Controls the game from a big picture perspective and persists through all scenes. 
+	/// </summary>
+	public class GameManager : MonoBehaviour {
+
+		public static GameManager instance;
+
+		private void Awake() {
+			if (instance == null) {
+				instance = this;
+			} else {
+				// Destorying this object if the instance is already set will also destroy new instances of its children.
+				// This is intentional.
+				Destroy(this.gameObject);
+			}
+		}
+
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+
 }
