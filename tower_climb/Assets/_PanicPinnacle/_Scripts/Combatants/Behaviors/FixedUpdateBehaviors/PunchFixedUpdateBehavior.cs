@@ -37,20 +37,6 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
         #endregion
 
         #region FIELDS - FLAGS AND TIMERS
-		/// <summary>
-		/// Can this combatant punch right now?
-		/// </summary>
-		//private bool canPunch = true;
-		/// <summary>
-		/// Can this combatant punch right now?
-		/// </summary>
-		//private bool CanPunch {
-			//get {
-				// Just returning canPunch for rn. I actually don't like using a flag like this.
-				// TODO: Calculate the conditions for punching and see if this combatant can actually punch.
-				//return this.canPunch;
-			//}
-		//}
         
         #endregion
 

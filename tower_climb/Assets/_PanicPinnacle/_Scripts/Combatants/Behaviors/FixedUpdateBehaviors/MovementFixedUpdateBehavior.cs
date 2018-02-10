@@ -8,7 +8,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 	/// The standard FixedUpdate behavior. Just checks CombatantInput and executes in response to that.
 	/// </summary>
 	[System.Serializable]
-	public class StandardFixedUpdateBehavior : CombatantFixedUpdateBehavior {
+	public class MovementFixedUpdateBehavior : CombatantFixedUpdateBehavior {
 
         #region FIELDS
         //Track if a jump is active
