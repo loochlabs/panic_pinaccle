@@ -11,7 +11,8 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
     /// </summary>
     public class StateFixedUpdateBehavior : CombatantFixedUpdateBehavior
     {
-
+        //maintain state of combatant from previous frame
+        private CombatantState prevConbatantState;
         //particle system in player prefab
         private GameObject dazedParticleObject;
         private GameObject punchingParticleObject;
@@ -28,25 +29,40 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
 
         public override void FixedUpdate(Combatant combatant)
         {
-            switch (combatant.State)
+            if (combatant.State != prevConbatantState) {
+                UpdateState(combatant.State);
+            }
+            prevConbatantState = combatant.State;
+        }
+
+        /// <summary>
+        /// Handle updating the current state of combatant.
+        /// </summary>
+        /// <param name="state">Current state of combatant.</param>
+        private void UpdateState(CombatantState state)
+        {
+            switch (state)
             {
                 case CombatantState.dazed:
                     //emit smoke particles during dazed state
-                    if (!dazedParticleObject.activeSelf) { dazedParticleObject.SetActive(true); }
-                    
+                    dazedParticleObject.SetActive(true);
+                    //disable all other particle systems
+                    punchingParticleObject.SetActive(false);
+
                     break;
 
                 case CombatantState.playing:
-                    //stop any particles during played state
-                    //@TODO: might need a cleaner way of checking/disabling this
-                    if (dazedParticleObject.activeSelf) { dazedParticleObject.SetActive(false); }
-                    if (punchingParticleObject.activeSelf) { punchingParticleObject.SetActive(false); }
+                    //disable any particles during played state
+                    dazedParticleObject.SetActive(false); 
+                    punchingParticleObject.SetActive(false);
 
                     break;
 
                 case CombatantState.punching:
-                    //emit smoke particles during dazed state
-                    if (!punchingParticleObject.activeSelf) { punchingParticleObject.SetActive(true); }
+                    //emit smoke particles during punching state
+                    punchingParticleObject.SetActive(true);
+                    //disable all other particle systems
+                    dazedParticleObject.SetActive(false);
 
                     break;
             }
