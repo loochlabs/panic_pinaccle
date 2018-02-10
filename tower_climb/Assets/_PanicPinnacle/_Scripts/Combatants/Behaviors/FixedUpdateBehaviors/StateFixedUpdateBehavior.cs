@@ -1,5 +1,6 @@
 ﻿using PanicPinnacle.Combatants;
 using PanicPinnacle.Combatants.Behaviors.Updates;
+using PanicPinnacle.Legacy;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,28 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
             }
             prevConbatantState = combatant.State;
         }
+
+        
+        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision) {
+            //player knockout
+            //@TODO: might want to make this a functional call when fleshing out Round Manager
+            if (collision.gameObject.tag == "Bound")
+            {
+                combatant.SetState(CombatantState.dead);
+                combatant.FinalRoundPosition = MainManager.playerAliveCount--; //@TEMP: legacy call
+            }
+
+            //goal check
+            if (collision.gameObject.tag == "Goal")
+            {
+                Debug.Log("ROUND WIN: " + combatant.Playerid);
+                combatant.SetState(CombatantState.dead); //@TODO: dead for now, might be outro state instead
+                combatant.FinalRoundPosition = ++MainManager.playerCompleteCount; //@TEMP: legacy calls
+                MainManager.playerAliveCount--;
+            }
+        }
+
+
 
         /// <summary>
         /// Handle updating the current state of combatant.
@@ -73,7 +96,6 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
         public override void OnCollisionEnter2D(Combatant combatant, Collision2D collision) { }
         public override void OnCollisionExit2D(Combatant combatant, Collision2D collision) { }
         public override void OnCollisionStay2D(Combatant combatant, Collision2D collision) { }
-        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision) { }
         public override void OnTriggerExit2D(Combatant combatant, Collider2D collision) { }
         public override void OnTriggerStay2D(Combatant combatant, Collider2D collision) { }
         #endregion

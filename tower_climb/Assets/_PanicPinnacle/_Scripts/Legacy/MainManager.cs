@@ -107,7 +107,7 @@ namespace PanicPinnacle.Legacy {
                 players[i].GetComponent<Player>().SetState(CombatantState.intro);
 				//ui
 				playerInfoSlots[i].SetActive(true);
-				playerInfoSlots[i].GetComponentInChildren<Text>().color = players[i].GetComponent<Player>().Color;
+				playerInfoSlots[i].GetComponentInChildren<SuperTextMesh>().color = players[i].GetComponent<Player>().Color;
 
 			}
 		}
@@ -198,19 +198,19 @@ namespace PanicPinnacle.Legacy {
 					|| players[i].GetComponent<Player>().State == CombatantState.outro) {
 					switch (players[i].GetComponent<Player>().FinalRoundPosition) {
 						case 1:
-							playerInfoSlots[i].GetComponentInChildren<Text>().text = "1st";
+							playerInfoSlots[i].GetComponentInChildren<SuperTextMesh>().text = "1st";
 							break;
 						case 2:
-							playerInfoSlots[i].GetComponentInChildren<Text>().text = "2nd";
+							playerInfoSlots[i].GetComponentInChildren<SuperTextMesh>().text = "2nd";
 							break;
 						case 3:
-							playerInfoSlots[i].GetComponentInChildren<Text>().text = "3rd";
+							playerInfoSlots[i].GetComponentInChildren<SuperTextMesh>().text = "3rd";
 							break;
 						case 4:
-							playerInfoSlots[i].GetComponentInChildren<Text>().text = "4th";
+							playerInfoSlots[i].GetComponentInChildren<SuperTextMesh>().text = "4th";
 							break;
 						default:
-							playerInfoSlots[i].GetComponentInChildren<Text>().text = "ERR";
+							playerInfoSlots[i].GetComponentInChildren<SuperTextMesh>().text = "ERR";
 							break;
 					}
 				}
