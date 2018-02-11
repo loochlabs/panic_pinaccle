@@ -97,6 +97,16 @@ namespace PanicPinnacle.Combatants {
         {
             get { return state; }
         }
+
+
+        //represents the player's position/rank this round 
+        private int finalRoundPosition;
+
+        public int FinalRoundPosition
+        {
+            get { return finalRoundPosition; }
+            set { finalRoundPosition = value; }
+        }
         #endregion
 
         #region UNITY FUNCTIONS

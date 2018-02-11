@@ -37,20 +37,6 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
         #endregion
 
         #region FIELDS - FLAGS AND TIMERS
-		/// <summary>
-		/// Can this combatant punch right now?
-		/// </summary>
-		//private bool canPunch = true;
-		/// <summary>
-		/// Can this combatant punch right now?
-		/// </summary>
-		//private bool CanPunch {
-			//get {
-				// Just returning canPunch for rn. I actually don't like using a flag like this.
-				// TODO: Calculate the conditions for punching and see if this combatant can actually punch.
-				//return this.canPunch;
-			//}
-		//}
         
         #endregion
 
@@ -116,40 +102,18 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 
             // First, see if the combatant is trying to punch and if they are allowed to.
             if (combatant.CombatantInput.GetPunchInput(combatant: combatant) == true) {
-                
-                //impact direction to send targets
-                Vector2 impactDirection = Vector2.zero;
+
                 foreach (Player target in targetsToPunch)
                 {
-                    target.SetState(CombatantState.dazed);
-
-                    //calculate trajectory of impact
-                    Vector3 dv = target.transform.position - combatant.transform.position;
-                    if (dv.x > 0) { impactDirection.x = 1; }
-                    if (dv.x < 0) { impactDirection.x = -1; }
-                    if (dv.y > 0) { impactDirection.y = 1; }
-                    if (dv.y < 0) { impactDirection.y = -1; }
-
-                    target.CombatantBody.AddForce(impactDirection, impactForceMagnitude);
-
-                    //Daze target for specified daze duration
-                    Sequence dazeSeq = DOTween.Sequence();
-                    dazeSeq.AppendCallback(new TweenCallback(delegate {
-                        target.SetState(CombatantState.dazed);
-                    }));
-                    dazeSeq.AppendInterval(target.CombatantTemplate.DazeDuration);
-                    dazeSeq.AppendCallback(new TweenCallback(delegate {
-                        target.SetState(CombatantState.playing);
-                    }));
-                    dazeSeq.Play();
+                    PunchCombatant(combatant: combatant, target: target);
                 }
 
                 //clear current targets
                 targetsToPunch.Clear();
 
-				// Set this players properties for punching, for punch duration
-				// TODO: See if I can just make this in Prepare() and reuse it. If it's playing, it would mean CanPunch is false.
-				Sequence seq = DOTween.Sequence();
+                // Set this players properties for punching, for punch duration
+                // TODO: See if I can just make this in Prepare() and reuse it. If it's playing, it would mean CanPunch is false.
+                Sequence seq = DOTween.Sequence();
 				seq.AppendCallback(new TweenCallback(delegate {
                     combatant.SetState(CombatantState.punching);
                     combatant.CombatantBody.Body.gravityScale = bodyGravityModifier;
@@ -196,7 +160,19 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
         {
             if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
             {
-                targetsToPunch.Add(collision.gameObject.GetComponent<Player>());
+                //If already state == punching, punch our new target
+                if(combatant.State == CombatantState.punching)
+                {
+                    PunchCombatant(combatant: combatant, target: collision.gameObject.GetComponent<Player>());
+                }
+                //add target to list for when we punch
+                else
+                {
+                    if (!targetsToPunch.Contains(collision.gameObject.GetComponent<Player>()))
+                    {
+                        targetsToPunch.Add(collision.gameObject.GetComponent<Player>());
+                    }
+                }
             }
         }
 
@@ -208,6 +184,38 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
             }
         }
 
+        /// <summary>
+        /// Apply punch logic on target
+        ///  combatant --PUNCH--> target
+        /// </summary>
+        /// <param name="combatant"></param>
+        /// <param name="target"></param>
+        private void PunchCombatant(Combatant combatant, Combatant target)
+        {
+            //impact direction to send targets
+            Vector2 impactDirection = Vector2.zero;
+            target.SetState(CombatantState.dazed);
+
+            //calculate trajectory of impact
+            Vector3 dv = target.transform.position - combatant.transform.position;
+            if (dv.x > 0) { impactDirection.x = 1; }
+            if (dv.x < 0) { impactDirection.x = -1; }
+            if (dv.y > 0) { impactDirection.y = 1; }
+            if (dv.y < 0) { impactDirection.y = -1; }
+
+            target.CombatantBody.AddForce(impactDirection, impactForceMagnitude);
+
+            //Daze target for specified daze duration
+            Sequence dazeSeq = DOTween.Sequence();
+            dazeSeq.AppendCallback(new TweenCallback(delegate {
+                target.SetState(CombatantState.dazed);
+            }));
+            dazeSeq.AppendInterval(target.CombatantTemplate.DazeDuration);
+            dazeSeq.AppendCallback(new TweenCallback(delegate {
+                target.SetState(CombatantState.playing);
+            }));
+            dazeSeq.Play();
+        }
 
 
         #region UNUSED WRAPPERS

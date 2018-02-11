@@ -19,7 +19,7 @@ TagManager:
   - Ground
   - Player
   - Bounds
-  - 
+  - AttackDetection
   - 
   - 
   - 
@@ -44,6 +44,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: player
+  - name: Environment
+    uniqueID: 2804994769
+    locked: 0
+  - name: Player
     uniqueID: 4079450757
+    locked: 0
+  - name: Player VFX
+    uniqueID: 3740503349
+    locked: 0
+  - name: UI
+    uniqueID: 928591137
     locked: 0
