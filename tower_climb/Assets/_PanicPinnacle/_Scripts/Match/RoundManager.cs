@@ -29,21 +29,20 @@ namespace PanicPinnacle.Match
         [SerializeField]
         private GameObject levelPrefab;
 
-
         //SCENE FIELDS
         private RoundState state;
         private GameObject mainCamera;
         private LevelSettings level;
         private GameObject[] players = new GameObject[4];
 
+        
         // Use this for initialization
         void Start()
         {
             Debug.Log("ROund Manager START");
             //Create initial round settings
             state = RoundState.intro;
-            //Setup our level and all settings
-            Instantiate(levelPrefab, transform);
+            
             level = levelPrefab.GetComponent<LevelSettings>();
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             mainCamera.GetComponent<CameraControls>().boundsCenter = level.BoundsCenter;
@@ -53,16 +52,11 @@ namespace PanicPinnacle.Match
             for (int i=0; i<MatchManager.ActivePlayerCount; i++)
             {
                 players[i] = Instantiate(MatchManager.MatchTemplate.PlayerPrefab, level.Spawns[i]);
-                players[i].GetComponent<Player>().Prepare((PlayerID)i+1, MatchManager.MatchTemplate.PlayerColors[i]);
+                players[i].GetComponent<Player>().Prepare((PlayerID)(i+1), MatchManager.MatchTemplate.PlayerColors[i]);
                 players[i].GetComponent<Player>().SetState(CombatantState.intro);
-                Debug.Log("Player created : " + players[i].ToString());
+                Debug.Log("Player created : " + players[i].ToString() + ", pid: " + players[i].GetComponent<Player>().Playerid);
             }
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            
         }
     }
 
