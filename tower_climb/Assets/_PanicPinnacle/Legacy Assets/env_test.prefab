@@ -193,6 +193,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4503581648919096}
+  - component: {fileID: 114230782990446600}
   m_Layer: 8
   m_Name: env_test
   m_TagString: Untagged
@@ -2043,6 +2044,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.64, y: 0.64}
   m_EdgeRadius: 0
+--- !u!114 &114230782990446600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1224160169828552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea75b0c09b3d804488d9d27519302a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawns:
+  - {fileID: 4539736676926872}
+  - {fileID: 4273909725351420}
+  - {fileID: 4341955362259772}
+  - {fileID: 4767273535665514}
+  start: {fileID: 4011177015093288}
+  end: {fileID: 4312661783303686}
+  boundsCenter: {fileID: 4606940502660600}
+  boundsObjects:
+  - {fileID: 1381995317062988}
+  - {fileID: 1579763231635090}
+  - {fileID: 1146468024611296}
+  - {fileID: 1016249848480038}
+  boundsMoveRate: 0.6
+  boundsEndDistThreshold: 0.5
 --- !u!212 &212033234843404024
 SpriteRenderer:
   m_ObjectHideFlags: 1
