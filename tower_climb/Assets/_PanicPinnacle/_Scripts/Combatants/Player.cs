@@ -16,12 +16,12 @@ namespace PanicPinnacle.Combatants {
         private SpriteRenderer playerBodySprite; 
         //round info
         private Color roundColor;
-        
-        #endregion
+
+		#endregion
 
 
-        #region GETTERS AND SETTERS
-        public Color Color {
+		#region GETTERS AND SETTERS
+		public Color Color {
             get { return roundColor; }
         }
         
@@ -30,6 +30,7 @@ namespace PanicPinnacle.Combatants {
         #region FUNCTIONS
         public void Prepare(PlayerID playerid, Color color)
         {
+			Debug.Log("Preparing Player with ID: " + playerid);
             //setup fields
             this.Playerid = playerid;
             roundColor = color;

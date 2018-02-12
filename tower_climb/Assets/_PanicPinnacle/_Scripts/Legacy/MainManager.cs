@@ -30,7 +30,7 @@ namespace PanicPinnacle.Legacy {
 		public Transform boundsTransform;
 		public GameObject[] boundsObjects;
 		public float boundsMoveRate = 0.5f;
-        public float boundsScaleRate = 0.5f;
+		public float boundsScaleRate = 0.5f;
 		//ui
 		public GameObject[] playerInfoSlots;
 		public Text alertText;
@@ -81,30 +81,30 @@ namespace PanicPinnacle.Legacy {
 				players[i] = Instantiate(playerPrefab, playerSpawns[i]);
 				playerAliveCount++;
 
-                //@CLEANUP need to cast int to PlayerID
-                PlayerID pid;
-                switch (i + 1) {
-                    case 1:
-                        pid = PlayerID.One;
-                        break;
-                    case 2:
-                        pid = PlayerID.Two;
-                        break;
-                    case 3:
-                        pid = PlayerID.Three;
-                        break;
-                    case 4:
-                        pid = PlayerID.Four;
-                        break;
-                    default:
-                        pid = PlayerID.One;
-                        break;
-                }
-                
+				//@CLEANUP need to cast int to PlayerID
+				PlayerID pid;
+				switch (i + 1) {
+					case 1:
+						pid = PlayerID.One;
+						break;
+					case 2:
+						pid = PlayerID.Two;
+						break;
+					case 3:
+						pid = PlayerID.Three;
+						break;
+					case 4:
+						pid = PlayerID.Four;
+						break;
+					default:
+						pid = PlayerID.One;
+						break;
+				}
+
 				players[i].GetComponent<Player>().Prepare(pid, playerColors[i]);
-                //start our player out in intro phase
-                //@TODO might want to manager this better with a RoundManager.SetState(state)
-                players[i].GetComponent<Player>().SetState(CombatantState.intro);
+				//start our player out in intro phase
+				//@TODO might want to manager this better with a RoundManager.SetState(state)
+				players[i].GetComponent<Player>().SetState(CombatantState.intro);
 				//ui
 				playerInfoSlots[i].SetActive(true);
 				playerInfoSlots[i].GetComponentInChildren<SuperTextMesh>().color = players[i].GetComponent<Player>().Color;
@@ -218,6 +218,6 @@ namespace PanicPinnacle.Legacy {
 			}
 		}
 	}
-    
+
 
 }

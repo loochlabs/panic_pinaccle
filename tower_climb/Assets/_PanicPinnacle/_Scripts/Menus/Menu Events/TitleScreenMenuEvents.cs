@@ -21,6 +21,17 @@ namespace PanicPinnacle.UI.Events {
 		public void ExitGame() {
 			Application.Quit();
 		}
-
+		/// <summary>
+		/// A callback that gets run when the Options button is hit on the title screen.
+		/// </summary>
+		public void TransitionToOptions() {
+			Debug.LogError("Not implemented yet.");
+		}
+		/// <summary>
+		/// A callback that gets run when the Credits button is hit on the title screen.
+		/// </summary>
+		public void TransitionToCredits() {
+			Debug.LogError("Not implemented yet.");
+		}
 	}
 }
