@@ -22,9 +22,14 @@ namespace PanicPinnacle.Match
         [SerializeField]
         private GameObject[] boundsObjects;
         [SerializeField]
-        private float boundsMoveRate;
+        private float boundsMoveRate = 0.6f;
         [SerializeField]
-        private float boundsEndDistThreshold;
+        private float boundsEndDistThreshold = 0.5f;
+        [SerializeField]
+        private float boundEndScaleRate = 0.5f;
+
+        //direction of movement during round.playing
+        private Vector3 boundsDirection = Vector3.zero;
         #endregion
 
         #region GETTERS AND SETTERS
@@ -68,6 +73,27 @@ namespace PanicPinnacle.Match
             set { boundsEndDistThreshold = value; }
         }
 
+        public float BoundsEndScaleRate
+        {
+            get { return boundEndScaleRate; }
+            set { boundEndScaleRate = value; }
+        }
+
+        /// <summary>
+        /// Direction of movement from start to end of level.
+        /// </summary>
+        //@TODO find a way to only calculate this at Start()
+        //      maybe during RoundManager.Start()
+        public Vector3 BoundsDirection
+        {
+            get
+            {
+                boundsDirection.x = End.position.x - Start.position.x;
+                boundsDirection.y = End.position.y - Start.position.y;
+                boundsDirection.z = End.position.z - Start.position.z;
+                return boundsDirection.normalized;
+            }
+        }
         #endregion
     }
 }
