@@ -21,16 +21,27 @@ namespace PanicPinnacle.Match
         /// <summary>
         /// The name of the match.
         /// </summary>
-        public string MatchTempalte
+        public string MatchName
         {
-            get
-            {
-                return matchName;
-            }
+            get { return matchName; }
         }
         #endregion
 
         #region FIELDS - MATCH VALUES
+
+        /// <summary>
+        /// The number of rounds in this match.
+        /// </summary>
+        [TabGroup("Player", "Player"), PropertyTooltip("The number of rounds in this match."), SerializeField]
+        private int roundCount = 3;
+        /// <summary>
+        /// The number of rounds in this match.
+        /// </summary>
+        public float RoundCount
+        {
+            get { return roundCount; }
+        }
+
 
         /// <summary>
         /// Player Prefab for entire match.
@@ -43,10 +54,7 @@ namespace PanicPinnacle.Match
         /// </summary>
         public GameObject PlayerPrefab
         {
-            get
-            {
-                return playerPrefab;
-            }
+            get { return playerPrefab; }
         }
 
         /// <summary>
@@ -59,10 +67,7 @@ namespace PanicPinnacle.Match
         /// </summary>
         public float MaxPlayerCount
         {
-            get
-            {
-                return maxPlayerCount;
-            }
+            get { return maxPlayerCount; }
         }
 
         /// <summary>
@@ -75,10 +80,7 @@ namespace PanicPinnacle.Match
         /// </summary>
         public Color[] PlayerColors
         {
-            get
-            {
-                return playerColors;
-            }
+            get { return playerColors; }
         }
 
         #endregion
