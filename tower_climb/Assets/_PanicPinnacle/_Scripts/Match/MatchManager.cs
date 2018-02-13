@@ -31,7 +31,7 @@ namespace PanicPinnacle.Match {
         /// <summary>
         /// Active scores for this currnet match.
         /// </summary>
-        private Dictionary<PlayerID, int> scores = new Dictionary<PlayerID, int>();
+        private Dictionary<PlayerID, List<ScoreType>> scores = new Dictionary<PlayerID, List<ScoreType>>();
 
         /// <summary>
         /// Current round manager.
@@ -90,32 +90,50 @@ namespace PanicPinnacle.Match {
         public static void AddPlayer(PlayerID playerid)
         {
             _instance.activePlayerCount++;
-            _instance.scores[playerid] = 0;
+            _instance.scores[playerid] = new List<ScoreType>();
         }
 
         /// <summary>
-        /// Current point total of players in match.
+        /// Current total score of the player in this match.
         /// </summary>
         /// <param name="playerid">PlayerID of combatant</param>
         /// <returns></returns>
         public static int Score(PlayerID playerid)
         {
-            return _instance.scores[playerid]; 
+            int score = 0;
+            foreach(ScoreType st in _instance.scores[playerid])
+            {
+                switch (st) {
+                    case ScoreType.survival:
+                        score += _instance.matchTemplate.SurvivalScoreValue;
+                        break;
+                    case ScoreType.knockout:
+                        score += _instance.matchTemplate.KnockoutScoreValue;
+                        break;
+                }
+            }
+            return score; 
         }
         
 
         /// <summary>
-        /// Adjust score of player.
+        /// Add to player score with given MatchManager.ScoreType
         /// </summary>
         /// <param name="playerid">PlayerID of combatant</param>
-        /// <param name="ammount">ammount to adjust score of player</param>
-        /// <returns>New score of player</returns>
-        public static int AddScore(PlayerID playerid, int ammount=0)
+        /// <param name="ammount">ScoreType with defined value in MatchTemplate</param>
+        /// <returns>New total score of player</returns>
+        public static int AddScore(PlayerID playerid, ScoreType scoreType)
         {
-            _instance.scores[playerid] += ammount;
-            return _instance.scores[playerid];
+            _instance.scores[playerid].Add(scoreType);
+            return Score(playerid);
         }
         #endregion
 
+    }
+    
+    public enum ScoreType
+    {
+        survival,
+        knockout
     }
 }

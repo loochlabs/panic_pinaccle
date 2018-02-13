@@ -32,14 +32,41 @@ namespace PanicPinnacle.Match
         /// <summary>
         /// The number of rounds in this match.
         /// </summary>
-        [TabGroup("Player", "Player"), PropertyTooltip("The number of rounds in this match."), SerializeField]
+        [TabGroup("Round", "Round"), PropertyTooltip("The number of rounds in this match."), SerializeField]
         private int roundCount = 3;
         /// <summary>
         /// The number of rounds in this match.
         /// </summary>
-        public float RoundCount
+        public int RoundCount
         {
             get { return roundCount; }
+        }
+
+
+        /// <summary>
+        /// Value of survival score bonus
+        /// </summary>
+        [TabGroup("Round", "Round"), PropertyTooltip("Value of survival score bonus"), SerializeField]
+        private int survivaleScoreValue = 5;
+        /// <summary>
+        /// Survival score value.
+        /// </summary>
+        public int SurvivalScoreValue
+        {
+            get { return survivaleScoreValue; }
+        }
+
+        /// <summary>
+        /// Value of knockout score bonus
+        /// </summary>
+        [TabGroup("Round", "Round"), PropertyTooltip("Value of knockout score bonus"), SerializeField]
+        private int knockoutScoreValue = 2;
+        /// <summary>
+        /// Knockout score value.
+        /// </summary>
+        public int KnockoutScoreValue
+        {
+            get { return knockoutScoreValue; }
         }
 
 
