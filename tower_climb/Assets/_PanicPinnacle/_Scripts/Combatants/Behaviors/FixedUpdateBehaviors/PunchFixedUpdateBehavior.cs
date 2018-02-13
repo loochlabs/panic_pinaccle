@@ -158,7 +158,8 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
         /// </summary>
         public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision)
         {
-            if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
+
+            if (collision.tag == "Player" && collision.gameObject.GetComponent<Combatant>() != combatant)
             {
                 //If already state == punching, punch our new target
                 if(combatant.State == CombatantState.punching)
@@ -178,7 +179,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 
         public override void OnTriggerExit2D(Combatant combatant, Collider2D collision)
         {
-            if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>().Playerid != combatant.Playerid)
+            if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>() != combatant)
             {
                 targetsToPunch.Remove(collision.gameObject.GetComponent<Player>());
             }
@@ -223,8 +224,6 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
         public override void OnCollisionEnter2D(Combatant combatant, Collision2D collision) { }
         public override void OnCollisionExit2D(Combatant combatant, Collision2D collision) { }
         public override void OnCollisionStay2D(Combatant combatant, Collision2D collision) { }
-
-        
         #endregion
 
         #region INSPECTOR JUNK

@@ -67,16 +67,6 @@ namespace PanicPinnacle.Combatants {
 		}
 
 		/// <summary>
-		/// PlayerID assigned to this for InputManager. Pull from a manager from Pregame setup.
-		/// </summary>
-		private PlayerID playerid;
-
-		public PlayerID Playerid {
-			get { return playerid; }
-			set { playerid = value; }
-		}
-
-		/// <summary>
 		/// Current orientation of the player.
 		/// This will be the last known directional input.
 		/// </summary>

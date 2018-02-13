@@ -10,9 +10,9 @@ namespace PanicPinnacle.Combatants {
 	/// </summary>
 	public class Player : Combatant {
 
-        #region FIELDS
-        //@TODO might need a cleaner way of assigning nested objects to this
-        [SerializeField]
+		#region FIELDS
+		//@TODO might need a cleaner way of assigning nested objects to this
+		[SerializeField]
         private SpriteRenderer playerBodySprite; 
         //round info
         private Color roundColor;
@@ -28,11 +28,11 @@ namespace PanicPinnacle.Combatants {
         #endregion
 
         #region FUNCTIONS
-        public void Prepare(PlayerID playerid, Color color)
+        public void Prepare(PlayerInputID playerid, Color color)
         {
 			Debug.Log("Preparing Player with ID: " + playerid);
             //setup fields
-            this.Playerid = playerid;
+           
             roundColor = color;
 
             //apply round properties to this

@@ -43,7 +43,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
             //@TODO: might want to make this a functional call when fleshing out Round Manager
             if (collision.gameObject.tag == "Bound")
             {
-                Debug.Log("KNOCKOUT! " + combatant.Playerid);
+                Debug.Log("KNOCKOUT! " + combatant);
                 combatant.SetState(CombatantState.dead);
                 combatant.FinalRoundPosition = MatchManager.Round.PlayerActiveCount--; 
             }
@@ -51,7 +51,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
             //goal check
             if (collision.gameObject.tag == "Goal")
             {
-                Debug.Log("ROUND WIN: " + combatant.Playerid);
+                Debug.Log("ROUND WIN: " + combatant);
                 combatant.SetState(CombatantState.dead); //@TODO: dead for now, might be outro state instead
                 combatant.FinalRoundPosition = ++MatchManager.Round.PlayerCompleteCount;
                 MatchManager.Round.PlayerActiveCount--;

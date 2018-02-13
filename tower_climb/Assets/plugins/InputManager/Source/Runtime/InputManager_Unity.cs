@@ -75,7 +75,7 @@ namespace TeamUtility.IO
 			return Input.GetAccelerationEvent(index);
 		}
 		
-		public static float GetAxis(string name, PlayerID playerID = PlayerID.One)
+		public static float GetAxis(string name, PlayerInputID playerID = PlayerInputID.One)
 		{
 			AxisConfiguration axisConfig = GetAxisConfiguration(playerID, name);
 			if(axisConfig != null)
@@ -89,7 +89,7 @@ namespace TeamUtility.IO
 			}
 		}
 		
-		public static float GetAxisRaw(string name, PlayerID playerID = PlayerID.One)
+		public static float GetAxisRaw(string name, PlayerInputID playerID = PlayerInputID.One)
 		{
 			AxisConfiguration axisConfig = GetAxisConfiguration(playerID, name);
 			if(axisConfig != null)
@@ -103,7 +103,7 @@ namespace TeamUtility.IO
 			}
 		}
 		
-		public static bool GetButton(string name, PlayerID playerID = PlayerID.One)
+		public static bool GetButton(string name, PlayerInputID playerID = PlayerInputID.One)
 		{
 			AxisConfiguration axisConfig = GetAxisConfiguration(playerID, name);
 			if(axisConfig != null)
@@ -117,7 +117,7 @@ namespace TeamUtility.IO
 			}
 		}
 		
-		public static bool GetButtonDown(string name, PlayerID playerID = PlayerID.One)
+		public static bool GetButtonDown(string name, PlayerInputID playerID = PlayerInputID.One)
 		{
 			AxisConfiguration axisConfig = GetAxisConfiguration(playerID, name);
 			if(axisConfig != null)
@@ -131,7 +131,7 @@ namespace TeamUtility.IO
 			}
 		}
 		
-		public static bool GetButtonUp(string name, PlayerID playerID = PlayerID.One)
+		public static bool GetButtonUp(string name, PlayerInputID playerID = PlayerInputID.One)
 		{
 			AxisConfiguration axisConfig = GetAxisConfiguration(playerID, name);
 			if(axisConfig != null)

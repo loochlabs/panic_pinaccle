@@ -10,7 +10,7 @@ namespace PanicPinnacle.Legacy {
 	public class PlayerControls : MonoBehaviour {
 
 		//PUBLIC FIELDS
-		public PlayerID playerid;
+		public PlayerInputID playerid;
 		public SpriteRenderer spriteRenderer;
 		public float moveForce = 365f;
 		public float jumpForce = 1000f;
@@ -343,7 +343,7 @@ namespace PanicPinnacle.Legacy {
 
 			//@DEBUG
 			//Hard Round Reset
-			if (playerid == PlayerID.One && InputManager.GetButton("Start", playerid)) {
+			if (playerid == PlayerInputID.One && InputManager.GetButton("Start", playerid)) {
 				SceneManager.LoadScene(0);
 			}
 		}
@@ -425,16 +425,16 @@ namespace PanicPinnacle.Legacy {
 		public void Init(int playerIndex, PlayerState state, Color c) {
 			switch (playerIndex) {
 				case 1:
-					playerid = PlayerID.One;
+					playerid = PlayerInputID.One;
 					break;
 				case 2:
-					playerid = PlayerID.Two;
+					playerid = PlayerInputID.Two;
 					break;
 				case 3:
-					playerid = PlayerID.Three;
+					playerid = PlayerInputID.Three;
 					break;
 				case 4:
-					playerid = PlayerID.Four;
+					playerid = PlayerInputID.Four;
 					break;
 			}
 

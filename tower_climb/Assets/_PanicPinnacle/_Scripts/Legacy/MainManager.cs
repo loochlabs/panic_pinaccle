@@ -82,22 +82,22 @@ namespace PanicPinnacle.Legacy {
 				playerAliveCount++;
 
 				//@CLEANUP need to cast int to PlayerID
-				PlayerID pid;
+				PlayerInputID pid;
 				switch (i + 1) {
 					case 1:
-						pid = PlayerID.One;
+						pid = PlayerInputID.One;
 						break;
 					case 2:
-						pid = PlayerID.Two;
+						pid = PlayerInputID.Two;
 						break;
 					case 3:
-						pid = PlayerID.Three;
+						pid = PlayerInputID.Three;
 						break;
 					case 4:
-						pid = PlayerID.Four;
+						pid = PlayerInputID.Four;
 						break;
 					default:
-						pid = PlayerID.One;
+						pid = PlayerInputID.One;
 						break;
 				}
 
