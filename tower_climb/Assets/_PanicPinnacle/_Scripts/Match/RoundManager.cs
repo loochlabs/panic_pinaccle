@@ -73,9 +73,10 @@ namespace PanicPinnacle.Match
             for (int i=0; i < MatchManager.ActivePlayers.Count; i++)
             {
                 PlayerID pid = MatchManager.ActivePlayers[i];
-                players[i] = Instantiate(MatchManager.MatchTemplate.PlayerPrefab, level.Spawns[i]);
+                int index = ((int)pid) - 1;
+                players[i] = Instantiate(MatchManager.MatchTemplate.PlayerPrefab, level.Spawns[index]);
                 //@CLEANUP player pid association, error prone?
-                players[i].GetComponent<Player>().Prepare(pid,  MatchManager.MatchTemplate.PlayerColors[((int)pid) - 1]);
+                players[i].GetComponent<Player>().Prepare(pid,  MatchManager.MatchTemplate.PlayerColors[index]);
                 players[i].GetComponent<Player>().SetState(CombatantState.intro);
                 Debug.Log("Player created : " + players[i].ToString() + ", pid: " + players[i].GetComponent<Player>().Playerid);
             }
@@ -203,9 +204,9 @@ namespace PanicPinnacle.Match
                     //@TODO goto Match Tally
                     Debug.Log("ROUND COMPLETE");
                     //@TEMP: print player scores for now
-                    for(int i = 1; i <= 4; i++)
+                    foreach(PlayerID pid in MatchManager.ActivePlayers)
                     {
-                        Debug.Log("Player SCore : " + (PlayerID)i + " | " + MatchManager.Score((PlayerID)i) );
+                        Debug.Log("Player SCore : " + pid + " | " + MatchManager.Score(pid) );
                     }
                     
                     break;
