@@ -103,7 +103,7 @@ namespace PanicPinnacle.Match
                             go.transform.localScale = go.transform.localScale + boundsScale * level.BoundsEndScaleRate;
                             //check for end of bounds scaling
                             //@TODO cleaner check than this magic number
-                            if (go.transform.localScale.magnitude > 200)
+                            if (go.transform.localScale.magnitude > 150)
                             {
                                 SetState(RoundState.outro);
                                 break;
