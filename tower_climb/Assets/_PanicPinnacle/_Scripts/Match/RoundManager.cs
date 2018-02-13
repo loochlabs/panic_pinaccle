@@ -34,8 +34,33 @@ namespace PanicPinnacle.Match
         private GameObject mainCamera;
         private LevelSettings level;
         private GameObject[] players = new GameObject[4];
+        private int playerActiveCount;
+        private int playerCompleteCount;
 
+
+        #region GETTERS AND SETTERS
         
+        public int PlayerActiveCount
+        {
+            get { return playerActiveCount; }
+            set { playerActiveCount = value; }
+        }
+
+        public int PlayerCompleteCount
+        {
+            get { return playerCompleteCount; }
+            set { playerCompleteCount = value; }
+        }
+        #endregion
+
+
+        private void Awake()
+        {
+            //Setup Match Manager
+            MatchManager.Round = this;
+        }
+
+
         // Use this for initialization
         void Start()
         {
@@ -49,7 +74,9 @@ namespace PanicPinnacle.Match
 
             Debug.Log("Player Count: " + MatchManager.ActivePlayerCount);
             //create players from Match Manager settings
-            for (int i=0; i<MatchManager.ActivePlayerCount; i++)
+            playerActiveCount = MatchManager.ActivePlayerCount;
+            playerCompleteCount = 0;
+            for (int i=0; i<playerActiveCount; i++)
             {
                 players[i] = Instantiate(MatchManager.MatchTemplate.PlayerPrefab, level.Spawns[i]);
                 players[i].GetComponent<Player>().Prepare((PlayerID)(i+1), MatchManager.MatchTemplate.PlayerColors[i]);
