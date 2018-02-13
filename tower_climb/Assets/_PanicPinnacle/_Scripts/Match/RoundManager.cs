@@ -76,6 +76,8 @@ namespace PanicPinnacle.Match
                 players[i].GetComponent<Player>().Prepare((PlayerID)(i+1), MatchManager.MatchTemplate.PlayerColors[i]);
                 players[i].GetComponent<Player>().SetState(CombatantState.intro);
                 Debug.Log("Player created : " + players[i].ToString() + ", pid: " + players[i].GetComponent<Player>().Playerid);
+                //@TODO temp add player to MatchManager until pregame is setup
+                MatchManager.AddPlayer((PlayerID)(i + 1));
             }
             
             //Create initial round settings
@@ -200,6 +202,11 @@ namespace PanicPinnacle.Match
                 case RoundState.complete:
                     //@TODO goto Match Tally
                     Debug.Log("ROUND COMPLETE");
+                    //@TEMP: print player scores for now
+                    for(int i = 1; i <= 4; i++)
+                    {
+                        Debug.Log("Player SCore : " + (PlayerID)i + " | " + MatchManager.Score((PlayerID)i) );
+                    }
                     
                     break;
             }

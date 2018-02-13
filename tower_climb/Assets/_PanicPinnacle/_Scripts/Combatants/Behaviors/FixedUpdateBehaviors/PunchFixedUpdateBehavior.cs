@@ -215,6 +215,9 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
                 target.SetState(CombatantState.playing);
             }));
             dazeSeq.Play();
+
+            //keep track of players punching each other
+            target.RecentAggressor = combatant;
         }
 
 

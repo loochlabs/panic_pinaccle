@@ -51,7 +51,12 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
             {
                 Debug.Log("KNOCKOUT! " + combatant.Playerid);
                 combatant.SetState(CombatantState.dead);
-                combatant.FinalRoundPosition = MatchManager.Round.PlayerActiveCount--; 
+                combatant.FinalRoundPosition = MatchManager.Round.PlayerActiveCount--;
+                //keep track of knockout scoring
+                if (combatant.RecentAggressor)
+                {
+                    MatchManager.AddScore(combatant.RecentAggressor.Playerid, ScoreType.knockout);
+                }
             }
 
             //goal check
@@ -61,6 +66,8 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
                 combatant.SetState(CombatantState.dead); //@TODO: dead for now, might be outro state instead
                 combatant.FinalRoundPosition = ++MatchManager.Round.PlayerCompleteCount;
                 MatchManager.Round.PlayerActiveCount--;
+                //add score for this player
+                MatchManager.AddScore(combatant.Playerid, ScoreType.survival);
             }
         }
 
@@ -86,7 +93,6 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
                     //disable any particles during played state
                     dazedParticleObject.SetActive(false); 
                     punchingParticleObject.SetActive(false);
-
                     break;
 
                 case CombatantState.punching:
