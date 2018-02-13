@@ -24,9 +24,8 @@ namespace PanicPinnacle.Match {
         /// Active player count in match.
         /// </summary>
         //@TODO need to account for controls unplugged/plugged in mid match
-        //@TODO might want to associate this with InputManager.player
-        //      instead of raw int count
-        private int activePlayerCount;
+        private List<PlayerID> activePlayers = new List<PlayerID>();
+        //private int activePlayerCount;
 
         /// <summary>
         /// Active scores for this currnet match.
@@ -44,14 +43,15 @@ namespace PanicPinnacle.Match {
 
         private void Awake()
         {
+            //NOTE: THIS SHOULD BE SETUP DURING PREGAME
             //Setup singleton manager
             if(_instance == null)
             {
                 _instance = this;
             }
 
-            //@TODO temp player count
-            _instance.activePlayerCount = 4;
+            //Setup initial players list
+            _instance.activePlayers = new List<PlayerID>();
         }
 
         #endregion
@@ -69,9 +69,9 @@ namespace PanicPinnacle.Match {
         /// <summary>
         /// Active players, decided during pre-game.
         /// </summary>
-        public static int ActivePlayerCount
+        public static List<PlayerID> ActivePlayers
         {
-            get { return _instance.activePlayerCount; }
+            get { return _instance.activePlayers; }
         }
 
         /// <summary>
@@ -89,9 +89,19 @@ namespace PanicPinnacle.Match {
         /// <param name="playerid">PlayerID recognized by controller.</param>
         public static void AddPlayer(PlayerID playerid)
         {
-            _instance.activePlayerCount++;
+            _instance.activePlayers.Add(playerid);
             _instance.scores[playerid] = new List<ScoreType>();
         }
+
+        /// <summary>
+        /// Check if PlayerID exists in the current MatchManager.
+        /// </summary>
+        /// <param name="playerid">PlayerID to check.</param>
+        public static bool HasPlayer(PlayerID playerid)
+        {
+            return _instance.scores.ContainsKey(playerid);
+        }
+
 
         /// <summary>
         /// Current total score of the player in this match.
@@ -126,6 +136,15 @@ namespace PanicPinnacle.Match {
         {
             _instance.scores[playerid].Add(scoreType);
             return Score(playerid);
+        }
+        
+        
+        /// <summary>
+        /// Destroy and cleanup the current MatchManager.
+        /// </summary>
+        public static void Destroy()
+        {
+            Destroy(_instance);
         }
         #endregion
 

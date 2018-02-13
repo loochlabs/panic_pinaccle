@@ -6,5 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_PanicPinnacle/_Scenes/Debug Round 1.unity
+    path: Assets/_PanicPinnacle/_Scenes/testing/Debug Round 1.unity
     guid: 90991594e3c0f064d8c8d3906720a1ec
+  - enabled: 1
+    path: Assets/_PanicPinnacle/_Scenes/testing/MOCK MainMenu.unity
+    guid: 19fb1f1f4a6ed3f49b1dc9f98d7645cb
+  - enabled: 1
+    path: Assets/_PanicPinnacle/_Scenes/testing/MOCK MatchTally.unity
+    guid: ec8d4f0bee964a3469b8a44924bf427f
+  - enabled: 1
+    path: Assets/_PanicPinnacle/_Scenes/testing/MOCK MatchWrapup.unity
+    guid: b4a77da4db3235149aa48c3c8605abc4
+  - enabled: 1
+    path: Assets/_PanicPinnacle/_Scenes/testing/MOCK Pregame.unity
+    guid: da6441ece95d9764c9ef39c749637f6e
+  - enabled: 1
+    path: Assets/_PanicPinnacle/_Scenes/testing/Debug Round 3.unity
+    guid: 42927ab1555ffdf40b6d97e3cca56fd5

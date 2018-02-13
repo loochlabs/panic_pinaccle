@@ -68,16 +68,16 @@ namespace PanicPinnacle.Match
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 
             //create players from Match Manager settings
-            playerActiveCount = MatchManager.ActivePlayerCount;
+            playerActiveCount = MatchManager.ActivePlayers.Count;
             playerCompleteCount = 0;
-            for (int i=0; i<playerActiveCount; i++)
+            for (int i=0; i < MatchManager.ActivePlayers.Count; i++)
             {
+                PlayerID pid = MatchManager.ActivePlayers[i];
                 players[i] = Instantiate(MatchManager.MatchTemplate.PlayerPrefab, level.Spawns[i]);
-                players[i].GetComponent<Player>().Prepare((PlayerID)(i+1), MatchManager.MatchTemplate.PlayerColors[i]);
+                //@CLEANUP player pid association, error prone?
+                players[i].GetComponent<Player>().Prepare(pid,  MatchManager.MatchTemplate.PlayerColors[((int)pid) - 1]);
                 players[i].GetComponent<Player>().SetState(CombatantState.intro);
                 Debug.Log("Player created : " + players[i].ToString() + ", pid: " + players[i].GetComponent<Player>().Playerid);
-                //@TODO temp add player to MatchManager until pregame is setup
-                MatchManager.AddPlayer((PlayerID)(i + 1));
             }
             
             //Create initial round settings
