@@ -88,6 +88,13 @@ namespace PanicPinnacle.Match
         {
             switch (state)
             {
+                case RoundState.intro:
+                    //intro cinematic play
+
+                    //intro scroll from top to bottom
+
+                    break;
+
                 case RoundState.playing:
                     //move bounds and camera up through the level
                     if (Vector3.Distance(level.BoundsCenter.position, level.End.position) > level.BoundsEndDistThreshold)
@@ -110,6 +117,16 @@ namespace PanicPinnacle.Match
                             }
                         }
                     }
+
+                    //check if all players complete or knocked out
+                    if(playerActiveCount == 0)
+                    {
+                        //@TODO handle this is a cinematic pan during SetState()
+                        level.BoundsCenter.position = level.End.position;
+                        SetState(RoundState.allfinished);
+                        break;
+                    }
+
                     break;
             }
         }
@@ -165,7 +182,9 @@ namespace PanicPinnacle.Match
                 case RoundState.pause:
                     break;
 
-                case RoundState.allfail:
+                case RoundState.allfinished:
+                    mainCamera.GetComponent<CameraControls>().focusTransform = level.End;
+                    SetState(RoundState.outro);
                     break;
 
                 case RoundState.outro:
@@ -194,7 +213,7 @@ namespace PanicPinnacle.Match
         countdown = 1,      //3,2,1, panic!
         playing = 2,        //
         pause = 3,          //
-        allfail = 4,        //all players have failed (knocked out of bounds)
+        allfinished = 4,    //all players have finished (knockedout or win)
         outro = 5,          //outro cinematic
         complete = 6        //setup and goto Match Tally scene
     }

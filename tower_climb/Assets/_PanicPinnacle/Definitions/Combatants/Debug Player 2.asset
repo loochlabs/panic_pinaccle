@@ -14,7 +14,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 1368226741602488, guid: 9d6a45939a1897b4f8036258e0c4f028, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -63,6 +64,9 @@ MonoBehaviour:
       Entry: 7
       Data: 4|PanicPinnacle.Combatants.Behaviors.Updates.StateFixedUpdateBehavior,
         Assembly-CSharp
+    - Name: knockoutSpriteObject
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

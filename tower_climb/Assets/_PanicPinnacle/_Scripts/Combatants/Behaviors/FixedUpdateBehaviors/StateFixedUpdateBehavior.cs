@@ -13,12 +13,18 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
     /// </summary>
     public class StateFixedUpdateBehavior : CombatantFixedUpdateBehavior
     {
+        #region TEMPLATE ASSETS
+        [SerializeField]
+        private GameObject knockoutSpriteObject;
+        #endregion
+
+        #region SCENE FIELDS
         //maintain state of combatant from previous frame
         private CombatantState prevConbatantState;
         //particle system in player prefab
         private GameObject dazedParticleObject;
         private GameObject punchingParticleObject;
-
+        #endregion
 
         public override void Prepare(Combatant combatant)
         {
@@ -32,7 +38,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
         public override void FixedUpdate(Combatant combatant)
         {
             if (combatant.State != prevConbatantState) {
-                UpdateState(combatant.State);
+                UpdateState(combatant, combatant.State);
             }
             prevConbatantState = combatant.State;
         }
@@ -64,7 +70,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
         /// Handle updating the current state of combatant.
         /// </summary>
         /// <param name="state">Current state of combatant.</param>
-        private void UpdateState(CombatantState state)
+        private void UpdateState(Combatant combatant, CombatantState state)
         {
             switch (state)
             {
@@ -89,6 +95,13 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
                     //disable all other particle systems
                     dazedParticleObject.SetActive(false);
 
+                    break;
+
+                case CombatantState.dead:
+                    //create a knockout sprite and disable the player
+                    GameObject.Instantiate(knockoutSpriteObject, combatant.transform.position, combatant.transform.localRotation, 
+                        MatchManager.Round.transform);
+                    combatant.gameObject.SetActive(false);
                     break;
             }
         }
