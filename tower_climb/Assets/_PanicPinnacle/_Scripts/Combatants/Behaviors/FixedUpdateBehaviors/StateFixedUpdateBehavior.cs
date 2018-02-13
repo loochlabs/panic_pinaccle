@@ -4,6 +4,7 @@ using PanicPinnacle.Legacy;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PanicPinnacle.Match;
 
 namespace PanicPinnacle.Combatants.Behaviors.Updates
 {
@@ -42,8 +43,9 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
             //@TODO: might want to make this a functional call when fleshing out Round Manager
             if (collision.gameObject.tag == "Bound")
             {
+                Debug.Log("KNOCKOUT! " + combatant.Playerid);
                 combatant.SetState(CombatantState.dead);
-                combatant.FinalRoundPosition = MainManager.playerAliveCount--; //@TEMP: legacy call
+                combatant.FinalRoundPosition = MatchManager.Round.PlayerActiveCount--; 
             }
 
             //goal check
@@ -51,8 +53,8 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
             {
                 Debug.Log("ROUND WIN: " + combatant.Playerid);
                 combatant.SetState(CombatantState.dead); //@TODO: dead for now, might be outro state instead
-                combatant.FinalRoundPosition = ++MainManager.playerCompleteCount; //@TEMP: legacy calls
-                MainManager.playerAliveCount--;
+                combatant.FinalRoundPosition = ++MatchManager.Round.PlayerCompleteCount;
+                MatchManager.Round.PlayerActiveCount--;
             }
         }
 
