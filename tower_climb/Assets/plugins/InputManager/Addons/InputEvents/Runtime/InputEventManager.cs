@@ -71,7 +71,7 @@ namespace TeamUtility.IO
 				_inputEvents[i].Evaluate();
 		}
 		
-		public InputEvent CreateAxisEvent(string name, string axisName, PlayerID playerID = PlayerID.One)
+		public InputEvent CreateAxisEvent(string name, string axisName, PlayerInputID playerID = PlayerInputID.One)
 		{
 			if(!_eventLookup.ContainsKey(name))
 			{
@@ -91,7 +91,7 @@ namespace TeamUtility.IO
 			}
 		}
 		
-		public InputEvent CreateButtonEvent(string name, string buttonName, InputState inputState, PlayerID playerID = PlayerID.One)
+		public InputEvent CreateButtonEvent(string name, string buttonName, InputState inputState, PlayerInputID playerID = PlayerInputID.One)
 		{
 			if(!_eventLookup.ContainsKey(name))
 			{

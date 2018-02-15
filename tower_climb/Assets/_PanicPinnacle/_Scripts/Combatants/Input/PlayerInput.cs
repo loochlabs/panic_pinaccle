@@ -14,23 +14,25 @@ namespace PanicPinnacle.Input {
 	public class PlayerInput : CombatantInput {
 
         #region FIELDS
-
         /// <summary>
         /// Direction of joystick movement axis
         /// </summary>
         private Vector3 direction = Vector3.zero;
+		/// <summary>
+		/// PlayerID assigned to this for InputManager. Pull from a manager from Pregame setup.
+		/// </summary>
+		private PlayerInputID playerInputID;
+		#endregion
 
-        #endregion
-
-        /// <summary>
-        /// Gets the direction of movement for this Player.
-        /// </summary>
-        /// <param name="combatant">The combatant requesting their movement direction.</param>
-        /// <returns>The direction the Player is trying to move towards..</returns>
-        public override Vector3 GetMovementDirection(Combatant combatant) {
+		/// <summary>
+		/// Gets the direction of movement for this Player.
+		/// </summary>
+		/// <param name="combatant">The combatant requesting their movement direction.</param>
+		/// <returns>The direction the Player is trying to move towards..</returns>
+		public override Vector3 GetMovementDirection(Combatant combatant) {
 			// Assemble those two axes into a new vector and return it.
-            direction.x = InputManager.GetAxisRaw("Horizontal", combatant.Playerid);
-            direction.y = InputManager.GetAxisRaw("Vertical", combatant.Playerid);
+            direction.x = InputManager.GetAxisRaw("Horizontal", this.playerInputID);
+            direction.y = InputManager.GetAxisRaw("Vertical", this.playerInputID);
             return direction;
 		}
 		/// <summary>
@@ -50,7 +52,7 @@ namespace PanicPinnacle.Input {
 		/// <returns>Whether or not this combatatant is trying to punch.</returns>
 		public override bool GetPunchInput(Combatant combatant) {
 			// Just get the value of the punch button being pressed.
-			return InputManager.GetButtonDown("PrimaryAction", combatant.Playerid);
+			return InputManager.GetButtonDown("PrimaryAction", this.playerInputID);
 		}
 
 		#region FIELDS - INSPECTOR JUNK

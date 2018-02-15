@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace TeamUtility.IO
 {
-    public enum PlayerID
+    public enum PlayerInputID
     {
         One = 1,
         Two = 2,

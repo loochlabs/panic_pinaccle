@@ -24,13 +24,12 @@ namespace PanicPinnacle.Match {
         /// Active player count in match.
         /// </summary>
         //@TODO need to account for controls unplugged/plugged in mid match
-        private List<PlayerID> activePlayers = new List<PlayerID>();
-        //private int activePlayerCount;
+        private List<PlayerInputID> activePlayers = new List<PlayerInputID>();
 
         /// <summary>
         /// Active scores for this currnet match.
         /// </summary>
-        private Dictionary<PlayerID, List<ScoreType>> scores = new Dictionary<PlayerID, List<ScoreType>>();
+        private Dictionary<PlayerInputID, int> scores = new Dictionary<PlayerInputID, int>();
 
         /// <summary>
         /// Current round manager.
@@ -51,7 +50,7 @@ namespace PanicPinnacle.Match {
             }
 
             //Setup initial players list
-            _instance.activePlayers = new List<PlayerID>();
+            _instance.activePlayers = new List<PlayerInputID>();
         }
 
         #endregion
@@ -69,7 +68,7 @@ namespace PanicPinnacle.Match {
         /// <summary>
         /// Active players, decided during pre-game.
         /// </summary>
-        public static List<PlayerID> ActivePlayers
+        public static List<PlayerInputID> ActivePlayers
         {
             get { return _instance.activePlayers; }
         }
@@ -87,17 +86,17 @@ namespace PanicPinnacle.Match {
         /// Add new player to MatchManager.
         /// </summary>
         /// <param name="playerid">PlayerID recognized by controller.</param>
-        public static void AddPlayer(PlayerID playerid)
+        public static void AddPlayer(PlayerInputID playerid)
         {
             _instance.activePlayers.Add(playerid);
-            _instance.scores[playerid] = new List<ScoreType>();
+            _instance.scores[playerid] = 0;
         }
 
         /// <summary>
         /// Check if PlayerID exists in the current MatchManager.
         /// </summary>
         /// <param name="playerid">PlayerID to check.</param>
-        public static bool HasPlayer(PlayerID playerid)
+        public static bool HasPlayer(PlayerInputID playerid)
         {
             return _instance.scores.ContainsKey(playerid);
         }
@@ -108,21 +107,9 @@ namespace PanicPinnacle.Match {
         /// </summary>
         /// <param name="playerid">PlayerID of combatant</param>
         /// <returns></returns>
-        public static int Score(PlayerID playerid)
+        public static int Score(PlayerInputID playerid)
         {
-            int score = 0;
-            foreach(ScoreType st in _instance.scores[playerid])
-            {
-                switch (st) {
-                    case ScoreType.survival:
-                        score += _instance.matchTemplate.SurvivalScoreValue;
-                        break;
-                    case ScoreType.knockout:
-                        score += _instance.matchTemplate.KnockoutScoreValue;
-                        break;
-                }
-            }
-            return score; 
+            return _instance.scores[playerid]; 
         }
         
 
@@ -130,11 +117,11 @@ namespace PanicPinnacle.Match {
         /// Add to player score with given MatchManager.ScoreType
         /// </summary>
         /// <param name="playerid">PlayerID of combatant</param>
-        /// <param name="ammount">ScoreType with defined value in MatchTemplate</param>
-        /// <returns>New total score of player</returns>
-        public static int AddScore(PlayerID playerid, ScoreType scoreType)
+        /// <param name="ammount">ammount to adjust score of player</param>
+        /// <returns>New score of player</returns>
+        public static int AddScore(PlayerInputID playerid, int ammount=0)
         {
-            _instance.scores[playerid].Add(scoreType);
+            _instance.scores[playerid] += ammount;
             return Score(playerid);
         }
         

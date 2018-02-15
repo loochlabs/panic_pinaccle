@@ -45,7 +45,7 @@ namespace TeamUtility.IO
 		public KeyCode keyCode = KeyCode.None;
 		public InputEventType eventType = InputEventType.Button;
 		public InputState inputState = InputState.Pressed;
-        public PlayerID playerID = PlayerID.One;
+        public PlayerInputID playerID = PlayerInputID.One;
 		public ActionEvent onAction;
 		public AxisEvent onAxis;
 
@@ -60,7 +60,7 @@ namespace TeamUtility.IO
 			keyCode = KeyCode.None;
 			eventType = InputEventType.Key;
 			inputState = InputState.Pressed;
-            playerID = PlayerID.One;
+            playerID = PlayerInputID.One;
 			onAxis = new AxisEvent();
 			onAction = new ActionEvent();
 		}

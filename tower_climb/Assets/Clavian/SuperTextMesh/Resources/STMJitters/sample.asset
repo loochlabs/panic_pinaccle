@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: sample
   m_EditorClassIdentifier: 
   showFoldout: 1
-  amount: 0.8
+  amount: 0.4
   perlin: 0
   perlinTimeMulti: 20
   distance:
