@@ -51,12 +51,12 @@ namespace TeamUtility.IO
 	/// </summary>
 	public delegate bool ScanHandler(ScanResult result);
 
-    public delegate void RemoteUpdateDelegate(PlayerID playerID);
+    public delegate void RemoteUpdateDelegate(PlayerInputID playerID);
 
 	public partial class InputManager : MonoBehaviour
 	{
 		#region [Fields]
-		public event Action<PlayerID> ConfigurationChanged;
+		public event Action<PlayerInputID> ConfigurationChanged;
 		public event Action<string> ConfigurationDirty;
 		public event Action Loaded;
 		public event Action Saved;
@@ -283,10 +283,10 @@ namespace TeamUtility.IO
 		
 		private void Update()
 		{
-            UpdateInputConfiguration(_playerOneConfig, PlayerID.One);
-            UpdateInputConfiguration(_playerTwoConfig, PlayerID.Two);
-            UpdateInputConfiguration(_playerThreeConfig, PlayerID.Three);
-            UpdateInputConfiguration(_playerFourConfig, PlayerID.Four);
+            UpdateInputConfiguration(_playerOneConfig, PlayerInputID.One);
+            UpdateInputConfiguration(_playerTwoConfig, PlayerInputID.Two);
+            UpdateInputConfiguration(_playerThreeConfig, PlayerInputID.Three);
+            UpdateInputConfiguration(_playerFourConfig, PlayerInputID.Four);
 
             if (_playerOneConfig != null)
             {
@@ -300,7 +300,7 @@ namespace TeamUtility.IO
 			}
 		}
 
-        private void UpdateInputConfiguration(InputConfiguration inputConfig, PlayerID playerID)
+        private void UpdateInputConfiguration(InputConfiguration inputConfig, PlayerInputID playerID)
         {
             if (inputConfig != null)
             {
@@ -495,42 +495,42 @@ namespace TeamUtility.IO
 			_scanFlags = ScanFlags.None;
 		}
 
-        private void SetInputConfigurationByPlayerID(PlayerID playerID, InputConfiguration inputConfig)
+        private void SetInputConfigurationByPlayerID(PlayerInputID playerID, InputConfiguration inputConfig)
         {
-            if (playerID == PlayerID.One)
+            if (playerID == PlayerInputID.One)
                 _playerOneConfig = inputConfig;
-            else if (playerID == PlayerID.Two)
+            else if (playerID == PlayerInputID.Two)
                 _playerTwoConfig = inputConfig;
-            else if (playerID == PlayerID.Three)
+            else if (playerID == PlayerInputID.Three)
                 _playerThreeConfig = inputConfig;
-            else if (playerID == PlayerID.Four)
+            else if (playerID == PlayerInputID.Four)
                 _playerFourConfig = inputConfig;
         }
 
-        private InputConfiguration GetInputConfigurationByPlayerID(PlayerID playerID)
+        private InputConfiguration GetInputConfigurationByPlayerID(PlayerInputID playerID)
         {
-            if (playerID == PlayerID.One)
+            if (playerID == PlayerInputID.One)
                 return _playerOneConfig;
-            else if (playerID == PlayerID.Two)
+            else if (playerID == PlayerInputID.Two)
                 return _playerTwoConfig;
-            else if (playerID == PlayerID.Three)
+            else if (playerID == PlayerInputID.Three)
                 return _playerThreeConfig;
-            else if (playerID == PlayerID.Four)
+            else if (playerID == PlayerInputID.Four)
                 return _playerFourConfig;
             else
                 return null;
         }
 
-		private PlayerID? IsInputConfigurationInUse(string name)
+		private PlayerInputID? IsInputConfigurationInUse(string name)
         {
             if(_playerOneConfig != null && _playerOneConfig.name == name)
-				return PlayerID.One;
+				return PlayerInputID.One;
 			if(_playerTwoConfig != null && _playerTwoConfig.name == name)
-				return PlayerID.Two;
+				return PlayerInputID.Two;
 			if(_playerThreeConfig != null && _playerThreeConfig.name == name)
-				return PlayerID.Three;
+				return PlayerInputID.Three;
 			if(_playerFourConfig != null && _playerFourConfig.name == name)
-				return PlayerID.Four;
+				return PlayerInputID.Four;
 
 			return null;
         }
@@ -577,7 +577,7 @@ namespace TeamUtility.IO
 			}
 		}
 
-		private void RaiseInputConfigurationChangedEvent(PlayerID playerID)
+		private void RaiseInputConfigurationChangedEvent(PlayerInputID playerID)
 		{
 			if(ConfigurationChanged != null)
 				ConfigurationChanged(playerID);
@@ -630,7 +630,7 @@ namespace TeamUtility.IO
         /// <summary>
 		/// Returns true if any axis of the input configuration is receiving input.
 		/// </summary>
-        public static bool AnyInput(PlayerID playerID)
+        public static bool AnyInput(PlayerInputID playerID)
         {
             return AnyInput(_instance.GetInputConfigurationByPlayerID(playerID));
         }
@@ -721,7 +721,7 @@ namespace TeamUtility.IO
 			_instance.Initialize();
 		}
 
-        public static void ResetInputConfiguration(PlayerID playerID)
+        public static void ResetInputConfiguration(PlayerInputID playerID)
         {
             InputConfiguration inputConfig = _instance.GetInputConfigurationByPlayerID(playerID);
             if (inputConfig != null)
@@ -740,15 +740,15 @@ namespace TeamUtility.IO
 		[Obsolete("Use the method overload that takes in the player ID", true)]
         public static void SetInputConfiguration(string name)
         {
-            SetInputConfiguration(name, PlayerID.One);
+            SetInputConfiguration(name, PlayerInputID.One);
         }
 
         /// <summary>
         /// Changes the active input configuration.
         /// </summary>
-        public static void SetInputConfiguration(string name, PlayerID playerID)
+        public static void SetInputConfiguration(string name, PlayerInputID playerID)
 		{
-			PlayerID? playerWhoUsesInputConfig = _instance.IsInputConfigurationInUse(name);
+			PlayerInputID? playerWhoUsesInputConfig = _instance.IsInputConfigurationInUse(name);
 
 			if (playerWhoUsesInputConfig.HasValue && playerWhoUsesInputConfig.Value != playerID)
             {
@@ -781,7 +781,7 @@ namespace TeamUtility.IO
 			return null;
 		}
 
-        public static InputConfiguration GetInputConfiguration(PlayerID playerID)
+        public static InputConfiguration GetInputConfiguration(PlayerInputID playerID)
         {
             return _instance.GetInputConfigurationByPlayerID(playerID);
         }
@@ -799,7 +799,7 @@ namespace TeamUtility.IO
 			return null;
 		}
 
-        public static AxisConfiguration GetAxisConfiguration(PlayerID playerID, string axisName)
+        public static AxisConfiguration GetAxisConfiguration(PlayerInputID playerID, string axisName)
         {
             var inputConfig = _instance.GetInputConfigurationByPlayerID(playerID);
             if (inputConfig == null)

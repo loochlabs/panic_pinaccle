@@ -66,6 +66,7 @@ namespace PanicPinnacle.Combatants {
 			}
 		}
 
+<<<<<<< HEAD
         /// <summary>
         /// PlayerID assigned to this for InputManager. Pull from a manager from Pregame setup.
         /// </summary>
@@ -129,6 +130,40 @@ namespace PanicPinnacle.Combatants {
 
         #region UNITY FUNCTIONS
         private void Awake() {
+=======
+		/// <summary>
+		/// Current orientation of the player.
+		/// This will be the last known directional input.
+		/// </summary>
+		private OrientationType orientation;
+
+		public OrientationType Orientation {
+			get { return orientation; }
+			set { orientation = value; }
+		}
+
+		/// <summary>
+		/// All the different states a player can be in a given round.
+		/// </summary>
+		private CombatantState state = CombatantState.none;
+
+		public CombatantState State {
+			get { return state; }
+		}
+
+
+		//represents the player's position/rank this round 
+		private int finalRoundPosition;
+
+		public int FinalRoundPosition {
+			get { return finalRoundPosition; }
+			set { finalRoundPosition = value; }
+		}
+		#endregion
+
+		#region UNITY FUNCTIONS
+		private void Awake() {
+>>>>>>> chris-work
 			// Find the CombatantBody attached to this Combatant.
 			this.combatantBody = GetComponentInChildren<CombatantBody>();
 		}
@@ -142,58 +177,46 @@ namespace PanicPinnacle.Combatants {
 				fixedUpdateBehavior.FixedUpdate(combatant: this);
 			}
 		}
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
-            {
-                fixedUpdateBehavior.OnTriggerEnter2D(combatant: this, collision: collision);
-            }
-        }
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
-            {
-                fixedUpdateBehavior.OnTriggerExit2D(combatant: this, collision: collision);
-            }
-        }
-        private void OnTriggerStay2D(Collider2D collision)
-        {
-            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
-            {
-                fixedUpdateBehavior.OnTriggerStay2D(combatant: this, collision: collision);
-            }
-        }
+		private void OnTriggerEnter2D(Collider2D collision) {
+			foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors) {
+				fixedUpdateBehavior.OnTriggerEnter2D(combatant: this, collision: collision);
+			}
+		}
+		private void OnTriggerExit2D(Collider2D collision) {
+			foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors) {
+				fixedUpdateBehavior.OnTriggerExit2D(combatant: this, collision: collision);
+			}
+		}
+		private void OnTriggerStay2D(Collider2D collision) {
+			foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors) {
+				fixedUpdateBehavior.OnTriggerStay2D(combatant: this, collision: collision);
+			}
+		}
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
-            {
-                fixedUpdateBehavior.OnCollisionEnter2D(combatant: this, collision: collision);
-            }
-        }
-        private void OnCollisionExit2D(Collision2D collision)
-        {
-            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
-            {
-                fixedUpdateBehavior.OnCollisionExit2D(combatant: this, collision: collision);
-            }
-        }
-        private void OnCollisionStay2D(Collision2D collision)
-        {
-            foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors)
-            {
-                fixedUpdateBehavior.OnCollisionStay2D(combatant: this, collision: collision);
-            }
-        }
-        #endregion
+		private void OnCollisionEnter2D(Collision2D collision) {
+			foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors) {
+				fixedUpdateBehavior.OnCollisionEnter2D(combatant: this, collision: collision);
+			}
+		}
+		private void OnCollisionExit2D(Collision2D collision) {
+			foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors) {
+				fixedUpdateBehavior.OnCollisionExit2D(combatant: this, collision: collision);
+			}
+		}
+		private void OnCollisionStay2D(Collision2D collision) {
+			foreach (CombatantFixedUpdateBehavior fixedUpdateBehavior in this.fixedUpdateBehaviors) {
+				fixedUpdateBehavior.OnCollisionStay2D(combatant: this, collision: collision);
+			}
+		}
+		#endregion
 
 
-        #region PREPARATION
-        /// <summary>
-        /// Prepares this combatant with the information stored in a CombatantTemplate.
-        /// </summary>
-        /// <param name="combatantTemplate">The template to use for initialization.</param>
-        public void Prepare(CombatantTemplate combatantTemplate) {
+		#region PREPARATION
+		/// <summary>
+		/// Prepares this combatant with the information stored in a CombatantTemplate.
+		/// </summary>
+		/// <param name="combatantTemplate">The template to use for initialization.</param>
+		public void Prepare(CombatantTemplate combatantTemplate) {
 			// Save a reference to the template, because it will be needed.
 			this.combatantTemplate = combatantTemplate;
 			// Grab the CombatantInput from the template. Remember that this returns as a clone.
@@ -201,29 +224,27 @@ namespace PanicPinnacle.Combatants {
 			// Also grab a list of the FixedUpdateBehaviors. This also preps them for use. Handy!
 			this.fixedUpdateBehaviors = combatantTemplate.GetFixedUpdateBehaviors(combatant: this);
 		}
-        #endregion
+		#endregion
 
-        /// <summary>
-        /// Control state here. Seperate function call for plans on extra functionallity when changing states.
-        /// </summary>
-        /// <param name="state"></param>
-        public void SetState(CombatantState state)
-        {
-            this.state = state;
-        }
-    }
+		/// <summary>
+		/// Control state here. Seperate function call for plans on extra functionallity when changing states.
+		/// </summary>
+		/// <param name="state"></param>
+		public void SetState(CombatantState state) {
+			this.state = state;
+		}
+	}
 
 
-    #region ENUMS
-    public enum CombatantState
-    {
-        none = 0,
-        intro = 1,
-        playing = 2,
-        dead = 3,
-        dazed = 4,
-        punching = 5,
-        outro = 6
-    }
-    #endregion
+	#region ENUMS
+	public enum CombatantState {
+		none = 0,
+		intro = 1,
+		playing = 2,
+		dead = 3,
+		dazed = 4,
+		punching = 5,
+		outro = 6
+	}
+	#endregion
 }

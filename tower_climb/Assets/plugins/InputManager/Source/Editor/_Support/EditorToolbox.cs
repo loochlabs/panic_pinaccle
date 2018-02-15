@@ -113,12 +113,14 @@ namespace TeamUtilityEditor.IO.InputManager
 			
 			if(!EditorPrefs.GetBool(key, false))
 			{
-				string message = "In order to use the InputManager plugin you need to overwrite your project's input settings. Your old input axes will be exported to a file which can be imported at a later time from the File menu.\n\nDo you want to overwrite the input settings now?\nYou can always do it later from the File menu.";
+				Debug.Log("Commenting out the message that asks if you want to overwrite input settings because if I have to see this stupid popup one more fucking time I'm going pop an aneurysm. ~ Chris");
+
+				/*string message = "In order to use the InputManager plugin you need to overwrite your project's input settings. Your old input axes will be exported to a file which can be imported at a later time from the File menu.\n\nDo you want to overwrite the input settings now?\nYou can always do it later from the File menu.";
 				if(EditorUtility.DisplayDialog("Warning", message, "Yes", "No"))
 				{
 					if(OverwriteInputSettings())
 						EditorPrefs.SetBool(key, true);
-				}
+				}*/
 			}
 		}
 		

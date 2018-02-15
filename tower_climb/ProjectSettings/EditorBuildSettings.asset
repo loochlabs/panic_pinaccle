@@ -6,6 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/_PanicPinnacle/_Scenes/testing/Debug Round 1.unity
     guid: 90991594e3c0f064d8c8d3906720a1ec
   - enabled: 1
@@ -23,3 +24,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_PanicPinnacle/_Scenes/testing/Debug Round 3.unity
     guid: 42927ab1555ffdf40b6d97e3cca56fd5
+=======
+    path: Assets/_PanicPinnacle/_Scenes/Rounds/Debug Round 1.unity
+    guid: 90991594e3c0f064d8c8d3906720a1ec
+  - enabled: 1
+    path: Assets/_PanicPinnacle/_Scenes/Menus/TitleScreen.unity
+    guid: 0035cd9d3c5a63a47b45d22f0e427748
+>>>>>>> chris-work

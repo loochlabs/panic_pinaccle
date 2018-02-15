@@ -30,7 +30,11 @@ namespace PanicPinnacle.Match {
         /// <summary>
         /// Active scores for this currnet match.
         /// </summary>
+<<<<<<< HEAD
         private Dictionary<PlayerID, List<ScoreType>> scores = new Dictionary<PlayerID, List<ScoreType>>();
+=======
+        private Dictionary<PlayerInputID, int> scores = new Dictionary<PlayerInputID, int>();
+>>>>>>> chris-work
 
         /// <summary>
         /// Current round manager.
@@ -87,7 +91,7 @@ namespace PanicPinnacle.Match {
         /// Add new player to MatchManager.
         /// </summary>
         /// <param name="playerid">PlayerID recognized by controller.</param>
-        public static void AddPlayer(PlayerID playerid)
+        public static void AddPlayer(PlayerInputID playerid)
         {
             _instance.activePlayers.Add(playerid);
             _instance.scores[playerid] = new List<ScoreType>();
@@ -108,7 +112,7 @@ namespace PanicPinnacle.Match {
         /// </summary>
         /// <param name="playerid">PlayerID of combatant</param>
         /// <returns></returns>
-        public static int Score(PlayerID playerid)
+        public static int Score(PlayerInputID playerid)
         {
             int score = 0;
             foreach(ScoreType st in _instance.scores[playerid])
@@ -130,9 +134,15 @@ namespace PanicPinnacle.Match {
         /// Add to player score with given MatchManager.ScoreType
         /// </summary>
         /// <param name="playerid">PlayerID of combatant</param>
+<<<<<<< HEAD
         /// <param name="ammount">ScoreType with defined value in MatchTemplate</param>
         /// <returns>New total score of player</returns>
         public static int AddScore(PlayerID playerid, ScoreType scoreType)
+=======
+        /// <param name="ammount">ammount to adjust score of player</param>
+        /// <returns>New score of player</returns>
+        public static int AddScore(PlayerInputID playerid, int ammount=0)
+>>>>>>> chris-work
         {
             _instance.scores[playerid].Add(scoreType);
             return Score(playerid);
