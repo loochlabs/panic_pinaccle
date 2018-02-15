@@ -55,7 +55,8 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
                 //keep track of knockout scoring
                 if (combatant.RecentAggressor)
                 {
-                    MatchManager.AddScore(combatant.RecentAggressor.Playerid, ScoreType.knockout);
+                    //TODO calculate this is MatchManager.Round
+                    //MatchManager.AddScore(combatant.RecentAggressor.Playerid, ScoreType.knockout);
                 }
             }
 
@@ -67,7 +68,8 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates
                 combatant.FinalRoundPosition = ++MatchManager.Round.PlayerCompleteCount;
                 MatchManager.Round.PlayerActiveCount--;
                 //add score for this player
-                MatchManager.AddScore(combatant.Playerid, ScoreType.survival);
+                //@TODO calculate this in MatchManager.Round
+                //MatchManager.AddScore(combatant.Playerid, ScoreType.survival);
             }
         }
 

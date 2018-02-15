@@ -87,8 +87,25 @@ namespace PanicPinnacle.Combatants {
 		}
 
 
-		//represents the player's position/rank this round 
-		private int finalRoundPosition;
+        /// <summary>
+        /// Most recent combatant to punch this guy.
+        /// </summary>
+        private Combatant recentAggressor;
+
+        /// <summary>
+        /// Most recent combatant to punch this guy.
+        /// </summary>
+        public Combatant RecentAggressor
+        {
+            get { return recentAggressor; }
+            set { recentAggressor = value; }
+        }
+
+
+        /// <summary>
+        /// Represents the player's position/rank this round 
+        /// </summary>
+        private int finalRoundPosition;
 
 		public int FinalRoundPosition {
 			get { return finalRoundPosition; }
