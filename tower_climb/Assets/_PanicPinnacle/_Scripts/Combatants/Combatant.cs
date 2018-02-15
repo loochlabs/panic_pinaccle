@@ -97,6 +97,34 @@ namespace PanicPinnacle.Combatants {
         {
             get { return state; }
         }
+
+
+        /// <summary>
+        /// Represents the player's position/rank this round 
+        /// </summary>
+        private int finalRoundPosition;
+        /// <summary>
+        /// Represents the player's position/rank this round 
+        /// </summary>
+        public int FinalRoundPosition
+        {
+            get { return finalRoundPosition; }
+            set { finalRoundPosition = value; }
+        }
+    
+        /// <summary>
+        /// Most recent aggressor against this combatant.
+        /// </summary>
+        private Combatant recentAggressor;
+        /// <summary>
+        /// Most recent aggressor against this combatant.
+        /// </summary>
+        public Combatant RecentAggressor
+        {
+            get { return recentAggressor; }
+            set { recentAggressor = value; }
+        }
+
         #endregion
 
         #region UNITY FUNCTIONS

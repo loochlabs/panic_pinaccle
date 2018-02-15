@@ -8,7 +8,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 	/// The standard FixedUpdate behavior. Just checks CombatantInput and executes in response to that.
 	/// </summary>
 	[System.Serializable]
-	public class StandardFixedUpdateBehavior : CombatantFixedUpdateBehavior {
+	public class MovementFixedUpdateBehavior : CombatantFixedUpdateBehavior {
 
         #region FIELDS
         //Track if a jump is active
@@ -33,6 +33,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
             //@TODO add vfx feedback to dazed state
             if (combatant.State == CombatantState.dazed) { return; }
             if (combatant.State == CombatantState.punching) { return; }
+            if (combatant.State == CombatantState.dead) { return; }
 
             //ORIENTATION
             //grab a reference here

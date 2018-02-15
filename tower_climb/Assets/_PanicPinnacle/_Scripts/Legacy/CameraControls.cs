@@ -5,11 +5,11 @@ using UnityEngine;
 namespace PanicPinnacle.Legacy {
 	public class CameraControls : MonoBehaviour {
 
-		public Transform boundsCenter;
+		public Transform focusTransform;
 		public Vector3 offset = new Vector3(0, 0, -10f);
 
 		void Update() {
-			transform.position = boundsCenter.position + offset;
+			transform.position = focusTransform.position + offset;
 		}
 	}
 

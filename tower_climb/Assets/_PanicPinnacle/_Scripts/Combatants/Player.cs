@@ -16,8 +16,7 @@ namespace PanicPinnacle.Combatants {
         private SpriteRenderer playerBodySprite; 
         //round info
         private Color roundColor;
-        //represents the player's position/rank this round 
-        private int finalRoundPosition;
+        
         #endregion
 
 
@@ -26,11 +25,6 @@ namespace PanicPinnacle.Combatants {
             get { return roundColor; }
         }
         
-        public int FinalRoundPosition
-        {
-            get { return finalRoundPosition; }
-            set { finalRoundPosition = value; }
-        }
         #endregion
 
         #region FUNCTIONS

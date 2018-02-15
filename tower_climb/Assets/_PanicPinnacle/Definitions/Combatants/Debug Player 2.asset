@@ -14,7 +14,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 1368226741602488, guid: 9d6a45939a1897b4f8036258e0c4f028, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -32,10 +33,10 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
-      Data: 2|PanicPinnacle.Combatants.Behaviors.Updates.StandardFixedUpdateBehavior,
+      Data: 2|PanicPinnacle.Combatants.Behaviors.Updates.MovementFixedUpdateBehavior,
         Assembly-CSharp
     - Name: 
       Entry: 8
@@ -49,13 +50,23 @@ MonoBehaviour:
       Data: 412.67
     - Name: impactForceMagnitude
       Entry: 4
-      Data: 1462.12
+      Data: 1563.45
     - Name: bodyGravityModifier
       Entry: 4
       Data: 0
     - Name: punchDuration
       Entry: 4
       Data: 0.5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|PanicPinnacle.Combatants.Behaviors.Updates.StateFixedUpdateBehavior,
+        Assembly-CSharp
+    - Name: knockoutSpriteObject
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
