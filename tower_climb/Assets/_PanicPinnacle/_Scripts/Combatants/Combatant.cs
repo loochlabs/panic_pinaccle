@@ -66,6 +66,21 @@ namespace PanicPinnacle.Combatants {
 			}
 		}
         
+        /// <summary>
+        /// Most recent combatant to punch this guy.
+        /// </summary>
+        private Combatant recentAggressor;
+
+        /// <summary>
+        /// Most recent combatant to punch this guy.
+        /// </summary>
+        public Combatant RecentAggressor
+        {
+            get { return recentAggressor; }
+            set { recentAggressor = value; }
+        }
+
+        
 		/// <summary>
 		/// Current orientation of the player.
 		/// This will be the last known directional input.
@@ -87,25 +102,8 @@ namespace PanicPinnacle.Combatants {
 		}
 
 
-        /// <summary>
-        /// Most recent combatant to punch this guy.
-        /// </summary>
-        private Combatant recentAggressor;
-
-        /// <summary>
-        /// Most recent combatant to punch this guy.
-        /// </summary>
-        public Combatant RecentAggressor
-        {
-            get { return recentAggressor; }
-            set { recentAggressor = value; }
-        }
-
-
-        /// <summary>
-        /// Represents the player's position/rank this round 
-        /// </summary>
-        private int finalRoundPosition;
+		//represents the player's position/rank this round 
+		private int finalRoundPosition;
 
 		public int FinalRoundPosition {
 			get { return finalRoundPosition; }
