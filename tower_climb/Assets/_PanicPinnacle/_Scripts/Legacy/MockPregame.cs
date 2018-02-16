@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using PanicPinnacle.Match;
+using PanicPinnacle.Matches.Legacy;
 using TeamUtility.IO;
 
 public class MockPregame : MonoBehaviour {

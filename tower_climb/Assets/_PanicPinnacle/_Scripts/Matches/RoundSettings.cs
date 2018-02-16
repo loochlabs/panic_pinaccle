@@ -45,7 +45,6 @@ namespace PanicPinnacle.Matches {
 				this.roundTimer = value;
 			}
 		}
-		
 		#endregion
 
 	}

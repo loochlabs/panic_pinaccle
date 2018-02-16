@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatantAnimator : MonoBehaviour {
+namespace PanicPinnacle.Combatants {
 
-	// Use this for initialization
-	void Start () {
-		
+	/// <summary>
+	/// Takes care of how the combatant should animate and appear visually.
+	/// </summary>
+	public abstract class CombatantAnimator : MonoBehaviour {
+
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 
-namespace PanicPinnacle.Combatants.Behaviors.Updates {
+namespace PanicPinnacle.Combatants.Behaviors.Legacy {
 
 	/// <summary>
 	/// The behavior that allows a combatant to punch.
@@ -34,30 +34,26 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 		/// </summary>
 		[TabGroup("Punch Behavior", "Attributes"), PropertyTooltip("How long should this punch be active for?"), SerializeField]
 		private float punchDuration = 0.5f;
-        #endregion
+		#endregion
 
-        #region FIELDS - FLAGS AND TIMERS
-        
-        #endregion
+		#region FIELDS - SCENE REFERENCES
+		/// <summary>
+		/// A reference to the GameObject that contains the box used for when this combatant punches.
+		/// </summary>
+		private GameObject punchBoxGameObject;
 
-        #region FIELDS - SCENE REFERENCES
-        /// <summary>
-        /// A reference to the GameObject that contains the box used for when this combatant punches.
-        /// </summary>
-        private GameObject punchBoxGameObject;
+		//collection of targets active in punch hitbox
+		private List<Player> targetsToPunch;
 
-        //collection of targets active in punch hitbox
-        private List<Player> targetsToPunch;
+		//Original grav modifier at beginning of scene
+		private float originalGravModifier;
+		#endregion
 
-        //Original grav modifier at beginning of scene
-        private float originalGravModifier;
-        #endregion
-
-        /// <summary>
-        /// Make sure this behavior has access to the parts of the combatant that are related to the punching and whatnot.
-        /// </summary>
-        /// <param name="combatant">The combatant this behavior is being assigned to.</param>
-        public override void Prepare(Combatant combatant) {
+		/// <summary>
+		/// Make sure this behavior has access to the parts of the combatant that are related to the punching and whatnot.
+		/// </summary>
+		/// <param name="combatant">The combatant this behavior is being assigned to.</param>
+		public override void Prepare(Combatant combatant) {
 			Debug.Log("NOTE: This will fail if the combatant does not have the proper objects as part of their children. See if this can be refactored.");
 			// Look for the punch box in this combatant's children.
 			this.punchBoxGameObject = combatant.gameObject.transform.Find("Punch Box").gameObject;
@@ -69,168 +65,122 @@ namespace PanicPinnacle.Combatants.Behaviors.Updates {
 				//this.punchBoxGameObject.SetActive(false);
 			}
 
-            originalGravModifier = combatant.CombatantBody.Body.gravityScale;
-            targetsToPunch = new List<Player>();
-        }
+			originalGravModifier = combatant.CombatantBody.GravityScale;
+			targetsToPunch = new List<Player>();
+		}
 		/// <summary>
 		/// Checks whether or not this combatant wants to punch and, if they do, does so.
 		/// </summary>
 		/// <param name="combatant">The combatant who owns this behavior.</param>
 		public override void FixedUpdate(Combatant combatant) {
 
-            if (combatant.State == CombatantState.dazed) { return; }
-            if (combatant.State == CombatantState.punching) { return; }
+			if (combatant.State == CombatantStateType.dazed) { return; }
+			if (combatant.State == CombatantStateType.punching) { return; }
 
-            //set Orientation for punch box
-            Vector3 punchboxRotation = Vector3.zero;
-            switch (combatant.Orientation)
-            {
-                case OrientationType.N:
-                    punchboxRotation.z = 0;
-                    break;
-                case OrientationType.W:
-                    punchboxRotation.z = 90;
-                    break;
-                case OrientationType.S:
-                    punchboxRotation.z = 180;
-                    break;
-                case OrientationType.E:
-                    punchboxRotation.z = 270;
-                    break;
-            }
-            punchBoxGameObject.transform.localEulerAngles = punchboxRotation;
+			//set Orientation for punch box
+			Vector3 punchboxRotation = Vector3.zero;
+			switch (combatant.Orientation) {
+				case OrientationType.N:
+					punchboxRotation.z = 0;
+					break;
+				case OrientationType.W:
+					punchboxRotation.z = 90;
+					break;
+				case OrientationType.S:
+					punchboxRotation.z = 180;
+					break;
+				case OrientationType.E:
+					punchboxRotation.z = 270;
+					break;
+			}
+			punchBoxGameObject.transform.localEulerAngles = punchboxRotation;
 
-            // First, see if the combatant is trying to punch and if they are allowed to.
-            if (combatant.CombatantInput.GetPunchInput(combatant: combatant) == true) {
+			// First, see if the combatant is trying to punch and if they are allowed to.
+			if (combatant.CombatantInput.GetPunchInput(combatant: combatant) == true) {
 
-                foreach (Player target in targetsToPunch)
-                {
-                    PunchCombatant(combatant: combatant, target: target);
-                }
+				foreach (Player target in targetsToPunch) {
+					PunchCombatant(combatant: combatant, target: target);
+				}
 
-                //clear current targets
-                targetsToPunch.Clear();
+				//clear current targets
+				targetsToPunch.Clear();
 
-                // Set this players properties for punching, for punch duration
-                // TODO: See if I can just make this in Prepare() and reuse it. If it's playing, it would mean CanPunch is false.
-                Sequence seq = DOTween.Sequence();
+				// Set this players properties for punching, for punch duration
+				// TODO: See if I can just make this in Prepare() and reuse it. If it's playing, it would mean CanPunch is false.
+				Sequence seq = DOTween.Sequence();
 				seq.AppendCallback(new TweenCallback(delegate {
-                    combatant.SetState(CombatantState.punching);
-                    combatant.CombatantBody.Body.gravityScale = bodyGravityModifier;
-                    //this.punchBoxGameObject.SetActive(true);
+					combatant.SetState(CombatantStateType.punching);
+					combatant.CombatantBody.GravityScale = bodyGravityModifier;
+					//this.punchBoxGameObject.SetActive(true);
 				}));
 				seq.AppendInterval(interval: this.punchDuration);
 				seq.AppendCallback(new TweenCallback(delegate {
-                    combatant.SetState(CombatantState.playing);
-                    combatant.CombatantBody.Body.gravityScale = originalGravModifier;
-                    //this.punchBoxGameObject.SetActive(false);
+					combatant.SetState(CombatantStateType.playing);
+					combatant.CombatantBody.GravityScale = originalGravModifier;
+					//this.punchBoxGameObject.SetActive(false);
 				}));
 				seq.Play();
 
-                //reset combatant body velocity
-                combatant.CombatantBody.StopHorizontal();
-                combatant.CombatantBody.StopVertical();
+				//reset combatant body velocity
+				combatant.CombatantBody.StopHorizontal();
+				combatant.CombatantBody.StopVertical();
 
-                //Determine punch propellent direction
-                Vector2 propellDirection = Vector2.zero;
-                switch (combatant.Orientation)
-                {
-                    case OrientationType.N:
-                        propellDirection.y = 1;
-                        break;
-                    case OrientationType.W:
-                        propellDirection.x = -1;
-                        break;
-                    case OrientationType.S:
-                        propellDirection.y = -1;
-                        break;
-                    case OrientationType.E:
-                        propellDirection.x = 1;
-                        break;
-                }
-                combatant.CombatantBody.AddForce(direction: propellDirection, magnitude: propellentForceMagnitude);
+				//Determine punch propellent direction
+				Vector2 propellDirection = Vector2.zero;
+				switch (combatant.Orientation) {
+					case OrientationType.N:
+						propellDirection.y = 1;
+						break;
+					case OrientationType.W:
+						propellDirection.x = -1;
+						break;
+					case OrientationType.S:
+						propellDirection.y = -1;
+						break;
+					case OrientationType.E:
+						propellDirection.x = 1;
+						break;
+				}
+				combatant.CombatantBody.AddForce(direction: propellDirection, magnitude: propellentForceMagnitude);
 			}
 		}
 
         
-        /// <summary>
-        /// Collision detection for punch targets
-        /// </summary>
-        public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision)
-        {
+		/// <summary>
+		/// Apply punch logic on target
+		///  combatant --PUNCH--> target
+		/// </summary>
+		/// <param name="combatant"></param>
+		/// <param name="target"></param>
+		private void PunchCombatant(Combatant combatant, Combatant target) {
+			//impact direction to send targets
+			Vector2 impactDirection = Vector2.zero;
+			target.SetState(CombatantStateType.dazed);
 
-            if (collision.tag == "Player" && collision.gameObject.GetComponent<Combatant>() != combatant)
-            {
-                //If already state == punching, punch our new target
-                if(combatant.State == CombatantState.punching)
-                {
-                    PunchCombatant(combatant: combatant, target: collision.gameObject.GetComponent<Player>());
-                }
-                //add target to list for when we punch
-                else
-                {
-                    if (!targetsToPunch.Contains(collision.gameObject.GetComponent<Player>()))
-                    {
-                        targetsToPunch.Add(collision.gameObject.GetComponent<Player>());
-                    }
-                }
-            }
-        }
+			//calculate trajectory of impact
+			Vector3 dv = target.transform.position - combatant.transform.position;
+			if (dv.x > 0) { impactDirection.x = 1; }
+			if (dv.x < 0) { impactDirection.x = -1; }
+			if (dv.y > 0) { impactDirection.y = 1; }
+			if (dv.y < 0) { impactDirection.y = -1; }
 
-        public override void OnTriggerExit2D(Combatant combatant, Collider2D collision)
-        {
-            if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>() != combatant)
-            {
-                targetsToPunch.Remove(collision.gameObject.GetComponent<Player>());
-            }
-        }
+			target.CombatantBody.AddForce(impactDirection, impactForceMagnitude);
 
-        /// <summary>
-        /// Apply punch logic on target
-        ///  combatant --PUNCH--> target
-        /// </summary>
-        /// <param name="combatant"></param>
-        /// <param name="target"></param>
-        private void PunchCombatant(Combatant combatant, Combatant target)
-        {
-            //impact direction to send targets
-            Vector2 impactDirection = Vector2.zero;
-            target.SetState(CombatantState.dazed);
+			//Daze target for specified daze duration
+			Sequence dazeSeq = DOTween.Sequence();
+			dazeSeq.AppendCallback(new TweenCallback(delegate {
+				target.SetState(CombatantStateType.dazed);
+			}));
+			dazeSeq.AppendInterval(target.CombatantTemplate.DazeDuration);
+			dazeSeq.AppendCallback(new TweenCallback(delegate {
+				target.SetState(CombatantStateType.playing);
+			}));
+			dazeSeq.Play();
+		}
 
-            //calculate trajectory of impact
-            Vector3 dv = target.transform.position - combatant.transform.position;
-            if (dv.x > 0) { impactDirection.x = 1; }
-            if (dv.x < 0) { impactDirection.x = -1; }
-            if (dv.y > 0) { impactDirection.y = 1; }
-            if (dv.y < 0) { impactDirection.y = -1; }
+		#region INSPECTOR JUNK
+		private static string behaviorDescription = "Allows the combatant to use the Punch move.";
 
-            target.CombatantBody.AddForce(impactDirection, impactForceMagnitude);
-
-            //Daze target for specified daze duration
-            Sequence dazeSeq = DOTween.Sequence();
-            dazeSeq.AppendCallback(new TweenCallback(delegate {
-                target.SetState(CombatantState.dazed);
-            }));
-            dazeSeq.AppendInterval(target.CombatantTemplate.DazeDuration);
-            dazeSeq.AppendCallback(new TweenCallback(delegate {
-                target.SetState(CombatantState.playing);
-            }));
-            dazeSeq.Play();
-
-            //keep track of players punching each other
-            target.RecentAggressor = combatant;
-        }
-
-
-        #region UNUSED WRAPPERS
-        public override void OnTriggerStay2D(Combatant combatant, Collider2D collision) { }
-        public override void OnCollisionEnter2D(Combatant combatant, Collision2D collision) { }
-        public override void OnCollisionExit2D(Combatant combatant, Collision2D collision) { }
-        public override void OnCollisionStay2D(Combatant combatant, Collision2D collision) { }
-        #endregion
-
-        #region INSPECTOR JUNK
-        private static string behaviorDescription = "Allows the combatant to use the Punch move.";
 		protected override string InspectorDescription {
 			get {
 				return behaviorDescription;

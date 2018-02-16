@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using PanicPinnacle.UI;
+using PanicPinnacle.Matches;
 
 namespace PanicPinnacle {
 
@@ -58,7 +59,14 @@ namespace PanicPinnacle {
 			// Play that junk.
 			seq.Play();
 		}
-
+		/// <summary>
+		/// Loads the scene that's required from the specified RoundSettings.
+		/// </summary>
+		/// <param name="roundSettings"></param>
+		public void LoadScene(RoundSettings roundSettings) {
+			// For now, just load up the scene that's listed in the round settings.
+			this.LoadScene(sceneName: roundSettings.SceneName, showLoadingText: true, collectGarbageOnTransition: true);
+		}
 		/// <summary>
 		/// A callback to run when the scene is finally loaded.
 		/// </summary>
