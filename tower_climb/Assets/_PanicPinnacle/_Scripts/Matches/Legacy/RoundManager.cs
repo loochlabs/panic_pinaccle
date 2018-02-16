@@ -5,15 +5,10 @@ using PanicPinnacle.Legacy;
 using PanicPinnacle.Combatants;
 using TeamUtility.IO;
 using DG.Tweening;
+using PanicPinnacle.Matches.Legacy;
 
-namespace PanicPinnacle.Match {
+namespace PanicPinnacle.Matches.Legacy {
 	public class RoundManager : MonoBehaviour {
-
-		//ROUND SETTINGS
-		//@TODO create round template for round settings
-		//      -round lengths (intro, outro)
-		[SerializeField]
-		private RoundTemplate roundTemplate;
 
 
 		//LEVEL SETTINGS
@@ -65,8 +60,8 @@ namespace PanicPinnacle.Match {
 			playerCompleteCount = 0;
 			for (int i = 0; i < playerActiveCount; i++) {
 				players[i] = Instantiate(MatchManager.MatchTemplate.PlayerPrefab, level.Spawns[i]);
-				players[i].GetComponent<Player>().Prepare((PlayerInputID)(i + 1), MatchManager.MatchTemplate.PlayerColors[i]);
-				players[i].GetComponent<Player>().SetState(CombatantState.intro);
+				// players[i].GetComponent<Player>().Prepare((PlayerInputID)(i + 1), MatchManager.MatchTemplate.PlayerColors[i]);
+				players[i].GetComponent<Player>().SetState(CombatantStateType.intro);
 				Debug.Log("Player created : " + players[i].ToString() + ", pid: " + players[i].GetComponent<Player>());
 			}
 

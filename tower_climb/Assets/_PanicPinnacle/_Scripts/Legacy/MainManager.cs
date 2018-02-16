@@ -101,13 +101,13 @@ namespace PanicPinnacle.Legacy {
 						break;
 				}
 
-				players[i].GetComponent<Player>().Prepare(pid, playerColors[i]);
+				// players[i].GetComponent<Player>().Prepare(pid, playerColors[i]);
 				//start our player out in intro phase
 				//@TODO might want to manager this better with a RoundManager.SetState(state)
-				players[i].GetComponent<Player>().SetState(CombatantState.intro);
+				players[i].GetComponent<Player>().SetState(CombatantStateType.intro);
 				//ui
 				playerInfoSlots[i].SetActive(true);
-				playerInfoSlots[i].GetComponentInChildren<SuperTextMesh>().color = players[i].GetComponent<Player>().Color;
+				// playerInfoSlots[i].GetComponentInChildren<SuperTextMesh>().color = players[i].GetComponent<Player>().Color;
 
 			}
 		}
@@ -121,7 +121,7 @@ namespace PanicPinnacle.Legacy {
 						roundState = RoundState.PLAYING;
 						currentRoundTime = roundLength_Active;
 						foreach (GameObject p in players) {
-							if (p) { p.GetComponent<Player>().SetState(CombatantState.playing); }
+							if (p) { p.GetComponent<Player>().SetState(CombatantStateType.playing); }
 						}
 					}
 
@@ -135,7 +135,7 @@ namespace PanicPinnacle.Legacy {
 
 						//deactivate players
 						foreach (GameObject p in players) {
-							if (p) { p.GetComponent<Player>().SetState(CombatantState.outro); }
+							if (p) { p.GetComponent<Player>().SetState(CombatantStateType.outro); }
 						}
 					}
 
@@ -188,14 +188,14 @@ namespace PanicPinnacle.Legacy {
 
 			//debug info
 			playerBlastText.text = "";
-
+			/*
 			//player info
 			for (int i = 0; i < players.Length; i++) {
 				if (!players[i]) continue;
 
 				//Display player position for this round if knockedout
-				if (players[i].GetComponent<Player>().State == CombatantState.dead
-					|| players[i].GetComponent<Player>().State == CombatantState.outro) {
+				if (players[i].GetComponent<Player>().State == CombatantStateType.dead
+					|| players[i].GetComponent<Player>().State == CombatantStateType.outro) {
 					switch (players[i].GetComponent<Player>().FinalRoundPosition) {
 						case 1:
 							playerInfoSlots[i].GetComponentInChildren<SuperTextMesh>().text = "1st";
@@ -215,7 +215,7 @@ namespace PanicPinnacle.Legacy {
 					}
 				}
 
-			}
+			}*/
 		}
 	}
 

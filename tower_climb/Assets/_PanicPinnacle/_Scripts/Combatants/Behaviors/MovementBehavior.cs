@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PanicPinnacle.Events;
 
-namespace PanicPinnacle.Combatants.Behaviors.Legacy {
+namespace PanicPinnacle.Combatants.Behaviors {
 
 	/// <summary>
-	/// The standard FixedUpdate behavior. Just checks CombatantInput and executes in response to that.
+	/// Defines how a combatant should move.
 	/// </summary>
 	[System.Serializable]
-	public class MovementFixedUpdateBehavior : CombatantFixedUpdateBehavior {
+	public class MovementBehavior : CombatantBehavior, IUpdateEvent {
 
 		#region FIELDS
 		//Track if a jump is active
@@ -16,6 +17,7 @@ namespace PanicPinnacle.Combatants.Behaviors.Legacy {
 		private bool jumpActive;
 		#endregion
 
+		#region PREPARATION
 		/// <summary>
 		/// So far nothing really needs to be prepared for the standard fixed update behavior.
 		/// </summary>
@@ -23,11 +25,12 @@ namespace PanicPinnacle.Combatants.Behaviors.Legacy {
 		public override void Prepare(Combatant combatant) {
 
 		}
-		/// <summary>
-		/// The standard FixedUpdate behavior. Just checks CombatantInput and executes in response to that.
-		/// </summary>
-		/// <param name="combatant">The combatant who owns this behavior.</param>
-		public override void FixedUpdate(Combatant combatant) {
+		#endregion
+
+		#region INTERFACE IMPLEMENTATION - IUPDATEEVENT
+		public void Update(CombatantEventParams eventParams) {
+			Combatant combatant = eventParams.combatant;
+
 			//DAZED
 			//@TODO add vfx feedback to dazed state
 			if (combatant.State == CombatantStateType.dazed) { return; }
@@ -76,14 +79,14 @@ namespace PanicPinnacle.Combatants.Behaviors.Legacy {
 
 			//add movement force with all conditions
 			combatant.CombatantBody.AddForce(moveDirection);
-
 		}
+		#endregion
 
 		#region INSPECTOR JUNK
-		private static string behaviorDescription = "The standard FixedUpdate behavior. Just checks CombatantInput and executes in response to that.";
+		private static string inspectorDescription = "The behavior that allows the combatant to move around.";
 		protected override string InspectorDescription {
 			get {
-				return behaviorDescription;
+				return inspectorDescription;
 			}
 		}
 		#endregion

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using DG.Tweening;
+using PanicPinnacle.Events;
 
-namespace PanicPinnacle.Combatants.Behaviors.Legacy {
+namespace PanicPinnacle.Combatants.Behaviors {
 
 	/// <summary>
-	/// The behavior that allows a combatant to punch.
-	/// NOTE: REFERENCES THINGS THAT MUST BE IN SCENE. PLEASE REFACTOR THIS LATER.
+	/// The behavior that allows the combatant to punch.
 	/// </summary>
 	[System.Serializable]
-	public class PunchFixedUpdateBehavior : CombatantFixedUpdateBehavior {
+	public class PunchBehavior : CombatantBehavior, IUpdateEvent, IOnTriggerEnter2DEvent, IOnTriggerExit2DEvent {
 
 		#region FIELDS - ATTRIBUTES
 		/// <summary>
@@ -41,18 +41,21 @@ namespace PanicPinnacle.Combatants.Behaviors.Legacy {
 		/// A reference to the GameObject that contains the box used for when this combatant punches.
 		/// </summary>
 		private GameObject punchBoxGameObject;
-
-		//collection of targets active in punch hitbox
+		/// <summary>
+		/// Collection of targets active in punch hitbox
+		/// </summary>
 		private List<Player> targetsToPunch;
-
-		//Original grav modifier at beginning of scene
+		/// <summary>
+		/// Original grav modifier at beginning of scene
+		/// </summary>
 		private float originalGravModifier;
 		#endregion
 
+		#region PREPARATION
 		/// <summary>
-		/// Make sure this behavior has access to the parts of the combatant that are related to the punching and whatnot.
+		/// Preps this behavior for use.
 		/// </summary>
-		/// <param name="combatant">The combatant this behavior is being assigned to.</param>
+		/// <param name="combatant">The combatant that is using this behavior.</param>
 		public override void Prepare(Combatant combatant) {
 			Debug.Log("NOTE: This will fail if the combatant does not have the proper objects as part of their children. See if this can be refactored.");
 			// Look for the punch box in this combatant's children.
@@ -68,11 +71,46 @@ namespace PanicPinnacle.Combatants.Behaviors.Legacy {
 			originalGravModifier = combatant.CombatantBody.GravityScale;
 			targetsToPunch = new List<Player>();
 		}
+		#endregion
+
+		#region PUNCHING
 		/// <summary>
-		/// Checks whether or not this combatant wants to punch and, if they do, does so.
+		/// Apply punch logic on target
+		///  combatant --PUNCH--> target
 		/// </summary>
-		/// <param name="combatant">The combatant who owns this behavior.</param>
-		public override void FixedUpdate(Combatant combatant) {
+		/// <param name="combatant"></param>
+		/// <param name="target"></param>
+		private void PunchCombatant(Combatant combatant, Combatant target) {
+			//impact direction to send targets
+			Vector2 impactDirection = Vector2.zero;
+			target.SetState(CombatantStateType.dazed);
+
+			//calculate trajectory of impact
+			Vector3 dv = target.transform.position - combatant.transform.position;
+			if (dv.x > 0) { impactDirection.x = 1; }
+			if (dv.x < 0) { impactDirection.x = -1; }
+			if (dv.y > 0) { impactDirection.y = 1; }
+			if (dv.y < 0) { impactDirection.y = -1; }
+
+			target.CombatantBody.AddForce(impactDirection, impactForceMagnitude);
+
+			//Daze target for specified daze duration
+			Sequence dazeSeq = DOTween.Sequence();
+			dazeSeq.AppendCallback(new TweenCallback(delegate {
+				target.SetState(CombatantStateType.dazed);
+			}));
+			dazeSeq.AppendInterval(target.CombatantTemplate.DazeDuration);
+			dazeSeq.AppendCallback(new TweenCallback(delegate {
+				target.SetState(CombatantStateType.playing);
+			}));
+			dazeSeq.Play();
+		}
+		#endregion
+
+		#region INTERFACE IMPLEMENTATION - IUPDATEEVENT
+		public void Update(CombatantEventParams eventParams) {
+			// Grabbing a reference so I don't need to rewrite everything.
+			Combatant combatant = eventParams.combatant;
 
 			if (combatant.State == CombatantStateType.dazed) { return; }
 			if (combatant.State == CombatantStateType.punching) { return; }
@@ -144,12 +182,12 @@ namespace PanicPinnacle.Combatants.Behaviors.Legacy {
 				combatant.CombatantBody.AddForce(direction: propellDirection, magnitude: propellentForceMagnitude);
 			}
 		}
+		#endregion
 
-
-		/*/// <summary>
-		/// Collision detection for punch targets
-		/// </summary>
-		public override void OnTriggerEnter2D(Combatant combatant, Collider2D collision) {
+		#region INTERFACE IMPLEMENTATION - IONTRIGGERENTER2DEVENT
+		public void OnTriggerEnter2D(CombatantEventParams eventParams) {
+			Combatant combatant = eventParams.combatant;
+			Collider2D collision = eventParams.collision;
 
 			if (collision.tag == "Player" && collision.gameObject.GetComponent<Combatant>() != combatant) {
 				//If already state == punching, punch our new target
@@ -163,51 +201,25 @@ namespace PanicPinnacle.Combatants.Behaviors.Legacy {
 					}
 				}
 			}
-		}*/
+		}
+		#endregion
 
-		/*public override void OnTriggerExit2D(Combatant combatant, Collider2D collision) {
+		#region INTERFACE IMPLEMENTATION - IONTRIGGEREXIT2DEVENT
+		public void OnTriggerExit2D(CombatantEventParams eventParams) {
+			Combatant combatant = eventParams.combatant;
+			Collider2D collision = eventParams.collision;
+
 			if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>() != combatant) {
 				targetsToPunch.Remove(collision.gameObject.GetComponent<Player>());
 			}
-		}*/
-
-		/// <summary>
-		/// Apply punch logic on target
-		///  combatant --PUNCH--> target
-		/// </summary>
-		/// <param name="combatant"></param>
-		/// <param name="target"></param>
-		private void PunchCombatant(Combatant combatant, Combatant target) {
-			//impact direction to send targets
-			Vector2 impactDirection = Vector2.zero;
-			target.SetState(CombatantStateType.dazed);
-
-			//calculate trajectory of impact
-			Vector3 dv = target.transform.position - combatant.transform.position;
-			if (dv.x > 0) { impactDirection.x = 1; }
-			if (dv.x < 0) { impactDirection.x = -1; }
-			if (dv.y > 0) { impactDirection.y = 1; }
-			if (dv.y < 0) { impactDirection.y = -1; }
-
-			target.CombatantBody.AddForce(impactDirection, impactForceMagnitude);
-
-			//Daze target for specified daze duration
-			Sequence dazeSeq = DOTween.Sequence();
-			dazeSeq.AppendCallback(new TweenCallback(delegate {
-				target.SetState(CombatantStateType.dazed);
-			}));
-			dazeSeq.AppendInterval(target.CombatantTemplate.DazeDuration);
-			dazeSeq.AppendCallback(new TweenCallback(delegate {
-				target.SetState(CombatantStateType.playing);
-			}));
-			dazeSeq.Play();
 		}
+		#endregion
 
 		#region INSPECTOR JUNK
-		private static string behaviorDescription = "Allows the combatant to use the Punch move.";
+		private static string inspectorDescription = "The behavior that allows the combatant to punch.";
 		protected override string InspectorDescription {
 			get {
-				return behaviorDescription;
+				return inspectorDescription;
 			}
 		}
 		#endregion

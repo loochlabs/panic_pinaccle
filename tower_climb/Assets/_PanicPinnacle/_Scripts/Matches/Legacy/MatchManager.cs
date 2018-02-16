@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TeamUtility.IO;
 
-namespace PanicPinnacle.Match { 
+namespace PanicPinnacle.Matches.Legacy { 
 
     public class MatchManager : MonoBehaviour {
 

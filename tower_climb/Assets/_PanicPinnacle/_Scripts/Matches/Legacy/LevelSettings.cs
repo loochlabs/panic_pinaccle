@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PanicPinnacle.Match
+namespace PanicPinnacle.Matches.Legacy
 {
 
     /// <summary>

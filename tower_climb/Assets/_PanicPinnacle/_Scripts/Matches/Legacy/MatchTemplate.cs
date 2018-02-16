@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-namespace PanicPinnacle.Match
+namespace PanicPinnacle.Matches.Legacy
 {
     /// <summary>
 	/// A serialized data structure that contains the information that will be used to initialize a Mathc at runtime.

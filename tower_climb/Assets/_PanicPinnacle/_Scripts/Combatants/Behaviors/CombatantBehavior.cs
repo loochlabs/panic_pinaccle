@@ -1,30 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PanicPinnacle.Combatants;
 using Sirenix.OdinInspector;
 #if UNITY_EDITOR
 using Sirenix.Utilities.Editor;
 #endif
 
-namespace PanicPinnacle.Combatants.Behaviors.Legacy {
+namespace PanicPinnacle.Combatants.Behaviors {
 
 	/// <summary>
-	/// The behavior that should get run on a Combatant every FixedUpdate call.
+	/// A generalized class that can be customized with interfaces that define events. Used for a sort of ad-hoc customization.
+	/// (I realized having a class dedicated specifically to FixedUpdate wasn't going to cut it.)
 	/// </summary>
-	public abstract class CombatantFixedUpdateBehavior {
+	public abstract class CombatantBehavior {
 
 		/// <summary>
 		/// Preps this behavior with the default information it needs to get going.
 		/// </summary>
 		/// <param name="combatant">The combatant this behavior is being assigned to.</param>
 		public abstract void Prepare(Combatant combatant);
-		/// <summary>
-		/// The implementation of FixedUpdate for the combatant.
-		/// </summary>
-		/// <param name="combatant">The combatant who owns this FixedUpdate behavior.</param>
-		public abstract void FixedUpdate(Combatant combatant);
-		
+
 
 		#region FIELDS - INSPECTOR JUNK
 #if UNITY_EDITOR
@@ -44,23 +39,23 @@ namespace PanicPinnacle.Combatants.Behaviors.Legacy {
 
 		#region CLONING
 		/// <summary>
-		/// Clones a CombatantFixedUpdateBehavior and prepares it for use by the specified combatant.
+		/// Clones a CombatantBehavior and prepares it for use by the specified combatant.
 		/// </summary>
-		/// <param name="fixedUpdateBehavior">The CombatantFixedUpdateBehavior to clone.</param>
-		/// <param name="combatant">The combatant this FixedUpdateBehavior is going to be added to.</param>
-		/// <returns>A cloned version of the passed in CombatantFixedUpdateBehavior.</returns>
-		public static CombatantFixedUpdateBehavior CloneAndPrepare(CombatantFixedUpdateBehavior fixedUpdateBehavior, Combatant combatant) {
+		/// <param name="behavior">The CombatantBehavior to clone.</param>
+		/// <param name="combatant">The combatant this CombatantBehavior is going to be added to.</param>
+		/// <returns>A cloned version of the passed in CombatantBehavior.</returns>
+		public static CombatantBehavior CloneAndPrepare(CombatantBehavior behavior, Combatant combatant) {
 			// Create a clone of the behavior.
-			CombatantFixedUpdateBehavior clone = (CombatantFixedUpdateBehavior)fixedUpdateBehavior.MemberwiseClone();
+			CombatantBehavior clone = (CombatantBehavior)behavior.MemberwiseClone();
 			try {
 				// Try to prepare the cloned behavior. There may be behaviors that this will just fail completely on depending on the context.
 				clone.Prepare(combatant: combatant);
 			} catch (System.Exception e) {
 				// Log out the error that was just caught.
-				Debug.LogError("Couldn't prepare CombatantFixedUpdateBehavior for combatant " + combatant.CombatantTemplate.CombatantName + "! Reason: " + e);
+				Debug.LogError("Couldn't prepare CombatantBehavior for combatant " + combatant.CombatantTemplate.CombatantName + "! Reason: " + e);
 				// Since the preparation failed, just make the clone a new instance of an empty behavior.
-				// This means it will remain in the combatant's list, but its functionality will be empty.
-				clone = new EmptyFixedUpdateBehavior();
+				// This means it will remain in the combatant's list, but its functionality will be empty
+				clone = new EmptyBehavior();
 				// Prepare it because why not.
 				clone.Prepare(combatant: combatant);
 			}
@@ -69,5 +64,8 @@ namespace PanicPinnacle.Combatants.Behaviors.Legacy {
 			return clone;
 		}
 		#endregion
+
 	}
+
+
 }
