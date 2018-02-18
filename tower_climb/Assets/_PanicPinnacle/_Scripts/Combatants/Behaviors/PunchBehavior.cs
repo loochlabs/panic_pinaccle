@@ -11,7 +11,7 @@ namespace PanicPinnacle.Combatants.Behaviors {
 	/// The behavior that allows the combatant to punch.
 	/// </summary>
 	[System.Serializable]
-	public class PunchBehavior : CombatantBehavior, IUpdateEvent, IOnTriggerEnter2DEvent, IOnTriggerExit2DEvent {
+	public class PunchBehavior : CombatantBehavior, IFixedUpdateEvent, IOnTriggerEnter2DEvent, IOnTriggerExit2DEvent {
 
 		#region FIELDS - ATTRIBUTES
 		/// <summary>
@@ -108,7 +108,7 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		#endregion
 
 		#region INTERFACE IMPLEMENTATION - IUPDATEEVENT
-		public void Update(CombatantEventParams eventParams) {
+		public void FixedUpdate(CombatantEventParams eventParams) {
 			// Grabbing a reference so I don't need to rewrite everything.
 			Combatant combatant = eventParams.combatant;
 
@@ -189,6 +189,8 @@ namespace PanicPinnacle.Combatants.Behaviors {
 			Combatant combatant = eventParams.combatant;
 			Collider2D collision = eventParams.collision;
 
+			// Debug.Log("ENTER: " + collision);
+
 			if (collision.tag == "Player" && collision.gameObject.GetComponent<Combatant>() != combatant) {
 				//If already state == punching, punch our new target
 				if (combatant.State == CombatantStateType.punching) {
@@ -208,6 +210,8 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		public void OnTriggerExit2D(CombatantEventParams eventParams) {
 			Combatant combatant = eventParams.combatant;
 			Collider2D collision = eventParams.collision;
+
+			// Debug.Log("EXIT: " + collision);
 
 			if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>() != combatant) {
 				targetsToPunch.Remove(collision.gameObject.GetComponent<Player>());

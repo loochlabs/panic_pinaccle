@@ -38,11 +38,11 @@ namespace PanicPinnacle.Combatants {
 		/// The class to be used for this combatant's input.
 		/// Returns as a clone of its state in the CombatantTemplate.
 		/// </summary>
-		public CombatantInput CombatantInput {
-			get {
-				Debug.Log("Cloning CombatantInput from template for " + this.CombatantName);
-				return CombatantInput.Clone(combatantInput: this.combatantInput);
-			}
+		public CombatantInput GetCombatantInput(Combatant combatant) {
+			Debug.Log("Cloning CombatantInput from template for " + this.CombatantName);
+			CombatantInput combatantInput = CombatantInput.Clone(combatantInput: this.combatantInput);
+			combatantInput.Prepare(combatant: combatant);
+			return combatantInput;
 		}
 		/// <summary>
 		/// The behaviors that determine how this combatant acts.

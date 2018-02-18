@@ -24,6 +24,14 @@ namespace PanicPinnacle.Input {
 		private PlayerInputID playerInputID;
 		#endregion
 
+		#region PREPARATION
+		public override void Prepare(Combatant combatant) {
+			// Save the ID of the player input. The enum actually begins at 1, so I need to add one, otherwise the player with the ID of 0 will throw errors.
+			this.playerInputID = (PlayerInputID)(combatant.CombatantID + 1);
+		}
+		#endregion
+
+		#region INPUT GETTERS
 		/// <summary>
 		/// Gets the direction of movement for this Player.
 		/// </summary>
@@ -31,9 +39,9 @@ namespace PanicPinnacle.Input {
 		/// <returns>The direction the Player is trying to move towards..</returns>
 		public override Vector3 GetMovementDirection(Combatant combatant) {
 			// Assemble those two axes into a new vector and return it.
-            direction.x = InputManager.GetAxisRaw("Horizontal", this.playerInputID);
-            direction.y = InputManager.GetAxisRaw("Vertical", this.playerInputID);
-            return direction;
+			direction.x = InputManager.GetAxisRaw("Horizontal", this.playerInputID);
+			direction.y = InputManager.GetAxisRaw("Vertical", this.playerInputID);
+			return direction;
 		}
 		/// <summary>
 		/// Grabs whether or not this combatant is trying to jump.
@@ -41,9 +49,9 @@ namespace PanicPinnacle.Input {
 		/// <param name="combatant">The combatant that may or may not be trying to jump.</param>
 		/// <returns>Whether or not this combatant is trying to jump.</returns>
 		public override bool GetJumpInput(Combatant combatant) {
-            // Just get the value of the jump button being pressed.
-            //return InputManager.GetButtonDown("Jump", combatant.Playerid);
-            return false; //@TEMP;
+			// Just get the value of the jump button being pressed.
+			//return InputManager.GetButtonDown("Jump", combatant.Playerid);
+			return false; //@TEMP;
 		}
 		/// <summary>
 		/// Grabs whether or not this combatant is trying to punch.
@@ -54,6 +62,9 @@ namespace PanicPinnacle.Input {
 			// Just get the value of the punch button being pressed.
 			return InputManager.GetButtonDown("PrimaryAction", this.playerInputID);
 		}
+		#endregion
+
+
 
 		#region FIELDS - INSPECTOR JUNK
 		/// <summary>

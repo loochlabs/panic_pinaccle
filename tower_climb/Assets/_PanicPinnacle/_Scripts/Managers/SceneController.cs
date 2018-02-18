@@ -64,9 +64,14 @@ namespace PanicPinnacle {
 		/// </summary>
 		/// <param name="roundSettings"></param>
 		public void LoadScene(RoundSettings roundSettings) {
+			// Add OnRoundStart to the callbacks that need to get run when the scene gets loaded.
+			SceneManager.sceneLoaded += this.OnRoundStart;
 			// For now, just load up the scene that's listed in the round settings.
 			this.LoadScene(sceneName: roundSettings.SceneName, showLoadingText: true, collectGarbageOnTransition: true);
 		}
+		#endregion
+
+		#region ONSCENELOADED CALLBACKS
 		/// <summary>
 		/// A callback to run when the scene is finally loaded.
 		/// </summary>
@@ -79,9 +84,19 @@ namespace PanicPinnacle {
 			// Remember to remove this callback once the scene has been loaded.
 			SceneManager.sceneLoaded -= OnSceneLoaded;
 		}
+		/// <summary>
+		/// An extra callback that gets called when a round begins.
+		/// </summary>
+		/// <param name="scene"></param>
+		/// <param name="mode"></param>
+		private void OnRoundStart(Scene scene, LoadSceneMode mode) {
+			// This is going to be run when a round is loaded. Call the RoundController and tell it to get moving.
+			// The required info should have been passed to it already.
+			RoundController.instance.StartRound();
+			// Remove OnRoundStart from the callbacks.
+			SceneManager.sceneLoaded -= this.OnRoundStart;
+		}
 		#endregion
-
-
 
 	}
 

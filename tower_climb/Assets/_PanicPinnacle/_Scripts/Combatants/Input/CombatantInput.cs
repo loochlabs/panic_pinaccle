@@ -6,6 +6,15 @@ using Sirenix.OdinInspector;
 #if UNITY_EDITOR
 using Sirenix.Utilities.Editor;
 #endif
+
+
+/**
+		 * 
+		 * TODO: If needed, refactor this so I don't need to make a new functino like GetJumpInput() or GetPunchInput() every time I have a new thing that requires input.
+		 * Not critical but maybe a little annoying?? idk
+		 * 
+		 * */
+
 namespace PanicPinnacle.Input {
 
 	/// <summary>
@@ -14,13 +23,15 @@ namespace PanicPinnacle.Input {
 	/// </summary>
 	public abstract class CombatantInput {
 
-		/**
-		 * 
-		 * TODO: If needed, refactor this so I don't need to make a new functino like GetJumpInput() or GetPunchInput() every time I have a new thing that requires input.
-		 * Not critical but maybe a little annoying?? idk
-		 * 
-		 * */
+		#region PREPARATION
+		/// <summary>
+		/// Preps this class to be used by the given combatant.
+		/// </summary>
+		/// <param name="combatant">The combatant who is going to be using </param>
+		public abstract void Prepare(Combatant combatant);
+		#endregion
 
+		#region INPUT GETTERS
 		/// <summary>
 		/// Grabs the direction of movement that this combatant is attempting to move towards.
 		/// </summary>
@@ -39,6 +50,7 @@ namespace PanicPinnacle.Input {
 		/// <param name="combatant">The combatant that may or may not be trying to punch.</param>
 		/// <returns>Whether or not this combatatant is trying to punch.</returns>
 		public abstract bool GetPunchInput(Combatant combatant);
+		#endregion
 
 
 		#region FIELDS - INSPECTOR JUNK

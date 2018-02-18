@@ -109,7 +109,6 @@ namespace PanicPinnacle.Combatants {
 				return this.combatantBody;
 			}
 		}
-        
 		/// <summary>
 		/// The class that handles the visuals/animations of the combatant.
 		/// </summary>
@@ -124,12 +123,40 @@ namespace PanicPinnacle.Combatants {
 		}
 		#endregion
 
+		#region FIELDS - STANDARD EVENT PARAMS
+		/// <summary>
+		/// A "standard" params object that exists so I don't need to create a new one every single frame.
+		/// Only use this for events that don't require items or collisions.
+		/// May refactor so this isn't needed, but I'll see.
+		/// </summary>
+		private CombatantEventParams standardCombatantEventParams;
+		/// <summary>
+		/// A "standard" params object that exists so I don't need to create a new one every single frame.
+		/// Only use this for events that don't require items or collisions.
+		/// May refactor so this isn't needed, but I'll see.
+		/// </summary>
+		public CombatantEventParams StandardCombatantEventParams {
+			get {
+				if (this.standardCombatantEventParams == null) {
+					this.standardCombatantEventParams = new CombatantEventParams(combatant: this, item: null, collision: null);
+				}
+				return this.standardCombatantEventParams;
+			}
+		}
+		#endregion
+
 		#region UNITY FUNCTIONS
 		private void Awake() {
 			// Find the CombatantBody attached to this Combatant.
 			this.combatantBody = GetComponent<CombatantPhysicsBody>();
 			// Also get the animator.
 			this.combatantAnimator = GetComponent<CombatantAnimator>();
+		}
+		private void Update() {
+			this.CallEvent<IUpdateEvent>(eventParams: this.StandardCombatantEventParams);
+		}
+		private void FixedUpdate() {
+			this.CallEvent<IFixedUpdateEvent>(eventParams: this.StandardCombatantEventParams);
 		}
 		#endregion
 
@@ -140,10 +167,12 @@ namespace PanicPinnacle.Combatants {
 		/// <param name="combatantTemplate">The template to use for initialization.</param>
 		/// <param name="combatantId">The ID that will be assigned to this combatant..</param>
 		public virtual void Prepare(CombatantTemplate combatantTemplate, int combatantId) {
+			// Save the combatant ID. It will be needed during the preparation process as well.
+			this.combatantId = combatantId;
 			// Save a reference to the template, because it will be needed.
 			this.combatantTemplate = combatantTemplate;
 			// Grab the CombatantInput from the template. Remember that this returns as a clone.
-			this.combatantInput = combatantTemplate.CombatantInput;
+			this.combatantInput = combatantTemplate.GetCombatantInput(combatant: this);
 			// Grab the behaviors from the template. This also preps them for use.
 			this.combatantBehaviors = combatantTemplate.GetCombatantBehaviors(combatant: this);
 		}

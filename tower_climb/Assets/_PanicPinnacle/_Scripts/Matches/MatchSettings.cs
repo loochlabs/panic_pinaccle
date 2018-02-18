@@ -25,7 +25,7 @@ namespace PanicPinnacle.Matches {
 		/// The queue of rounds that should be run for this match.
 		/// </summary>
 		[TabGroup("Match Settings", "Rounds"), PropertyTooltip("The queue of rounds that should be run for this match."), SerializeField]
-		public Queue<RoundSettings> roundSettings = new Queue<RoundSettings>();
+		public List<RoundSettings> roundSettings = new List<RoundSettings>();
 		#endregion
 
 

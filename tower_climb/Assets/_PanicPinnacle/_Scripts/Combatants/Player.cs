@@ -11,6 +11,7 @@ namespace PanicPinnacle.Combatants {
 	[RequireComponent(typeof(PlayerPhysicsBody)), RequireComponent(typeof(PlayerAnimator))]
 	public class Player : Combatant {
 
+
 		#region PREPARATION
 		/// <summary>
 		/// Prepares this combatant with the information stored in a CombatantTemplate.
@@ -23,9 +24,29 @@ namespace PanicPinnacle.Combatants {
 			Debug.Log("Preparing Player with ID: " + combatantId);
 			//setup fields
 
-			Debug.LogWarning("SET THE COLOR");
+			
 			Debug.LogWarning("SET THE BODY");
-			// roundColor = color;
+
+			Debug.LogWarning("PLEASE REMOVE THIS SWTICH CASE LATER WHEN I FIX UP THE ANIMATORS");
+			Color color = Color.white;
+			switch (combatantId) {
+				case 0:
+					color = Color.red;
+					break;
+				case 1:
+					color = Color.blue;
+					break;
+				case 2:
+					color = Color.yellow;
+					break;
+				case 3:
+					color = Color.green;
+					break;
+				default:
+					Debug.LogError("Coudn't set color. Fix this later.");
+					break;
+			}
+			this.GetComponentInChildren<SpriteRenderer>().color = color;
 
 			//apply round properties to this
 			// playerBodySprite.color = color;
