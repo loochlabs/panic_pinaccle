@@ -47,6 +47,12 @@ namespace PanicPinnacle.Matches {
 		}
 		#endregion
 
+		/*#region CLONING
+		public static RoundSettings Clone(RoundSettings roundSettings) {
+			return (RoundSettings)roundSettings.MemberwiseClone();
+		}
+		#endregion*/
+
 	}
 
 }

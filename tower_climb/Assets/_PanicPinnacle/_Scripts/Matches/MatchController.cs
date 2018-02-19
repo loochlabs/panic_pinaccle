@@ -4,6 +4,7 @@ using UnityEngine;
 using PanicPinnacle.Combatants;
 using System.Linq;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 namespace PanicPinnacle.Matches {
 
@@ -21,13 +22,19 @@ namespace PanicPinnacle.Matches {
 		private Queue<RoundSettings> roundSettings = new Queue<RoundSettings>();
 		/// <summary>
 		/// The settings that define this current match.
+		/// Needs to be serialized because I'm a fucking idiot.
 		/// </summary>
+		[OdinSerialize, HideInInspector]
 		private MatchSettings currentMatchSettings;
 		/// <summary>
 		/// The settings that define this current match.
 		/// </summary>
 		public MatchSettings CurrentMatchSettings {
 			get {
+				if (this.currentMatchSettings == null) {
+					Debug.LogError("CurrentMatchSettings is null! Using the DebugMatchSettings.");
+					this.currentMatchSettings = this.DebugMatchSettings;
+				}
 				return this.currentMatchSettings;
 			}
 		}
@@ -41,10 +48,18 @@ namespace PanicPinnacle.Matches {
 		[TabGroup("Debug", "Debug"), SerializeField]
 		private bool debugMode = false;
 		/// <summary>
-		/// Some debug match settings to use if.. in debug mode.
+		/// Some debug match settings. Good if I just need to have something ready to go.
 		/// </summary>
-		[TabGroup("Debug", "Debug"), ShowIf("debugMode"), SerializeField]
+		[TabGroup("Debug", "Debug"), OdinSerialize]
 		private MatchSettings debugMatchSettings = new MatchSettings();
+		/// <summary>
+		/// Some debug match settings. Good if I just need to have something ready to go.
+		/// </summary>
+		public MatchSettings DebugMatchSettings {
+			get {
+				return this.debugMatchSettings;
+			}
+		}
 		#endregion
 
 		#region UNITY FUNCTIONS
@@ -74,7 +89,7 @@ namespace PanicPinnacle.Matches {
 			// IS THIS NEEDED IF I'M SAVING THE MATCH SETINGS ANYWAY? CHANGE LATER IF IT CREATES PROBLEMS
 			this.roundSettings = new Queue<RoundSettings>(matchSettings.roundSettings);
 			// Start up the first round by dequeuing it from the RoundSettings queue.
-			RoundController.instance.PrepareRound(matchSettings: matchSettings, roundSettings: this.DequeueNextRound());
+			RoundController.instance.PrepareRound(matchSettings: this.CurrentMatchSettings, roundSettings: this.DequeueNextRound());
 		}
 		/// <summary>
 		/// Starts the match in debug mode. FIX THIS LATER I DONT LIKE IT

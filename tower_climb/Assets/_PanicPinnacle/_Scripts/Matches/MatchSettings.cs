@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using PanicPinnacle.Combatants;
+using Sirenix.Serialization;
 
 namespace PanicPinnacle.Matches {
 
@@ -17,7 +18,15 @@ namespace PanicPinnacle.Matches {
 		/// The templates to use for instansiating combatants with at the beginning of a match.
 		/// </summary>
 		[TabGroup("Match Settings", "Combatants"), PropertyTooltip("The templates to use for instansiating combatants with at the beginning of a match."), SerializeField]
-		public List<CombatantTemplate> combatantTemplates = new List<CombatantTemplate>();
+		private List<CombatantTemplate> combatantTemplates = new List<CombatantTemplate>();
+		/// <summary>
+		/// The templates to use for instansiating combatants with at the beginning of a match.
+		/// </summary>
+		public List<CombatantTemplate> CombatantTemplates {
+			get {
+				return this.combatantTemplates;
+			}
+		}
 		#endregion
 
 		#region FIELDS - ROUNDS
@@ -28,6 +37,17 @@ namespace PanicPinnacle.Matches {
 		public List<RoundSettings> roundSettings = new List<RoundSettings>();
 		#endregion
 
+		/*
+		#region CLONING
+		public static MatchSettings Clone(MatchSettings matchSettings) {
+			// Create a clone of
+			MatchSettings clonedSettings = (MatchSettings)matchSettings.MemberwiseClone();
+			for (int i = 0; i < clonedSettings.roundSettings.Count; i++) {
+				clonedSettings.roundSettings[i] = RoundSettings.Clone(matchSettings.roundSettings[i]);
+			}
+			return clonedSettings;
+		}
+		#endregion*/
 
 	}
 }

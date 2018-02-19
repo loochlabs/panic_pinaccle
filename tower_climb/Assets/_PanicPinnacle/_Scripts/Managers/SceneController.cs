@@ -90,6 +90,16 @@ namespace PanicPinnacle {
 		/// <param name="scene"></param>
 		/// <param name="mode"></param>
 		private void OnRoundStart(Scene scene, LoadSceneMode mode) {
+			// Debug.Break();
+			/*Sequence seq = DOTween.Sequence();
+			seq.AppendInterval(0.4f);
+			seq.AppendCallback(new TweenCallback(delegate {
+				// This is going to be run when a round is loaded. Call the RoundController and tell it to get moving.
+				// The required info should have been passed to it already.
+				RoundController.instance.StartRound();
+				// Remove OnRoundStart from the callbacks.
+				SceneManager.sceneLoaded -= this.OnRoundStart;
+			}));*/
 			// This is going to be run when a round is loaded. Call the RoundController and tell it to get moving.
 			// The required info should have been passed to it already.
 			RoundController.instance.StartRound();

@@ -8,3 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_PanicPinnacle/_Scenes/Chris - Debug Round 4.unity
     guid: de4f0823e775f72468f49532f1d51b16
+  - enabled: 1
+    path: Assets/_PanicPinnacle/_Scenes/Menus/PreGame.unity
+    guid: be564ef393a7e3d4f9885a5c9e0eb829
