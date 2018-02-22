@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TeamUtility.IO;
+using PanicPinnacle.Matches;
 
 namespace PanicPinnacle.Combatants {
 
@@ -28,29 +29,11 @@ namespace PanicPinnacle.Combatants {
 			Debug.LogWarning("SET THE BODY");
 
 			Debug.LogWarning("PLEASE REMOVE THIS SWTICH CASE LATER WHEN I FIX UP THE ANIMATORS");
-			Color color = Color.white;
-			switch (combatantId) {
-				case 0:
-					color = Color.red;
-					break;
-				case 1:
-					color = Color.blue;
-					break;
-				case 2:
-					color = Color.yellow;
-					break;
-				case 3:
-					color = Color.green;
-					break;
-				default:
-					Debug.LogError("Coudn't set color. Fix this later.");
-					break;
-			}
-			this.GetComponentInChildren<SpriteRenderer>().color = color;
-
-			//apply round properties to this
-			// playerBodySprite.color = color;
-		}
+            //Prepare round properties of this player
+			GetComponentInChildren<SpriteRenderer>().color =
+                MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerColors[combatantId];
+            
+        }
 
 		#endregion
 	}

@@ -81,16 +81,24 @@ namespace PanicPinnacle.Matches {
 		#endregion
 
 		#region PREPARATION
-		/// <summary>
-		/// Preps the match by initializing the controller with a collection of settings.
-		/// </summary>
-		/// <param name="matchSettings"></param>
-		public void StartMatch(MatchTemplate matchTemplate) {
-			Debug.Log("PREPARING MATCH");
+
+        /// <summary>
+        /// Prepare match with all of match template settings.
+        /// </summary>
+        /// <param name="matchTemplate"></param>
+        public void PrepareMatch(MatchTemplate matchTemplate)
+        {
+            Debug.Log("PREPARING MATCH");
 
             //@TODO need a clone of the matchTemplate
             currentMatchSettings = new MatchSettings(matchTemplate);
+        }
 
+		/// <summary>
+		/// Starts the match by initializing the controller with the collection of settings.
+		/// </summary>
+		/// <param name="matchSettings"></param>
+		public void StartMatch() {
             Debug.Log("STARTING NEW ROUND");
             GotoNextPhase();
         }

@@ -35,21 +35,16 @@ namespace PanicPinnacle.Matches {
         /// </summary>
         [TabGroup("Match Settings", "Combatants"), PropertyTooltip("The templates to use for instansiating combatants with at the beginning of a match."), SerializeField]
 
-		private List<CombatantTemplate> combatantTemplates = new List<CombatantTemplate>();
+		private Dictionary<int, CombatantTemplate> combatantTemplates = new Dictionary<int, CombatantTemplate>();
 		/// <summary>
 		/// The templates to use for instansiating combatants with at the beginning of a match.
 		/// </summary>
-		public List<CombatantTemplate> CombatantTemplates {
+		public Dictionary<int, CombatantTemplate> CombatantTemplates {
 			get {
 				return this.combatantTemplates;
 			}
 		}
 		#endregion
-
-        #region FIELDS - COMBATANT SETTINGS
-        [TabGroup("Match Settings", "Colors"), PropertyTooltip("Colors for the combatants during the match."), SerializeField]
-        public List<Color> combatantColors = new List<Color>();
-        #endregion
 
         #region FIELDS - ROUNDS
         /// <summary>
@@ -57,6 +52,48 @@ namespace PanicPinnacle.Matches {
         /// </summary>
         [TabGroup("Match Settings", "Rounds"), PropertyTooltip("The queue of rounds that should be run for this match."), SerializeField]
 		public Queue<RoundSettings> roundSettings = new Queue<RoundSettings>();
+        #endregion
+
+        #region PREGAME FUNCTIONS
+
+        /// <summary>
+        /// Add a combatant during the pregame.
+        /// </summary>
+        /// <param name="combatantId">ID of combatant user input</param>
+        /// <param name="templateId">ID of combatant template. 0 is our default template</param>
+        public bool AddCombatant(int combatantId, int templateId = 0)
+        {
+            if(combatantTemplates.Count >= matchTemplate.MaxPlayerCount)
+            {
+                Debug.Log("MAXIMUM Players have already joined.");
+                return false;
+            }
+            else
+            {
+                combatantTemplates[combatantId] = matchTemplate.CombatantTemplates[templateId];
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Remove a combatant during the pregame.
+        /// </summary>
+        /// <param name="combatantId">ID of combatant user input</param>
+        public bool RemoveCombatant(int combatantId)
+        {
+            if (combatantTemplates.ContainsKey(combatantId))
+            {
+                Debug.Log("Removing Player " + combatantId);
+                combatantTemplates.Remove(combatantId);
+                return true;
+            }
+            else
+            {
+                Debug.Log("Trying to remove Player " + combatantId + " but does not exist.");
+                return false;
+            }
+        }
+
         #endregion
 
         #region CONSTRUCTORS
@@ -79,9 +116,7 @@ namespace PanicPinnacle.Matches {
                 //@TODO dont remove for now, but we may want to avoid duplicate round settings
                 //matchTemplate.RoundSettings.RemoveAt(index);
             }
-
-            this.combatantTemplates = matchTemplate.CombatantTemplates;
-            this.combatantColors = matchTemplate.PlayerColors;
+            
             this.roundSettings = roundSettings;
         }
         

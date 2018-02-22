@@ -100,10 +100,15 @@ namespace PanicPinnacle {
 				// Remove OnRoundStart from the callbacks.
 				SceneManager.sceneLoaded -= this.OnRoundStart;
 			}));*/
+
+
+            //STEVE: call this from RoundController.Start bc we need to wait for instantiation of Level Prefab to properlly setup players here.
 			// This is going to be run when a round is loaded. Call the RoundController and tell it to get moving.
 			// The required info should have been passed to it already.
 			RoundController.instance.StartRound();
-			// Remove OnRoundStart from the callbacks.
+			
+            
+            // Remove OnRoundStart from the callbacks.
 			SceneManager.sceneLoaded -= this.OnRoundStart;
 		}
 		#endregion

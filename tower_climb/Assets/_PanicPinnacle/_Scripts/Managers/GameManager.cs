@@ -31,6 +31,9 @@ namespace PanicPinnacle {
         #region DEBUG
         [TabGroup("Debug", "Debug"), SerializeField]
         private bool debugMode = false;
+        
+        [TabGroup("Debug", "Debug"), SerializeField]
+        private int debugPlayerCount = 4;
         #endregion
 
         #region UNITY FUNCTIONS
@@ -43,6 +46,9 @@ namespace PanicPinnacle {
 				// This is intentional.
 				Destroy(this.gameObject);
 			}
+
+            
+            
 		}
 
         private void Start()
@@ -50,6 +56,14 @@ namespace PanicPinnacle {
             //@TEMP debug info
             if (debugMode)
             {
+                PrepareMatch();
+
+                //debug players for this match to bypass pregame setup
+                for (int i =0; i < debugPlayerCount; i++)
+                {
+                    MatchController.instance.CurrentMatchSettings.AddCombatant(i);
+                }
+                
                 StartMatch();
             }
         }
@@ -57,14 +71,28 @@ namespace PanicPinnacle {
         #endregion
 
         /// <summary>
+        /// Prepare new match with MatchTemplate.
+        /// This is ideally called from TileScreen > "New Game"
+        /// Breaking up PREP and START for more control with Debug Settings
+        /// </summary>
+        public void PrepareMatch()
+        {
+            MatchController.instance.PrepareMatch(matchTemplate);
+        }
+
+        /// <summary>
         /// Top level call for starting a new match. This should be the single entry point for the entire Match/Game.
         /// </summary>
         public void StartMatch()
         {
-            MatchController.instance.StartMatch(matchTemplate);
+            MatchController.instance.StartMatch();
         }
 
-	}
+
+        
+
+
+    }
 
 
 }
