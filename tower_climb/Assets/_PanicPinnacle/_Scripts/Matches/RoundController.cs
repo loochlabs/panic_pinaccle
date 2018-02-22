@@ -64,10 +64,9 @@ namespace PanicPinnacle.Matches {
 		/// <summary>
 		/// Prepares and loads the round with the settings provided.
 		/// </summary>
-		/// <param name="matchSettings">The settings used for preparing the match, on the off chance they're needed.</param>
 		/// <param name="roundSettings">The settings to use when preparing this round.</param>
-		public void PrepareRound(MatchSettings matchSettings, RoundSettings roundSettings) {
-			Debug.Log("STARTING ROUND");
+		public void PrepareRound(RoundSettings roundSettings) {
+			Debug.Log("PREPARING ROUND");
 			// Save the settings, in case they are needed.
 			this.currentRoundSettings = roundSettings;
 			// Use the scene controller to load up the next scene.
@@ -78,7 +77,7 @@ namespace PanicPinnacle.Matches {
 		/// </summary>
 		/// <param name="matchSettings"></param>
 		/// <param name="roundSettings"></param>
-		public void PrepareDebugRound(MatchSettings matchSettings, RoundSettings roundSettings) {
+		public void PrepareDebugRound(RoundSettings roundSettings) {
 			// Save the settings, in case they are needed.
 			this.currentRoundSettings = roundSettings;
 			RoundController.instance.StartRound();

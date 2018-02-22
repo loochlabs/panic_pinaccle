@@ -67,7 +67,10 @@ namespace PanicPinnacle.Menus {
 
 				// If Player 1 hit start, begin the match with the settings listed above.
 				if (InputManager.GetButton("Start", PlayerInputID.One)) {
-					MatchController.instance.StartMatch(matchSettings: MatchController.instance.DebugMatchSettings);
+                    //@TEMP while we rework the Pregame setup
+                    GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().StartMatch();
+
+					//MatchController.instance.StartMatch(matchSettings: MatchController.instance.DebugMatchSettings);
 					break;
 				}
 

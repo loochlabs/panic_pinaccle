@@ -21,11 +21,18 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   matchName: matchDebug1
+  matchTallySceneName: MOCK MatchTally
+  roundCount: 3
+  survivaleScoreValue: 5
+  knockoutScoreValue: 2
   playerPrefab: {fileID: 1063099046413674, guid: 4655c3cf0ac79a84a9829d92b107660d,
     type: 2}
+  combatantTemplates: []
   maxPlayerCount: 4
   playerColors:
   - {r: 0.9098039, g: 0.41960785, b: 0.3137255, a: 1}
   - {r: 0.29411766, g: 0.85490197, b: 1, a: 1}
   - {r: 1, g: 0.85490197, b: 0.34509805, a: 1}
   - {r: 0.7294118, g: 0.3254902, b: 1, a: 1}
+  roundSettings:
+  - {fileID: 11400000, guid: 0d5046a9db029c7418b2bb1181f8b99e, type: 2}

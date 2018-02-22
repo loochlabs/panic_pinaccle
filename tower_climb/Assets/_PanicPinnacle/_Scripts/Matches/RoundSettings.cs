@@ -5,11 +5,11 @@ using Sirenix.OdinInspector;
 
 namespace PanicPinnacle.Matches {
 
-	/// <summary>
-	/// A specific collection of settings that define any given round.
-	/// </summary>
-	[System.Serializable]
-    public class RoundSettings {
+    /// <summary>
+    /// A specific collection of settings that define any given round.
+    /// </summary>
+    [CreateAssetMenu(fileName = "New RoundSettings", menuName = "Panic Pinnacle/Round Settings")]
+    public class RoundSettings : SerializedScriptableObject{
 
 		#region FIELDS - GENERAL SETTINGS
 		

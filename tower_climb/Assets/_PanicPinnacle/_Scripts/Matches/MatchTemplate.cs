@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using PanicPinnacle.Combatants;
 
-namespace PanicPinnacle.Matches.Legacy
+namespace PanicPinnacle.Matches
 {
     /// <summary>
 	/// A serialized data structure that contains the information that will be used to initialize a Mathc at runtime.
@@ -28,6 +29,26 @@ namespace PanicPinnacle.Matches.Legacy
         #endregion
 
         #region FIELDS - MATCH VALUES
+
+        /// <summary>
+		/// The name of the scene for the Match Tally
+		/// </summary>
+		[TabGroup("Match Tally"), PropertyTooltip("The name of the scene for the Match Tally."), SerializeField]
+        private string matchTallySceneName = "";
+        /// <summary>
+        /// The name of the scene for the Match Tally.
+        /// </summary>
+        public string MatchTallySceneName
+        {
+            get
+            {
+                return matchTallySceneName;
+            }
+            set
+            {
+                matchTallySceneName = value;
+            }
+        }
 
         /// <summary>
         /// The number of rounds in this match.
@@ -85,6 +106,20 @@ namespace PanicPinnacle.Matches.Legacy
         }
 
         /// <summary>
+        /// Combatant templates.
+        /// </summary>
+        [TabGroup("Player", "Player"), PropertyTooltip("Combatant Templates."), SerializeField]
+        private List<CombatantTemplate> combatantTemplates;
+
+        /// <summary>
+        /// Combatant templates.
+        /// </summary>
+        public List<CombatantTemplate> CombatantTemplates
+        {
+            get { return combatantTemplates; }
+        }
+
+        /// <summary>
         /// The default speed that this combatant should be able to run at.
         /// </summary>
         [TabGroup("Player", "Player"), PropertyTooltip("The maximum number of players in a match."), SerializeField]
@@ -101,13 +136,26 @@ namespace PanicPinnacle.Matches.Legacy
         /// Player Colors
         /// </summary>
         [TabGroup("Player", "Player"), PropertyTooltip("The colors of players during a match."), SerializeField]
-        private Color[] playerColors = new Color[4];
+        private List<Color> playerColors = new List<Color>();
         /// <summary>
         /// The default speed that this combatant should be able to run at.
         /// </summary>
-        public Color[] PlayerColors
+        public List<Color> PlayerColors
         {
             get { return playerColors; }
+        }
+
+        /// <summary>
+        /// List of predifined Round Settings to pull from when creating queue of rounds for a match
+        /// </summary>
+        [TabGroup("Round", "Round"), PropertyTooltip("List of predifined Round Settings to pull from when creating queue of rounds for a match"), SerializeField]
+        private List<RoundSettings> roundSettings = new List<RoundSettings>();
+        /// <summary>
+        /// List of predifined Round Settings to pull from when creating queue of rounds for a match
+        /// </summary>
+        public List<RoundSettings> RoundSettings
+        {
+            get { return roundSettings; }
         }
 
         #endregion

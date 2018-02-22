@@ -14,13 +14,9 @@ namespace PanicPinnacle.Matches {
 	public class MatchController : SerializedMonoBehaviour {
 
 		public static MatchController instance;
-
-		#region FIELDS - SETTINGS
-		/// <summary>
-		/// The queue of rounds that should be run for this match.
-		/// </summary>
-		private Queue<RoundSettings> roundSettings = new Queue<RoundSettings>();
-		/// <summary>
+        
+        #region FIELDS - SETTINGS
+        //STEVE : no need for round settings here. This info can be held in currentMatchSettings.
 		/// The settings that define this current match.
 		/// Needs to be serialized because I'm a fucking idiot.
 		/// </summary>
@@ -51,7 +47,7 @@ namespace PanicPinnacle.Matches {
 		/// Some debug match settings. Good if I just need to have something ready to go.
 		/// </summary>
 		[TabGroup("Debug", "Debug"), OdinSerialize]
-		private MatchSettings debugMatchSettings = new MatchSettings();
+		private MatchSettings debugMatchSettings;
 		/// <summary>
 		/// Some debug match settings. Good if I just need to have something ready to go.
 		/// </summary>
@@ -60,10 +56,18 @@ namespace PanicPinnacle.Matches {
 				return this.debugMatchSettings;
 			}
 		}
-		#endregion
+        #endregion
 
-		#region UNITY FUNCTIONS
-		private void Awake() {
+        #region RUNTIME FIELDS
+        /// <summary>
+        /// Current phase of this match.
+        /// </summary>
+        private MatchPhase currentPhase;
+        #endregion
+
+
+        #region UNITY FUNCTIONS
+        private void Awake() {
 			if (instance == null) {
 				instance = this;
 			}
@@ -81,16 +85,16 @@ namespace PanicPinnacle.Matches {
 		/// Preps the match by initializing the controller with a collection of settings.
 		/// </summary>
 		/// <param name="matchSettings"></param>
-		public void StartMatch(MatchSettings matchSettings) {
+		public void StartMatch(MatchTemplate matchTemplate) {
 			Debug.Log("PREPARING MATCH");
-			// Save the match settings, as they'll be needed.
-			this.currentMatchSettings = matchSettings;
-			// Copy over the queue of round settings.
-			// IS THIS NEEDED IF I'M SAVING THE MATCH SETINGS ANYWAY? CHANGE LATER IF IT CREATES PROBLEMS
-			this.roundSettings = new Queue<RoundSettings>(matchSettings.roundSettings);
-			// Start up the first round by dequeuing it from the RoundSettings queue.
-			RoundController.instance.PrepareRound(matchSettings: this.CurrentMatchSettings, roundSettings: this.DequeueNextRound());
-		}
+
+            //@TODO need a clone of the matchTemplate
+            currentMatchSettings = new MatchSettings(matchTemplate);
+
+            Debug.Log("STARTING NEW ROUND");
+            GotoNextPhase();
+        }
+
 		/// <summary>
 		/// Starts the match in debug mode. FIX THIS LATER I DONT LIKE IT
 		/// </summary>
@@ -98,32 +102,65 @@ namespace PanicPinnacle.Matches {
 		private void StartDebugMatch(MatchSettings matchSettings) {
 			// Save the match settings, as they'll be needed.
 			this.currentMatchSettings = matchSettings;
+
+
 			// Copy over the queue of round settings.
 			// IS THIS NEEDED IF I'M SAVING THE MATCH SETINGS ANYWAY? CHANGE LATER IF IT CREATES PROBLEMS
-			this.roundSettings = new Queue<RoundSettings>(matchSettings.roundSettings);
+			//this.roundSettings = new Queue<RoundSettings>(matchSettings.roundSettings);
 			// Start up the first round by dequeuing it from the RoundSettings queue.
-			RoundController.instance.PrepareDebugRound(matchSettings: matchSettings, roundSettings: this.DequeueNextRound());
+			//RoundController.instance.PrepareDebugRound(matchSettings: matchSettings, roundSettings: this.DequeueNextRound());
 		}
 		#endregion
 
 		#region ROUND MANAGEMENT
-		/// <summary>
-		/// Pops and returns the next RoundSettings in line for this match.
-		/// </summary>
-		/// <returns>The RoundSettings that define the next round for the match.</returns>
-		private RoundSettings DequeueNextRound() {
+
+        /// <summary>
+        /// Single call for easily going to the next round/phase of the match.
+        /// @TODO: control flow from ROUND > TALLY > ROUND > COMPLETE_TALLY
+        /// </summary>
+        private void GotoNextPhase()
+        {
+            //Check for end of match
+            if (currentMatchSettings.roundSettings.Count == 0) {
+                Debug.Log("MATCH COMPLETE : going to final Match Tally!");
+                SceneController.instance.LoadScene(currentMatchSettings.MatchTemplate.MatchTallySceneName);
+            }
+
+            //go to next round
+            int currentRoundIndex = currentMatchSettings.MatchTemplate.RoundCount - currentMatchSettings.roundSettings.Count + 1;
+            Debug.Log("Going to Round " + currentRoundIndex);
+            RoundController.instance.PrepareRound(roundSettings: DequeueNextRound());
+        }
+
+        /// <summary>
+        /// Pops and returns the next RoundSettings in line for this match.
+        /// </summary>
+        /// <returns>The RoundSettings that define the next round for the match.</returns>
+        private RoundSettings DequeueNextRound() {
 			Debug.Log("Popping next RoundSettings from the MatchSettings queue.");
-			return this.roundSettings.Dequeue();
+			return currentMatchSettings.roundSettings.Dequeue();
 		}
 		/// <summary>
 		/// Peeks at the next RoundSettings in line for this match.
 		/// </summary>
 		/// <returns>The RoundSettings that define the next round for the match.</returns>
 		private RoundSettings PeekNextRound() {
-			return this.roundSettings.Peek();
+			return currentMatchSettings.roundSettings.Peek();
 		}
 		#endregion
 
 	}
+
+    /// <summary>
+    /// Phases for state of a match.
+    /// </summary>
+    public enum MatchPhase {
+        pregame,
+        round,
+        tally,
+        endtally,
+        debug
+    }
+
 
 }
