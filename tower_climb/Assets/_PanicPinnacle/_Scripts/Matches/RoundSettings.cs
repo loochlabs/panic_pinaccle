@@ -9,7 +9,7 @@ namespace PanicPinnacle.Matches {
 	/// A specific collection of settings that define any given round.
 	/// </summary>
 	[System.Serializable]
-	public class RoundSettings {
+    public class RoundSettings {
 
 		#region FIELDS - GENERAL SETTINGS
 		
