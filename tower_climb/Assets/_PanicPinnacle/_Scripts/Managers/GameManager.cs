@@ -14,6 +14,8 @@ namespace PanicPinnacle {
 		private void Awake() {
 			if (instance == null) {
 				instance = this;
+				// I FORGOT TO ADD DONTDESTROYONLOAD IM A FUCKING IDIOT LMAO
+				DontDestroyOnLoad(this);
 			} else {
 				// Destorying this object if the instance is already set will also destroy new instances of its children.
 				// This is intentional.

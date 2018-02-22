@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using PanicPinnacle.Combatants;
+using Sirenix.Serialization;
 
 namespace PanicPinnacle.Matches {
 
@@ -17,8 +18,17 @@ namespace PanicPinnacle.Matches {
 		/// The templates to use for instansiating combatants with at the beginning of a match.
 		/// </summary>
 		[TabGroup("Match Settings", "Combatants"), PropertyTooltip("The templates to use for instansiating combatants with at the beginning of a match."), SerializeField]
-		public List<CombatantTemplate> combatantTemplates = new List<CombatantTemplate>();
-        #endregion
+
+		private List<CombatantTemplate> combatantTemplates = new List<CombatantTemplate>();
+		/// <summary>
+		/// The templates to use for instansiating combatants with at the beginning of a match.
+		/// </summary>
+		public List<CombatantTemplate> CombatantTemplates {
+			get {
+				return this.combatantTemplates;
+			}
+		}
+		#endregion
 
         #region FIELDS - COMBATANT SETTINGS
         [TabGroup("Match Settings", "Colors"), PropertyTooltip("Colors for the combatants during the match."), SerializeField]
@@ -32,7 +42,7 @@ namespace PanicPinnacle.Matches {
         [TabGroup("Match Settings", "Rounds"), PropertyTooltip("The queue of rounds that should be run for this match."), SerializeField]
 		public List<RoundSettings> roundSettings = new List<RoundSettings>();
 		#endregion
-
+        
 
 	}
 }

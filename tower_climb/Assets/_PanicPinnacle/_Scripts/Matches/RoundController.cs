@@ -92,13 +92,16 @@ namespace PanicPinnacle.Matches {
 		private List<Combatant> PrepareCombatants(List<Combatant> combatants, MatchSettings matchSettings, RoundSettings roundSettings) {
 			// Go through each of the combatants that were provided.
 			for (int i = 0; i < combatants.Count; i++) {
+				Debug.Log("COUNT: " + matchSettings.CombatantTemplates.Count);
 				// If there are more combatants than there are templates, destroy the extra combatants within the scene.
 				// This will happen in cases where there are less people playing than there are combatants defined within the scene.
-				if (i >= matchSettings.combatantTemplates.Count) {
+				if (i >= matchSettings.CombatantTemplates.Count) {
+					Debug.Log("DESTROYING combatant: " + i);
 					Destroy(combatants[i]);
 				} else {
+					Debug.Log("PREPARING combatant: " + i);
 					// If the index can be used in both the combatants list and the templates list, prep the combatant with that template.
-					combatants[i].Prepare(combatantTemplate: matchSettings.combatantTemplates[i], combatantId: i);
+					combatants[i].Prepare(combatantTemplate: matchSettings.CombatantTemplates[i], combatantId: i);
 				}
 			}
 			// When done, return the modified list of combatants.
@@ -116,6 +119,9 @@ namespace PanicPinnacle.Matches {
 				combatants: new List<Combatant>(GameObject.FindObjectsOfType<Combatant>()),
 				matchSettings: MatchController.instance.CurrentMatchSettings,
 				roundSettings: this.currentRoundSettings);
+
+			// Look for the level settings somewhere within this scene.
+			this.level = GameObject.FindObjectOfType<LevelSettings>();
 
 			// Call the legacy function that sets the state and starts the round.
 			this.LegacySetState(state: RoundState.intro);
