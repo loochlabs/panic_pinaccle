@@ -44,7 +44,10 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Environment
+  - name: Backgrounds
+    uniqueID: 2239235909
+    locked: 0
+  - name: Game Environment
     uniqueID: 2804994769
     locked: 0
   - name: Player
@@ -52,6 +55,9 @@ TagManager:
     locked: 0
   - name: Player VFX
     uniqueID: 3740503349
+    locked: 0
+  - name: Foreground
+    uniqueID: 2321833771
     locked: 0
   - name: UI
     uniqueID: 928591137
