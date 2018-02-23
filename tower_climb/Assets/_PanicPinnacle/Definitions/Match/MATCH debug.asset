@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de5317e4853a8ec44b3d1a420cbaf9ba, type: 3}
-  m_Name: MatchTemplate Debug 1
+  m_Name: MATCH debug
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -25,9 +25,10 @@ MonoBehaviour:
   roundCount: 3
   survivaleScoreValue: 5
   knockoutScoreValue: 2
-  playerPrefab: {fileID: 1063099046413674, guid: 4655c3cf0ac79a84a9829d92b107660d,
+  playerPrefab: {fileID: 1063099046413674, guid: 254730344beb872469f4556ddf8e5225,
     type: 2}
-  combatantTemplates: []
+  combatantTemplates:
+  - {fileID: 11400000, guid: 608b8335f79f824408012f5f909349ca, type: 2}
   maxPlayerCount: 4
   playerColors:
   - {r: 0.9098039, g: 0.41960785, b: 0.3137255, a: 1}

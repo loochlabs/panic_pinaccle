@@ -32,7 +32,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 4
     - Name: 
       Entry: 7
       Data: 2|PanicPinnacle.Combatants.Behaviors.MovementBehavior, Assembly-CSharp
@@ -54,6 +54,18 @@ MonoBehaviour:
     - Name: punchDuration
       Entry: 4
       Data: 0.5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|AnimationBehavior, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|ParticleBehavior, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
