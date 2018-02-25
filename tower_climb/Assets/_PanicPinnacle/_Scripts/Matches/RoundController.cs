@@ -21,15 +21,15 @@ namespace PanicPinnacle.Matches {
 		/// </summary>
 		private RoundSettings currentRoundSettings;
 		#endregion
-
+        
 		#region FIELDS - LEGACY FIELDS
 		// Mostly just have these here so I can add in old code.
 		// Likely will replace later but it isn't important enough that I need to do it right now immediately.
 		private RoundState state;
-		private GameObject mainCamera;
+		private GameObject mainCamera; //@TODO: move to LevelSettings
 		[SerializeField]
 		private LevelSettings level;
-		private Vector3 boundsScale = new Vector3(1, 1, 0);
+		private Vector3 boundsScale = new Vector3(1, 1, 0); //@TODO: move to LevelSEttings
 		#endregion
 
 		#region FIELDS - COMBATANTS
@@ -45,10 +45,29 @@ namespace PanicPinnacle.Matches {
 				return this.combatants;
 			}
 		}
-		#endregion
+        #endregion
 
-		#region UNITY FUNCTIONS
-		private void Awake() {
+        #region SCORES
+
+        /// <summary>
+        /// Scores for combatants during this round.
+        /// ScoreTypes are popped off stack during MatchTally
+        /// </summary>
+        private Dictionary<int, Stack<ScoreType>> roundScores = new Dictionary<int, Stack<ScoreType>>();
+
+        /// <summary>
+        /// Scores for combatants during this round.
+        /// ScoreTypes are popped off stack during MatchTally
+        /// </summary>
+        public Dictionary<int, Stack<ScoreType>> RoundScores
+        {
+            get { return roundScores; }
+        }
+
+        #endregion  
+
+        #region UNITY FUNCTIONS
+        private void Awake() {
 			if (instance == null) {
 				instance = this;
 			}
@@ -136,6 +155,8 @@ namespace PanicPinnacle.Matches {
                     level.Spawns[ct.Key]);
                 player.GetComponent<Player>().Prepare(ct.Value, ct.Key);
                 combatants.Add(player.GetComponent<Player>());
+                //setup scores for combatant
+                roundScores[ct.Key] = new Stack<ScoreType>();
             }
 
 			// Call the legacy function that sets the state and starts the round.

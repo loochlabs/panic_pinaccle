@@ -54,6 +54,33 @@ namespace PanicPinnacle.Matches {
 		public Queue<RoundSettings> roundSettings = new Queue<RoundSettings>();
         #endregion
 
+        #region SCORING
+
+        /// <summary>
+        /// Scores for the combatants during this match.
+        /// Associating CombatantID with int score total.
+        /// </summary>
+        private Dictionary<int,int> combatantScores = new Dictionary<int, int>();
+
+        /// <summary>
+        /// Scores for the combatants during this match.
+        /// Associating CombatantID with int score total.
+        /// </summary>
+        public Dictionary<int, int> CombatantScores {
+            get { return combatantScores; }
+        }
+
+        /// <summary>
+        /// Different types of scores/points in a match.
+        /// </summary>
+        public enum ScoreType {
+            survival,
+            knockout
+        }
+
+        
+        #endregion
+
         #region PREGAME FUNCTIONS
 
         /// <summary>
