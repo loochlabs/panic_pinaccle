@@ -27,8 +27,7 @@ namespace PanicPinnacle.Combatants {
 
 			
 			Debug.LogWarning("SET THE BODY");
-
-			Debug.LogWarning("PLEASE REMOVE THIS SWTICH CASE LATER WHEN I FIX UP THE ANIMATORS");
+            
             //Prepare round properties of this player
 			GetComponentInChildren<SpriteRenderer>().color =
                 MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerColors[combatantId];

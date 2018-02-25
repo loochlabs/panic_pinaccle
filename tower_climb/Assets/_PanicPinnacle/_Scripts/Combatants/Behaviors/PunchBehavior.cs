@@ -4,6 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 using PanicPinnacle.Events;
+using PanicPinnacle.Matches;
 
 namespace PanicPinnacle.Combatants.Behaviors {
 
@@ -40,7 +41,7 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		/// <summary>
 		/// A reference to the GameObject that contains the box used for when this combatant punches.
 		/// </summary>
-		private GameObject punchBoxGameObject;
+		private GameObject punchboxGameObject;
 		/// <summary>
 		/// Collection of targets active in punch hitbox
 		/// </summary>
@@ -59,14 +60,16 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		public override void Prepare(Combatant combatant) {
 			Debug.Log("NOTE: This will fail if the combatant does not have the proper objects as part of their children. See if this can be refactored.");
 			// Look for the punch box in this combatant's children.
-			this.punchBoxGameObject = combatant.gameObject.transform.Find("Punch Box").gameObject;
+			this.punchboxGameObject = combatant.gameObject.transform.Find("Punch Box").gameObject;
 			// If it wasn't found, throw an error. Usually I'm calling Prepare() from something that will catch this.
-			if (this.punchBoxGameObject == null) {
+			if (this.punchboxGameObject == null) {
 				throw new System.Exception("Couldn't find the Punch Box on this combatant! Is it named properly?");
 			} else {
 				// If it WAS found, turn it off. It might already be off but do it anyway. Thanks.
-				//this.punchBoxGameObject.SetActive(false);
-			}
+				punchboxGameObject.SetActive(false);
+                punchboxGameObject.GetComponentInChildren<SpriteRenderer>().color = 
+                    MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerColors[combatant.CombatantID];
+            }
 
 			originalGravModifier = combatant.CombatantBody.GravityScale;
 			targetsToPunch = new List<Player>();
@@ -131,7 +134,7 @@ namespace PanicPinnacle.Combatants.Behaviors {
 					punchboxRotation.z = 270;
 					break;
 			}
-			punchBoxGameObject.transform.localEulerAngles = punchboxRotation;
+			punchboxGameObject.transform.localEulerAngles = punchboxRotation;
 
 			// First, see if the combatant is trying to punch and if they are allowed to.
 			if (combatant.CombatantInput.GetPunchInput(combatant: combatant) == true) {
@@ -149,13 +152,13 @@ namespace PanicPinnacle.Combatants.Behaviors {
 				seq.AppendCallback(new TweenCallback(delegate {
 					combatant.SetState(CombatantStateType.punching);
 					combatant.CombatantBody.GravityScale = bodyGravityModifier;
-					//this.punchBoxGameObject.SetActive(true);
+					punchboxGameObject.SetActive(true);
 				}));
 				seq.AppendInterval(interval: this.punchDuration);
 				seq.AppendCallback(new TweenCallback(delegate {
 					combatant.SetState(CombatantStateType.playing);
 					combatant.CombatantBody.GravityScale = originalGravModifier;
-					//this.punchBoxGameObject.SetActive(false);
+					punchboxGameObject.SetActive(false);
 				}));
 				seq.Play();
 

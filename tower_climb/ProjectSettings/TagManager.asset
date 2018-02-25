@@ -50,6 +50,9 @@ TagManager:
   - name: Game Environment
     uniqueID: 2804994769
     locked: 0
+  - name: Player VFX BG
+    uniqueID: 35952255
+    locked: 0
   - name: Player
     uniqueID: 4079450757
     locked: 0
