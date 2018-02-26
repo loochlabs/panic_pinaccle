@@ -25,7 +25,7 @@ namespace PanicPinnacle.Debugging {
 		/// </summary>
 		[SerializeField]
 		public void TestSFX() {
-			AudioManager.instance.PlaySFX(type: this.sfxType, volumeScale: this.volumeScale);
+			AudioController.instance.PlaySFX(type: this.sfxType, volumeScale: this.volumeScale);
 		}
 
 	}

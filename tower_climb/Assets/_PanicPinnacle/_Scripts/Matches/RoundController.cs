@@ -54,11 +54,10 @@ namespace PanicPinnacle.Matches {
 			}
 		}
 
-        private void Start()
-        {
-        }
+		private void Start() {
+		}
 
-        private void Update() {
+		private void Update() {
 			// Call the old Update function. It's good enough to work with as of now.
 			// However, it will probably need to be refactored in the future.
 			this.LegacyUpdate();
@@ -118,25 +117,24 @@ namespace PanicPinnacle.Matches {
 		/// Start the round once the scene has finally been loaded.
 		/// </summary>
 		public void StartRound() {
-            // Prep the combatants with the information contained within the MatchSettings and save the list.
-            //this.combatants = this.PrepareCombatants(
-            //combatants: new List<Combatant>(GameObject.FindObjectsOfType<Combatant>()),
-            //matchSettings: MatchController.instance.CurrentMatchSettings,
-            //roundSettings: this.currentRoundSettings);
+			// Prep the combatants with the information contained within the MatchSettings and save the list.
+			//this.combatants = this.PrepareCombatants(
+			//combatants: new List<Combatant>(GameObject.FindObjectsOfType<Combatant>()),
+			//matchSettings: MatchController.instance.CurrentMatchSettings,
+			//roundSettings: this.currentRoundSettings);
 
-            Debug.Log("STARTING ROUND");
+			Debug.Log("STARTING ROUND");
 			// Look for the level settings somewhere within this scene.
 			this.level = GameObject.FindObjectOfType<LevelSettings>();
-            
-            //Instantiate and prepare our Combatants
-            foreach(var ct in MatchController.instance.CurrentMatchSettings.CombatantTemplates)
-            {
-                GameObject player = Instantiate(
-                    MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerPrefab,
-                    level.Spawns[ct.Key]);
-                player.GetComponent<Player>().Prepare(ct.Value, ct.Key);
-                combatants.Add(player.GetComponent<Player>());
-            }
+
+			//Instantiate and prepare our Combatants
+			foreach (var ct in MatchController.instance.CurrentMatchSettings.CombatantTemplates) {
+				GameObject player = Instantiate(
+					original: MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerPrefab,
+					parent: level.Spawns[ct.Key]);
+				player.GetComponent<Player>().Prepare(ct.Value, ct.Key);
+				combatants.Add(player.GetComponent<Player>());
+			}
 
 			// Call the legacy function that sets the state and starts the round.
 			this.LegacySetState(state: RoundState.intro);
@@ -158,7 +156,7 @@ namespace PanicPinnacle.Matches {
 					//focus camera on top at start
 
 					// mainCamera.GetComponent<CameraControls>().focusTransform = level.End;
-					CameraControls.instance.focusTransform = this.level.End;					
+					CameraControls.instance.focusTransform = this.level.End;
 
 					//intro cinematic, pan downwards from level.End to level.Start
 					//@TEMP

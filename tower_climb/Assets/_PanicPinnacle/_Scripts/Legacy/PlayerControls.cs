@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TeamUtility.IO;
 
 namespace PanicPinnacle.Legacy {
 
@@ -162,8 +161,11 @@ namespace PanicPinnacle.Legacy {
 
 				case PlayerState.PLAYING:
 
-					float horz = InputManager.GetAxisRaw("Horizontal", playerid);
-					float vert = InputManager.GetAxisRaw("Vertical", playerid);
+					Debug.LogError("InputManager no longer exists.");
+					/*float horz = InputManager.GetAxisRaw("Horizontal", playerid);
+					float vert = InputManager.GetAxisRaw("Vertical", playerid);*/
+					float horz = 0f;
+					float vert = 0f;
 
 					if (horz > 0) {
 						moveOrientation |= Orientation.RIGHT;
@@ -231,8 +233,9 @@ namespace PanicPinnacle.Legacy {
 							canpunch = true;
 						}
 
-
-						if (canpunch && InputManager.GetButtonDown("Fire", playerid)) {
+						Debug.LogError("InputManager no longer exists.");
+						if (canpunch) {
+							//if (canpunch && InputManager.GetButtonDown("Fire", playerid)) {
 							Debug.Log("fire: " + playerid);
 							canfire = false;
 							punchboxSprite.enabled = true;
@@ -276,7 +279,9 @@ namespace PanicPinnacle.Legacy {
 
 					//@MECHANIC: Blast
 					if (blastEnabled) {
-						if (canfire && InputManager.GetButton("Fire", playerid)) {
+						Debug.LogError("InputManager no longer exists.");
+						if (canfire ) {
+							//if (canfire && InputManager.GetButton("Fire", playerid)) {
 							//blast direction
 							bd_primary = Vector2.zero;
 							if ((blastOrientation & Orientation.UP) == Orientation.UP) { bd_primary.y = 1; }
@@ -326,9 +331,10 @@ namespace PanicPinnacle.Legacy {
 								if (blastTimeCurrent < 0) { blastTimeCurrent = 0; }
 							}
 						}
-						if (InputManager.GetButtonUp("Fire", playerid)) {
+						Debug.LogError("InputManager no longer exists.");
+						/*if (InputManager.GetButtonUp("Fire", playerid)) {
 							canfire = true;
-						}
+						}*/
 					}
 
 					break;
@@ -343,9 +349,10 @@ namespace PanicPinnacle.Legacy {
 
 			//@DEBUG
 			//Hard Round Reset
-			if (playerid == PlayerInputID.One && InputManager.GetButton("Start", playerid)) {
+			Debug.LogError("InputManager no longer exists.");
+			/*if (playerid == PlayerInputID.One && InputManager.GetButton("Start", playerid)) {
 				SceneManager.LoadScene(0);
-			}
+			}*/
 		}
 
 

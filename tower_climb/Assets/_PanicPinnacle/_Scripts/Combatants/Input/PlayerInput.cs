@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using PanicPinnacle.Combatants;
 using UnityEngine;
-using TeamUtility.IO;
 
 namespace PanicPinnacle.Input {
 
@@ -13,21 +12,19 @@ namespace PanicPinnacle.Input {
 	[System.Serializable]
 	public class PlayerInput : CombatantInput {
 
-        #region FIELDS
-        /// <summary>
-        /// Direction of joystick movement axis
-        /// </summary>
-        private Vector3 direction = Vector3.zero;
+		#region FIELDS
+
 		/// <summary>
-		/// PlayerID assigned to this for InputManager. Pull from a manager from Pregame setup.
+		/// The class provided by Rewired which grabs input from a given controller.
 		/// </summary>
-		private PlayerInputID playerInputID;
+		private Rewired.Player rewiredPlayer;
 		#endregion
 
 		#region PREPARATION
 		public override void Prepare(Combatant combatant) {
-			// Save the ID of the player input. The enum actually begins at 1, so I need to add one, otherwise the player with the ID of 0 will throw errors.
-			this.playerInputID = (PlayerInputID)(combatant.CombatantID + 1);
+			Debug.Log("Grabbing Rewired Player for combatant with ID " + combatant.CombatantID);
+			// Grab the rewired player associated with the combatant's ID.
+			this.rewiredPlayer = Rewired.ReInput.players.GetPlayer(playerId: combatant.CombatantID);
 		}
 		#endregion
 
@@ -38,10 +35,8 @@ namespace PanicPinnacle.Input {
 		/// <param name="combatant">The combatant requesting their movement direction.</param>
 		/// <returns>The direction the Player is trying to move towards..</returns>
 		public override Vector3 GetMovementDirection(Combatant combatant) {
-			// Assemble those two axes into a new vector and return it.
-			direction.x = InputManager.GetAxisRaw("Horizontal", this.playerInputID);
-			direction.y = InputManager.GetAxisRaw("Vertical", this.playerInputID);
-			return direction;
+			// Ask rewired for the vector representing the movement direction.
+			return this.rewiredPlayer.GetAxis2D(xAxisActionName: "Move Horizontal", yAxisActionName: "Move Vertical");
 		}
 		/// <summary>
 		/// Grabs whether or not this combatant is trying to jump.
@@ -60,7 +55,7 @@ namespace PanicPinnacle.Input {
 		/// <returns>Whether or not this combatatant is trying to punch.</returns>
 		public override bool GetPunchInput(Combatant combatant) {
 			// Just get the value of the punch button being pressed.
-			return InputManager.GetButtonDown("PrimaryAction", this.playerInputID);
+			return this.rewiredPlayer.GetButtonDown("Punch");
 		}
 		#endregion
 
