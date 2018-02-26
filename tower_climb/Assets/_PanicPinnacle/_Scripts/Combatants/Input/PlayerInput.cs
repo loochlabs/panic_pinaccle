@@ -36,7 +36,7 @@ namespace PanicPinnacle.Input {
 		/// <returns>The direction the Player is trying to move towards..</returns>
 		public override Vector3 GetMovementDirection(Combatant combatant) {
 			// Ask rewired for the vector representing the movement direction.
-			return this.rewiredPlayer.GetAxis2D(xAxisActionName: "Move Horizontal", yAxisActionName: "Move Vertical");
+			return this.rewiredPlayer.GetAxis2DRaw(xAxisActionName: "Move Horizontal", yAxisActionName: "Move Vertical");
 		}
 		/// <summary>
 		/// Grabs whether or not this combatant is trying to jump.
