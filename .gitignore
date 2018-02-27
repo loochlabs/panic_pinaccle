@@ -32,3 +32,6 @@
 # Builds
 /tower_climb/*.apk
 /tower_climb/*.unitypackage
+
+# Editor Console Pro
+/tower_climb/Assets/ConsolePro

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TeamUtility.IO;
 using PanicPinnacle.Matches;
 
 namespace PanicPinnacle.Menus {
@@ -47,10 +46,11 @@ namespace PanicPinnacle.Menus {
 		private IEnumerator WaitForPlayers() {
 			while (true) {
 				// Find which players are ready for the game. Ready To play some ball. Ready to punch. hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut 
-				for (int i = 0; i < this.readyPlayers.Count; i++) {
+				Debug.LogError("Get this working again.");
+				/*for (int i = 0; i < this.readyPlayers.Count; i++) {
 					this.readyPlayers[i] = this.readyPlayers[i] | InputManager.GetButtonDown("PrimaryAction", (PlayerInputID)(i + 1));
 					this.refreshPreGameTextToggle = true;
-				}
+				}*/
 
 				// If the list of ready players changed, refresh the text.
 				if (this.refreshPreGameTextToggle == true) {
@@ -65,14 +65,16 @@ namespace PanicPinnacle.Menus {
 					}
 				}
 
-				// If Player 1 hit start, begin the match with the settings listed above.
+
+				Debug.LogError("Get this working again.");
+				/*// If Player 1 hit start, begin the match with the settings listed above.
 				if (InputManager.GetButton("Start", PlayerInputID.One)) {
-                    //@TEMP while we rework the Pregame setup
-                    GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().StartMatch();
+					//@TEMP while we rework the Pregame setup
+					GameManager.instance.StartMatch();
 
 					//MatchController.instance.StartMatch(matchSettings: MatchController.instance.DebugMatchSettings);
 					break;
-				}
+				}*/
 
 				yield return new WaitForEndOfFrame();
 			}

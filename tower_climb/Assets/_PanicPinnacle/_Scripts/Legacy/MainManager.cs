@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using PanicPinnacle.Legacy.Globals;
 using PanicPinnacle.Combatants;
-using TeamUtility.IO;
 
 namespace PanicPinnacle.Legacy {
 
