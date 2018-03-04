@@ -77,6 +77,17 @@ namespace PanicPinnacle.UI {
 			// Also revert the text.
 			this.menuItemLabel.Text = "<c=black>" + this.menuItemText;
 		}
+		public override void OnPointerClick(PointerEventData eventData) {
+			
+			// will probably get rid of OnPointerClick but I'm not sure. im so tired. rip
+
+			// When this button is submited, make it white again.
+			this.menuItemBackground.CrossFadeColor(targetColor: Color.white, duration: 0f, ignoreTimeScale: true, useAlpha: true);
+			// Also revert the text.
+			this.menuItemLabel.Text = "<c=black>" + this.menuItemText;
+			// Execute onSubmitEvent
+			this.onSubmitEvent.Invoke();
+		}
 		#endregion
 	}
 

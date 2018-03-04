@@ -85,12 +85,14 @@ namespace PanicPinnacle.Matches {
 			if (currentMatchSettings.roundSettings.Count == 0) {
 				Debug.Log("MATCH COMPLETE : going to final Match Tally!");
 				SceneController.instance.LoadScene(currentMatchSettings.MatchTemplate.MatchTallySceneName);
+			} else {
+				//go to next round
+				int currentRoundIndex = currentMatchSettings.MatchTemplate.RoundCount - currentMatchSettings.roundSettings.Count + 1;
+				Debug.Log("Going to Round " + currentRoundIndex);
+				RoundController.instance.PrepareRound(roundSettings: DequeueNextRound());
 			}
 
-			//go to next round
-			int currentRoundIndex = currentMatchSettings.MatchTemplate.RoundCount - currentMatchSettings.roundSettings.Count + 1;
-			Debug.Log("Going to Round " + currentRoundIndex);
-			RoundController.instance.PrepareRound(roundSettings: DequeueNextRound());
+			
 		}
 
 		/// <summary>

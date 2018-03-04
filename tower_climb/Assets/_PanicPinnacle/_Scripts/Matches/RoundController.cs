@@ -47,7 +47,7 @@ namespace PanicPinnacle.Matches {
 		}
         #endregion
 
-        #region SCORES
+       /* #region SCORES
 
         /// <summary>
         /// Scores for combatants during this round.
@@ -64,7 +64,7 @@ namespace PanicPinnacle.Matches {
             get { return roundScores; }
         }
 
-        #endregion  
+        #endregion  */
 
         #region UNITY FUNCTIONS
         private void Awake() {
@@ -153,8 +153,6 @@ namespace PanicPinnacle.Matches {
 					parent: level.Spawns[ct.Key]);
 				player.GetComponent<Player>().Prepare(ct.Value, ct.Key);
 				combatants.Add(player.GetComponent<Player>());
-                //setup scores for combatant
-                roundScores[ct.Key] = new Stack<ScoreType>();
 			}
 
 			// Call the legacy function that sets the state and starts the round.
@@ -229,6 +227,18 @@ namespace PanicPinnacle.Matches {
 					outroSeq.AppendInterval(interval: 1f);
 					outroSeq.AppendCallback(new TweenCallback(delegate {
 						LegacySetState(RoundState.complete);
+						// Display the tally.
+						Menus.RoundTallyScreen.instance.DisplayTally();
+					}));
+					outroSeq.AppendInterval(5f);
+					outroSeq.AppendCallback(new TweenCallback(delegate {
+						// There's a bit of overcomplication with how the next round should be picked out.
+						// Currently, GoToNextPhase() in MatchController takes care of that logic, but 
+						// that function is private and gets called as a result of MatchController.StartMatch(),
+						// which, in turn, is called by GameController.StartMatch(). These calls are the only things
+						// that these two functions do, so it's worth remembering if this ever becomes an issue.
+						Debug.LogWarning("Calling MatchController.StartMatch() in order to proceed. If this does not cause issues in the future, feel free to delete this warning.");
+						MatchController.instance.StartMatch();
 					}));
 					outroSeq.Play();
 					break;

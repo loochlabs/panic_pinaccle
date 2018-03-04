@@ -48,14 +48,7 @@ namespace PanicPinnacle {
 		private void Start() {
 			//@TEMP debug info
 			if (debugMode) {
-				PrepareMatch();
-
-				//debug players for this match to bypass pregame setup
-				for (int i = 0; i < debugPlayerCount; i++) {
-					MatchController.instance.CurrentMatchSettings.AddCombatant(i);
-				}
-
-				StartMatch();
+				DebugStart();
 			}
 		}
 		#endregion
@@ -75,6 +68,19 @@ namespace PanicPinnacle {
 		public void StartMatch() {
 			MatchController.instance.StartMatch();
 		}
+
+		#region DEBUG
+		public void DebugStart() {
+			PrepareMatch();
+
+			//debug players for this match to bypass pregame setup
+			for (int i = 0; i < debugPlayerCount; i++) {
+				MatchController.instance.CurrentMatchSettings.AddCombatant(i);
+			}
+
+			StartMatch();
+		}
+		#endregion
 
 	}
 

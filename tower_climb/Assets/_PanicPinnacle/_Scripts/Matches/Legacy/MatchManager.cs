@@ -126,8 +126,5 @@ namespace PanicPinnacle.Matches.Legacy {
 
 	}
 
-	public enum ScoreType {
-		survival,
-		knockout
-	}
+	
 }

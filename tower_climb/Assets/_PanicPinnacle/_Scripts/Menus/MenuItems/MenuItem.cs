@@ -12,7 +12,7 @@ namespace PanicPinnacle.UI {
 	/// The way in which items in menus should be implemented.
 	/// </summary>
 	[RequireComponent(typeof(Selectable))]
-	public abstract class MenuItem : SerializedMonoBehaviour, ICancelHandler, ISelectHandler, ISubmitHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler {
+	public abstract class MenuItem : SerializedMonoBehaviour, ICancelHandler, ISelectHandler, ISubmitHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler {
 
 		#region FIELDS - UNITY EVENTS
 		/// <summary>
@@ -34,6 +34,10 @@ namespace PanicPinnacle.UI {
 		public abstract void OnPointerExit(PointerEventData eventData);
 		public abstract void OnSelect(BaseEventData eventData);
 		public abstract void OnSubmit(BaseEventData eventData);
+
+		public virtual void OnPointerClick(PointerEventData eventData) {
+			// may or may not get rid of this its a long story
+		}
 		#endregion
 
 	}

@@ -84,6 +84,10 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		/// <param name="combatant"></param>
 		/// <param name="target"></param>
 		private void PunchCombatant(Combatant combatant, Combatant target) {
+
+			// THIS IS A COMPLETELY ARBITRARY POINT I AM CHOOSING TO TEST THIS FUNCTIONALITY FEEL FREE TO REMOVE THANKS - Chris
+			ScoreKeeper.AddPoints(combatantId: combatant.CombatantID, scoreType: ScoreType.Knockout);
+
 			//impact direction to send targets
 			Vector2 impactDirection = Vector2.zero;
 			target.SetState(CombatantStateType.dazed);
