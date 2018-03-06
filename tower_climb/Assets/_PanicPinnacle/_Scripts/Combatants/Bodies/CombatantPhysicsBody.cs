@@ -118,7 +118,6 @@ namespace PanicPinnacle.Combatants {
 
 		#region COLLISIONS
 		public virtual void OnCollisionEnter2D(Collision2D collision) {
-			Debug.LogWarning("Add an event for OnCollisionEnter later.");
 			//player knockout
 			//@TODO: might want to make this a functional call when fleshing out Round Manager
 			if (collision.gameObject.tag == "Bound") {

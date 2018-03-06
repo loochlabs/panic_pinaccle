@@ -774,11 +774,14 @@ MonoBehaviour:
       _assignMouseOnStart: 0
       _assignKeyboardOnStart: 0
       _excludeFromControllerAutoAssignment: 0
-    - _id: 3
+    - _id: 5
       _name: Player 3
-      _descriptiveName: Player 3
+      _descriptiveName: Player 2
       _startPlaying: 1
-      _defaultJoystickMaps: []
+      _defaultJoystickMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
       _defaultMouseMaps: []
       _defaultKeyboardMaps: []
       _defaultCustomControllerMaps: []
@@ -786,11 +789,14 @@ MonoBehaviour:
       _assignMouseOnStart: 0
       _assignKeyboardOnStart: 0
       _excludeFromControllerAutoAssignment: 0
-    - _id: 4
+    - _id: 6
       _name: Player 4
-      _descriptiveName: Player 4
+      _descriptiveName: Player 2
       _startPlaying: 1
-      _defaultJoystickMaps: []
+      _defaultJoystickMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
       _defaultMouseMaps: []
       _defaultKeyboardMaps: []
       _defaultCustomControllerMaps: []
@@ -844,6 +850,33 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
+    - _id: 16
+      _name: UICancel
+      _type: 1
+      _descriptiveName: UICancel
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
+    - _id: 14
+      _name: UIHorizontal
+      _type: 0
+      _descriptiveName: UIHorizontal
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
+    - _id: 15
+      _name: UIVertical
+      _type: 0
+      _descriptiveName: UIVertical
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
     actionCategories:
     - _name: Default
       _descriptiveName: Default
@@ -853,7 +886,7 @@ MonoBehaviour:
     actionCategoryMap:
       list:
       - categoryId: 0
-        actionIds: 090000000a0000000b0000000c0000000d000000
+        actionIds: 090000000a0000000b0000000c0000000d000000100000000e0000000f000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -922,7 +955,29 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
+        _actionId: 14
+        _elementType: 0
+        _elementIdentifierId: 0
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
         _actionId: 11
+        _elementType: 0
+        _elementIdentifierId: 1
+        _axisRange: 0
+        _invert: 1
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 15
         _elementType: 0
         _elementIdentifierId: 1
         _axisRange: 0
@@ -988,7 +1043,29 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
+        _actionId: 13
+        _elementType: 1
+        _elementIdentifierId: 6
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
         _actionId: 12
+        _elementType: 1
+        _elementIdentifierId: 7
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 16
         _elementType: 1
         _elementIdentifierId: 7
         _axisRange: 0
@@ -1149,7 +1226,29 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
+        _actionId: 14
+        _elementType: 0
+        _elementIdentifierId: 0
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
         _actionId: 11
+        _elementType: 0
+        _elementIdentifierId: 1
+        _axisRange: 0
+        _invert: 1
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 15
         _elementType: 0
         _elementIdentifierId: 1
         _axisRange: 0
@@ -1215,7 +1314,29 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
+        _actionId: 13
+        _elementType: 1
+        _elementIdentifierId: 6
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
         _actionId: 12
+        _elementType: 1
+        _elementIdentifierId: 7
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 16
         _elementType: 1
         _elementIdentifierId: 7
         _axisRange: 0
@@ -1712,8 +1833,8 @@ MonoBehaviour:
         _modifierKey3: 0
     customControllerMaps: []
     customControllers: []
-    playerIdCounter: 5
-    actionIdCounter: 14
+    playerIdCounter: 7
+    actionIdCounter: 17
     actionCategoryIdCounter: 3
     inputBehaviorIdCounter: 1
     mapCategoryIdCounter: 1
@@ -1788,9 +1909,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 180c8f7513c50dd46881b4c2311182bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 1
-  debugPlayerCount: 4
   matchTemplate: {fileID: 11400000, guid: c0bd7f86f7c66474b973030843ff5608, type: 2}
+  debugMode: 0
+  debugPlayerCount: 4
+  debugMatchTemplate: {fileID: 0}
 --- !u!114 &114508296011268452
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1910,7 +2032,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useAllRewiredGamePlayers: 0
   useRewiredSystemPlayer: 0
-  rewiredPlayerIds: 00000000
+  rewiredPlayerIds: 00000000010000000200000003000000
   usePlayingPlayersOnly: 0
   moveOneElementPerAxisPress: 0
   m_HorizontalAxis: UIHorizontal

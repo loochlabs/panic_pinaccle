@@ -110,10 +110,7 @@ namespace PanicPinnacle.Matches {
                 case MatchPhase.debug:
                     break;
             }
-
-			
-
-			
+            
 		}
 
 		/// <summary>

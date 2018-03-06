@@ -100,7 +100,7 @@ namespace PanicPinnacle {
 				MatchController.instance.CurrentMatchSettings.AddCombatant(i);
 			}
 
-			StartMatch();
+            MatchController.instance.NextPhase(MatchPhase.round);
 		}
 		#endregion
 
