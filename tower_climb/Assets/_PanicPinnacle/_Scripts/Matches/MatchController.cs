@@ -16,7 +16,6 @@ namespace PanicPinnacle.Matches {
 		public static MatchController instance;
 
 		#region FIELDS - SETTINGS
-		//STEVE : no need for round settings here. This info can be held in currentMatchSettings.
 		/// The settings that define this current match.
 		/// Needs to be serialized because I'm a fucking idiot.
 		/// </summary>
@@ -36,7 +35,6 @@ namespace PanicPinnacle.Matches {
 		#endregion
 
 		
-
 		#region RUNTIME FIELDS
 		/// <summary>
 		/// Current phase of this match.
@@ -69,8 +67,8 @@ namespace PanicPinnacle.Matches {
 		/// </summary>
 		/// <param name="matchSettings"></param>
 		public void StartMatch() {
-			Debug.Log("STARTING NEW ROUND");
-			GotoNextPhase();
+			Debug.Log("STARTING NEW MATCH");
+			NextPhase(MatchPhase.pregame);
 		}
 		#endregion
 
@@ -78,19 +76,42 @@ namespace PanicPinnacle.Matches {
 
 		/// <summary>
 		/// Single call for easily going to the next round/phase of the match.
-		/// @TODO: control flow from ROUND > TALLY > ROUND > COMPLETE_TALLY
 		/// </summary>
-		private void GotoNextPhase() {
-			//Check for end of match
-			if (currentMatchSettings.roundSettings.Count == 0) {
-				Debug.Log("MATCH COMPLETE : going to final Match Tally!");
-				SceneController.instance.LoadScene(currentMatchSettings.MatchTemplate.MatchTallySceneName);
-			} else {
-				//go to next round
-				int currentRoundIndex = currentMatchSettings.MatchTemplate.RoundCount - currentMatchSettings.roundSettings.Count + 1;
-				Debug.Log("Going to Round " + currentRoundIndex);
-				RoundController.instance.PrepareRound(roundSettings: DequeueNextRound());
-			}
+		public void NextPhase(MatchPhase phase) {
+            switch (phase)
+            {
+                case MatchPhase.pregame:
+                    currentPhase = phase;
+                    SceneController.instance.LoadScene(
+                        sceneName: currentMatchSettings.MatchTemplate.PregameSceneName, 
+                        showLoadingText: true);
+                    break;
+
+                case MatchPhase.round:
+                    currentPhase = phase;
+                    
+                    //go to next round
+                    int currentRoundIndex = currentMatchSettings.MatchTemplate.RoundCount - currentMatchSettings.roundSettings.Count + 1;
+                    Debug.Log("Going to Round " + currentRoundIndex);
+                    RoundController.instance.PrepareRound(roundSettings: DequeueNextRound());
+                    // Use the scene controller to load up the next scene.
+                    SceneController.instance.LoadScene(roundSettings: RoundController.instance.CurrentRoundSettings);
+                    break;
+
+                case MatchPhase.tally:
+                    currentPhase = phase;
+                    SceneController.instance.LoadScene(
+                        sceneName: currentMatchSettings.MatchTemplate.MatchTallySceneName, 
+                        showLoadingText: true);
+
+                    break;
+                case MatchPhase.endtally:
+                    break;
+                case MatchPhase.debug:
+                    break;
+            }
+
+			
 
 			
 		}

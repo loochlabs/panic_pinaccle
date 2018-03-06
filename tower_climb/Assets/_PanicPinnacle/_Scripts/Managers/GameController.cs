@@ -13,8 +13,16 @@ namespace PanicPinnacle {
 
 		public static GameController instance;
 
-		#region DEBUG
-		[TabGroup("Debug", "Debug"), SerializeField]
+        #region MATCH TEMPLATE
+        /// <summary>
+		/// Predifined match settings if starting from TitleScreen.
+		/// </summary>
+		[TabGroup("Match Info"), PropertyTooltip("Predifined match template."), SerializeField]
+        private MatchTemplate matchTemplate;
+        #endregion
+
+        #region DEBUG
+        [TabGroup("Debug", "Debug"), SerializeField]
 		private bool debugMode = false;
 		/// <summary>
 		/// The number of players to start the match with in debug mode, since pregame is being skipped.
@@ -25,18 +33,13 @@ namespace PanicPinnacle {
 		/// Predifined match settings.
 		/// </summary>
 		[TabGroup("Debug", "Debug"), PropertyTooltip("Predifined match settings."), SerializeField, ShowIf("debugMode")]
-		private MatchTemplate matchTemplate;
-		/// <summary>
-		/// Predifined match settings.
-		/// </summary>
-		public MatchTemplate MatchTemplate {
-			get { return matchTemplate; }
-		}
+		private MatchTemplate debugMatchTemplate;
+		
 		#endregion
 
 		#region UNITY FUNCTIONS
 		private void Awake() {
-			if (instance == null) {
+            if (instance == null) {
 				instance = this;
 				DontDestroyOnLoad(this);
 			} else {
@@ -44,6 +47,7 @@ namespace PanicPinnacle {
 				// This is intentional.
 				Destroy(this.gameObject);
 			}
+
 		}
 		private void Start() {
 			//@TEMP debug info
@@ -60,17 +64,35 @@ namespace PanicPinnacle {
 		/// </summary>
 		public void PrepareMatch() {
 			Debug.Log("Preparing match with template stored in the GameController.");
-			MatchController.instance.PrepareMatch(matchTemplate);
+			MatchController.instance.PrepareMatch(debugMode ? debugMatchTemplate : matchTemplate);
 		}
 		/// <summary>
 		/// Top level call for starting a new match. This should be the single entry point for the entire Match/Game.
 		/// </summary>
 		public void StartMatch() {
+            MatchController.instance.PrepareMatch(debugMode ? debugMatchTemplate : matchTemplate);
 			MatchController.instance.StartMatch();
 		}
 
-		#region DEBUG
-		public void DebugStart() {
+        /// <summary>
+		/// Predifined match settings.
+		/// </summary>
+		public MatchTemplate MatchTemplate
+        {
+            get {
+                if (debugMode)
+                {
+                    return debugMatchTemplate;
+                }
+                else
+                {
+                    return matchTemplate;
+                }
+            }
+        }
+
+        #region DEBUG
+        public void DebugStart() {
 			PrepareMatch();
 
 			//debug players for this match to bypass pregame setup

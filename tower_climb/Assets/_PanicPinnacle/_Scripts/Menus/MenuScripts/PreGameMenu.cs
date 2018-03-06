@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PanicPinnacle.Matches;
+using PanicPinnacle.Combatants;
 
 namespace PanicPinnacle.Menus {
 
@@ -20,6 +21,9 @@ namespace PanicPinnacle.Menus {
 		/// A toggle that signals when the pre-game text needs to be refreshed. Mostly so I don't have to rewrite the STM every frame and waste garbage making strings and throwing them away.
 		/// </summary>
 		private bool refreshPreGameTextToggle = false;
+
+        private Combatant[] combatants = new Combatant[4];
+        
 		#endregion
 
 		#region FIELDS - SCENE REFERENES
@@ -28,9 +32,16 @@ namespace PanicPinnacle.Menus {
 		/// </summary>
 		[SerializeField]
 		private SuperTextMesh preGamePlayersText;
-		#endregion
 
-		private void Awake() {
+        /// <summary>
+        /// Array of transforms for spawn locations.
+        /// </summary>
+        [SerializeField]
+        private Transform[] spawns = new Transform[4];
+
+        #endregion
+
+        private void Awake() {
 			// Initialize the list of ready players so that everyone is not ready. 
 			this.readyPlayers.AddRange(new bool[] { false, false, false, false });
 		}
@@ -46,27 +57,37 @@ namespace PanicPinnacle.Menus {
 		private IEnumerator WaitForPlayers() {
 			while (true) {
 				// Find which players are ready for the game. Ready To play some ball. Ready to punch. hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut 
-				Debug.LogError("Get this working again.");
-				/*for (int i = 0; i < this.readyPlayers.Count; i++) {
-					this.readyPlayers[i] = this.readyPlayers[i] | InputManager.GetButtonDown("PrimaryAction", (PlayerInputID)(i + 1));
-					this.refreshPreGameTextToggle = true;
-				}*/
+				
+				for (int i = 0; i < this.readyPlayers.Count; i++) {
+                    Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerId: i);
+                    if (player.GetButtonDown("Punch") && combatants[i] != null)
+                    {
+                        GameObject gameobj = Instantiate(
+                            original: MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerPrefab, 
+                            parent: spawns[i]);
+                        combatants[i] = gameobj.GetComponent<Player>();
+                        combatants[i].Prepare(
+                            combatantTemplate: MatchController.instance.CurrentMatchSettings.MatchTemplate.CombatantTemplates[0],
+                            combatantId: i);
+                    }
+                    //readyPlayers[i] = this.readyPlayers[i] | player.GetButtonDown("Punch"); 
+					refreshPreGameTextToggle = true;
+				}
 
 				// If the list of ready players changed, refresh the text.
-				if (this.refreshPreGameTextToggle == true) {
-					this.refreshPreGameTextToggle = false;
+				if (refreshPreGameTextToggle) {
+					refreshPreGameTextToggle = false;
 
-					this.preGamePlayersText.Text = "READY: ";
+					preGamePlayersText.Text = "READY: ";
 					// Go through the list and, if the player is ready, add their number.
 					for (int i = 0; i < this.readyPlayers.Count; i++) {
-						if (this.readyPlayers[i] == true) {
-							this.preGamePlayersText.Text += i.ToString() + " ";
+						if (readyPlayers[i]) {
+							preGamePlayersText.Text += i.ToString() + " ";
 						}
 					}
 				}
 
-
-				Debug.LogError("Get this working again.");
+                
 				/*// If Player 1 hit start, begin the match with the settings listed above.
 				if (InputManager.GetButton("Start", PlayerInputID.One)) {
 					//@TEMP while we rework the Pregame setup
@@ -79,5 +100,25 @@ namespace PanicPinnacle.Menus {
 				yield return new WaitForEndOfFrame();
 			}
 		}
-	}
+
+        #region PUBLIC FUNCTIONS
+        /// <summary>
+        /// Player has entered the ready box at top of Pregame Scene.
+        /// </summary>
+        /// <param name="combatant"></param>
+        public void AddPlayer(Combatant combatant)
+        {
+            readyPlayers[combatant.CombatantID] = true;
+        }
+
+        /// <summary>
+        /// Player has exited ready box at top of Pregame Scene.
+        /// </summary>
+        /// <param name="combatant"></param>
+        public void RemovePlayer(Combatant combatant)
+        {
+            readyPlayers[combatant.CombatantID] = false;
+        }
+        #endregion
+    }
 }

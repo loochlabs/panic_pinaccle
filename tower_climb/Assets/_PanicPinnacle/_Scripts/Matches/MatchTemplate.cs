@@ -23,14 +23,57 @@ namespace PanicPinnacle.Matches {
 		public string MatchName {
 			get { return matchName; }
 		}
-		#endregion
+        #endregion
 
-		#region FIELDS - MATCH VALUES
+        #region FIELDS - MATCH VALUES
 
-		/// <summary>
-		/// The name of the scene for the Match Tally
-		/// </summary>
-		[TabGroup("Match Tally"), PropertyTooltip("The name of the scene for the Match Tally."), SerializeField]
+        //@TODO: STEVE: we might want to set the value of TitleScreen scene name at runtime instead of 
+        //      predefining it in this template. Right now, this is for having a title screeen to loop
+        //      back to when the match is over.
+        /// <summary>
+        /// The name of the scene for the TitleScreen
+        /// </summary>
+        [TabGroup("Main Scenes"), PropertyTooltip("The name of the scene for the TitleScreen."), SerializeField]
+        private string titlescreenSceneName = "";
+        /// <summary>
+        /// The name of the scene for the TitleScreen.
+        /// </summary>
+        public string TitleScreenSceneName
+        {
+            get
+            {
+                return titlescreenSceneName;
+            }
+            set
+            {
+                titlescreenSceneName = value;
+            }
+        }
+
+        /// <summary>
+        /// The name of the scene for the Pregame
+        /// </summary>
+        [TabGroup("Main Scenes"), PropertyTooltip("The name of the scene for the Pregame."), SerializeField]
+        private string pregameSceneName = "";
+        /// <summary>
+        /// The name of the scene for the Pregame.
+        /// </summary>
+        public string PregameSceneName
+        {
+            get
+            {
+                return pregameSceneName;
+            }
+            set
+            {
+                pregameSceneName = value;
+            }
+        }
+
+        /// <summary>
+        /// The name of the scene for the Match Tally
+        /// </summary>
+        [TabGroup("Main Scenes"), PropertyTooltip("The name of the scene for the Match Tally."), SerializeField]
 		private string matchTallySceneName = "";
 		/// <summary>
 		/// The name of the scene for the Match Tally.

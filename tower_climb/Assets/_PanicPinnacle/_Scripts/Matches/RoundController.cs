@@ -20,6 +20,14 @@ namespace PanicPinnacle.Matches {
 		/// The settings currently being used for this particular round.
 		/// </summary>
 		private RoundSettings currentRoundSettings;
+
+        /// <summary>
+        /// The settings currently being used for this particular round.
+        /// </summary>
+        public RoundSettings CurrentRoundSettings
+        {
+            get { return currentRoundSettings; }
+        }
 		#endregion
         
 		#region FIELDS - LEGACY FIELDS
@@ -46,25 +54,7 @@ namespace PanicPinnacle.Matches {
 			}
 		}
         #endregion
-
-       /* #region SCORES
-
-        /// <summary>
-        /// Scores for combatants during this round.
-        /// ScoreTypes are popped off stack during MatchTally
-        /// </summary>
-        private Dictionary<int, Stack<ScoreType>> roundScores = new Dictionary<int, Stack<ScoreType>>();
-
-        /// <summary>
-        /// Scores for combatants during this round.
-        /// ScoreTypes are popped off stack during MatchTally
-        /// </summary>
-        public Dictionary<int, Stack<ScoreType>> RoundScores
-        {
-            get { return roundScores; }
-        }
-
-        #endregion  */
+        
 
         #region UNITY FUNCTIONS
         private void Awake() {
@@ -92,8 +82,6 @@ namespace PanicPinnacle.Matches {
 			Debug.Log("PREPARING ROUND");
 			// Save the settings, in case they are needed.
 			this.currentRoundSettings = roundSettings;
-			// Use the scene controller to load up the next scene.
-			SceneController.instance.LoadScene(roundSettings: roundSettings);
 		}
 		/// <summary>
 		/// Prepares the round in debug mode. WILL CHANGE THIS LATER PROBABLY.
@@ -238,7 +226,8 @@ namespace PanicPinnacle.Matches {
 						// which, in turn, is called by GameController.StartMatch(). These calls are the only things
 						// that these two functions do, so it's worth remembering if this ever becomes an issue.
 						Debug.LogWarning("Calling MatchController.StartMatch() in order to proceed. If this does not cause issues in the future, feel free to delete this warning.");
-						MatchController.instance.StartMatch();
+                        MatchController.instance.NextPhase(MatchPhase.tally);
+                        //MatchController.instance.StartMatch();
 					}));
 					outroSeq.Play();
 					break;

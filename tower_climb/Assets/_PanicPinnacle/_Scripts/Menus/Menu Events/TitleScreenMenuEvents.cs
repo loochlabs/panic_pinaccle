@@ -13,10 +13,13 @@ namespace PanicPinnacle.UI.Events {
 		/// A callback that gets run when Play is hit on the title screen.
 		/// </summary>
 		public void LoadMainMenu() {
+            Debug.Log("STARTING NEW MATCH");
+            GameController.instance.StartMatch();
+
 			// SceneController.instance.LoadScene(sceneName: "Main Menu", showLoadingText: true, collectGarbageOnTransition: true);
-			Debug.LogWarning("SKIPPING PREGAME");
+			//Debug.LogWarning("SKIPPING PREGAME");
 			// This code is going to be removed when the pregame is added. For right now, just prep and start the match.
-			GameController.instance.DebugStart();
+			//GameController.instance.DebugStart();
 		}
 		/// <summary>
 		/// A callback that gets run when Exit is hit on the title screen.
