@@ -1909,10 +1909,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 180c8f7513c50dd46881b4c2311182bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matchTemplate: {fileID: 11400000, guid: c0bd7f86f7c66474b973030843ff5608, type: 2}
+  matchTemplate: {fileID: 11400000, guid: aefc37c4bee6d2e4f856d04908c86c45, type: 2}
+  eventsystem: {fileID: 114827117846881950}
   debugMode: 0
   debugPlayerCount: 4
-  debugMatchTemplate: {fileID: 0}
+  debugMatchTemplate: {fileID: 11400000, guid: 351bc45938b4bbb4f878325a28824dfa, type: 2}
 --- !u!114 &114508296011268452
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2011,7 +2012,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1649568634103826}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -2025,7 +2026,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1649568634103826}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10efa70eea88e69459c632aac286892d, type: 3}
   m_Name: 

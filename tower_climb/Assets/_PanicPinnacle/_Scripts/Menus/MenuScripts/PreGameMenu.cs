@@ -76,7 +76,7 @@ namespace PanicPinnacle.Menus {
                             parent: spawns[i]);
                         combatants[i] = gameobj.GetComponent<Player>();
                         combatants[i].Prepare(
-                            combatantTemplate: MatchController.instance.CurrentMatchSettings.CombatantTemplates[0],
+                            combatantTemplate: MatchController.instance.CurrentMatchSettings.CombatantTemplates[i],
                             combatantId: i);
                         refreshPreGameTextToggle = true;
                     }
@@ -101,12 +101,14 @@ namespace PanicPinnacle.Menus {
                 //Cancel the countdown otherwise.
                 if (readyToStart && !countdownActive)
                 {
+                    countdownActive = true;
                     StartCoroutine("StartCountdown");
                 }
                 else if(!readyToStart && countdownActive)
                 {
                     //TODO: not sure if this is the proper way to cancel this coroutine.
                     //      Might want some sort of check to see if its running. I just didnt find anything liek that.
+                    countdownActive = false;
                     StopCoroutine("StartCountdown");
                 }
 
@@ -137,9 +139,8 @@ namespace PanicPinnacle.Menus {
         private IEnumerator StartCountdown()
         {
             Debug.Log("Countdown to Start is active!");
-            countdownActive = true;
             yield return new WaitForSeconds(3f);
-            MatchController.instance.NextPhase(MatchPhase.round);
+            MatchController.instance.NextPhase();
         }
 
         #region PUBLIC FUNCTIONS

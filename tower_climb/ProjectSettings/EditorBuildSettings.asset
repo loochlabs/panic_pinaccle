@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/_PanicPinnacle/_Scenes/DEBUG/MOCK MainMenu.unity
     guid: 19fb1f1f4a6ed3f49b1dc9f98d7645cb
   - enabled: 1
-    path: Assets/_PanicPinnacle/_Scenes/DEBUG/COMPLETE GAME/MOCK Pregame.unity
-    guid: da6441ece95d9764c9ef39c749637f6e
-  - enabled: 1
     path: Assets/_PanicPinnacle/_Scenes/DEBUG/Chris - Debug Round 4.unity
     guid: de4f0823e775f72468f49532f1d51b16
   - enabled: 1

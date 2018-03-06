@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PanicPinnacle.Matches;
+using UnityEngine.EventSystems;
 
 namespace PanicPinnacle.UI.Events {
 
@@ -9,7 +10,30 @@ namespace PanicPinnacle.UI.Events {
 	/// A basic class to see if I can get UnityEvents running properly on the TitleScreen.
 	/// </summary>
 	public class TitleScreenMenuEvents : MonoBehaviour {
+
+        #region SCENE REFERENCES
         
+        /// <summary>
+        /// Play button on main menu.
+        /// This is the first selected object on Start.
+        /// </summary>
+        [SerializeField]
+        private GameObject playButton;
+        
+        #endregion
+
+
+        #region UNITY FUNCTIONS
+
+        private void Awake()
+        {
+            GameController.instance.InputEventSystem.firstSelectedGameObject = playButton;
+            GameController.instance.InputEventSystem.SetSelectedGameObject(playButton);
+        }
+
+        #endregion
+
+
         /// <summary>
         /// A callback that gets run when Play is hit on the title screen.
         /// </summary>

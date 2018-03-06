@@ -46,7 +46,10 @@ namespace PanicPinnacle.Menus {
 			this.backgroundImage.CrossFadeColor(Color.clear, 0.0f, true, true);
 			this.SetAllCombatantMatchTallysActive(status: false);
 			this.HideTally();
-			// StartCoroutine(DebugShowAfterSeconds());
+            // StartCoroutine(DebugShowAfterSeconds());
+
+            //Show tally
+            DisplayTally(TallyScreenType.Round);
 		}
 		#endregion
 
@@ -68,6 +71,10 @@ namespace PanicPinnacle.Menus {
 			foreach (Combatant combatant in RoundController.instance.Combatants) {
 				this.SetCombatantMatchTallyActive(index: combatant.CombatantID, status: true);
 			}
+
+            //go to next phase after 5 seconds
+            //TODO: probably want to start this once all UI anims are complete. 
+            StartCoroutine("NextPhaseCountdown");
 		}
 		/// <summary>
 		/// Hides the tally on screen.
@@ -92,6 +99,17 @@ namespace PanicPinnacle.Menus {
 				tally.gameObject.SetActive(status);
 			}
 		}
+
+        /// <summary>
+        /// Countdown to next go to next phase in Match.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator NextPhaseCountdown()
+        {
+            yield return new WaitForSeconds(5f);
+            MatchController.instance.NextPhase();
+        }
+
 		#endregion
 
 		/*#region DEBUG

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using PanicPinnacle.Matches;
+using UnityEngine.EventSystems;
 
 namespace PanicPinnacle {
 
@@ -12,13 +13,27 @@ namespace PanicPinnacle {
 	public class GameController : MonoBehaviour {
 
 		public static GameController instance;
-
-        #region MATCH TEMPLATE
+        
+        #region PREFAB REFERENCES
         /// <summary>
 		/// Predifined match settings if starting from TitleScreen.
 		/// </summary>
 		[TabGroup("Match Info"), PropertyTooltip("Predifined match template."), SerializeField]
         private MatchTemplate matchTemplate;
+
+        /// <summary>
+        /// Reference to InputManager Event system to regain focus on First Selected.
+        /// </summary>
+        [SerializeField]
+        private EventSystem eventsystem;
+
+        /// <summary>
+        /// Reference to InputManager Event system to regain focus on First Selected.
+        /// </summary>
+        public EventSystem InputEventSystem {
+            get { return eventsystem; }
+        }
+
         #endregion
 
         #region DEBUG

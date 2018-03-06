@@ -214,9 +214,9 @@ namespace PanicPinnacle.Matches {
 					Sequence outroSeq = DOTween.Sequence();
 					outroSeq.AppendInterval(interval: 1f);
 					outroSeq.AppendCallback(new TweenCallback(delegate {
-						LegacySetState(RoundState.complete);
+						//LegacySetState(RoundState.complete);
 						// Display the tally.
-						Menus.RoundTallyScreen.instance.DisplayTally(type: Menus.TallyScreenType.Round);
+						//Menus.RoundTallyScreen.instance.DisplayTally(type: Menus.TallyScreenType.Round);
 					}));
 					outroSeq.AppendInterval(5f);
 					outroSeq.AppendCallback(new TweenCallback(delegate {
@@ -225,9 +225,7 @@ namespace PanicPinnacle.Matches {
 						// that function is private and gets called as a result of MatchController.StartMatch(),
 						// which, in turn, is called by GameController.StartMatch(). These calls are the only things
 						// that these two functions do, so it's worth remembering if this ever becomes an issue.
-						Debug.LogWarning("Calling MatchController.StartMatch() in order to proceed. If this does not cause issues in the future, feel free to delete this warning.");
-                        MatchController.instance.NextPhase(MatchPhase.tally);
-                        //MatchController.instance.StartMatch();
+                        MatchController.instance.NextPhase();
 					}));
 					outroSeq.Play();
 					break;

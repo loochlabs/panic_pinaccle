@@ -106,12 +106,51 @@ namespace PanicPinnacle.Matches {
 
                     break;
                 case MatchPhase.endtally:
+                    currentPhase = phase;
+                    //TODO: temp until there is an endtally
+                    NextPhase();
                     break;
                 case MatchPhase.debug:
                     break;
             }
             
 		}
+
+        /// <summary>
+        /// Go to next phase of Match.
+        /// This is a control wrapper to simplify the call from the various phases.
+        /// </summary>
+        public void NextPhase()
+        {
+            switch (currentPhase) {
+                case MatchPhase.pregame:
+                    NextPhase(MatchPhase.round);
+                    break;
+                case MatchPhase.round:
+                    NextPhase(MatchPhase.tally);
+                    break;
+                case MatchPhase.tally:
+                    if(currentMatchSettings.roundSettings.Count == 0)
+                    {
+                        NextPhase(MatchPhase.endtally);
+                    }
+                    else
+                    {
+                        NextPhase(MatchPhase.round);
+                    }
+                    break;
+                case MatchPhase.endtally:
+                    //Match is complete, go back to Title Screen
+                    SceneController.instance.LoadScene(
+                        sceneName: currentMatchSettings.MatchTemplate.TitleScreenSceneName, 
+                        showLoadingText: true, 
+                        collectGarbageOnTransition: true);
+                    break;
+                case MatchPhase.debug:
+                    break;
+            }
+
+        }
 
 		/// <summary>
 		/// Pops and returns the next RoundSettings in line for this match.
