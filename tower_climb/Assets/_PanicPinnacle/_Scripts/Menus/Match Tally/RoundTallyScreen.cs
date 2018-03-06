@@ -15,6 +15,9 @@ namespace PanicPinnacle.Menus {
 
 		public static RoundTallyScreen instance;
 
+		public static TallyScreenType tallyType = TallyScreenType.Round;
+
+
 		#region FIELDS - SCENE REFERENCES
 		/// <summary>
 		/// The child of this component, which is enabled/disabled if I need to quickly display/hide it.
@@ -52,7 +55,11 @@ namespace PanicPinnacle.Menus {
 		/// Displays the tally on screen.
 		/// </summary>
 		/// <param name="status"></param>
-		public void DisplayTally() {
+		public void DisplayTally(TallyScreenType type) {
+
+			// Tell the class the type of tally that should be shown.
+			tallyType = type;
+
 			this.roundTallyScreenGameObject.SetActive(true);
 			this.backgroundImage.CrossFadeColor(new Color(0f, 0f, 0f, 0.8f), 0.5f, true, true);
 			Debug.Log("DISPLAYING TALLY");
@@ -96,5 +103,13 @@ namespace PanicPinnacle.Menus {
 
 	}
 
+	/// <summary>
+	/// The type of info being displayed.
+	/// Might get rid of this later but it's a simple workaruond.
+	/// </summary>
+	public enum TallyScreenType {
+		Round = 0,
+		Match = 1,
+	}
 
 }

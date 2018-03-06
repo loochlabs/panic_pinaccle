@@ -351,6 +351,109 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
+=======
+--- !u!1001 &732611855
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224573678305323338, guid: 6cd079b4b1abcca4fa68f6761caa5e6a,
+        type: 2}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6cd079b4b1abcca4fa68f6761caa5e6a, type: 2}
+  m_IsPrefabParent: 0
+>>>>>>> chris-work
 --- !u!1 &1077926699
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,7 +828,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2131412624
 RectTransform:
   m_ObjectHideFlags: 0
@@ -829,6 +932,7 @@ MonoBehaviour:
   verticalLimitMode: 0
   leftoverText: 
   textMaterial: {fileID: 2100000, guid: 4211c1f343906bb498265ce29964aa5d, type: 2}
+<<<<<<< HEAD
   textMesh: {fileID: 1744278631}
   rawTopLeftBounds: {x: 623.55, y: -234.45, z: 0}
   rawBottomRightBounds: {x: -623.55, y: 234.45, z: 0}
@@ -837,6 +941,16 @@ MonoBehaviour:
   bottomLeftBounds: {x: 195.91205, y: 129.4186, z: 0}
   bottomRightBounds: {x: 922.08795, y: 129.4186, z: 0}
   centerBounds: {x: 559, y: 265.93686, z: 0}
+=======
+  textMesh: {fileID: 0}
+  rawTopLeftBounds: {x: 623.55, y: -234.45, z: 0}
+  rawBottomRightBounds: {x: -623.55, y: 234.45, z: 0}
+  topLeftBounds: {x: 158.23666, y: 325.0407, z: 0}
+  topRightBounds: {x: 744.7633, y: 325.0407, z: 0}
+  bottomLeftBounds: {x: 158.23666, y: 104.51117, z: 0}
+  bottomRightBounds: {x: 744.7633, y: 104.51117, z: 0}
+  centerBounds: {x: 451.5, y: 214.77594, z: 0}
+>>>>>>> chris-work
   maxX: 1223.75
   minY: -400
   unwrappedMaxX: 2650

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using PanicPinnacle.Menus;
 namespace PanicPinnacle.Debugging {
 
 	/// <summary>
@@ -16,7 +16,8 @@ namespace PanicPinnacle.Debugging {
 		private string sceneToLoadNext = "";
 
 		private IEnumerator Start() {
-			yield return new WaitForSeconds(5f);
+			RoundTallyScreen.instance.DisplayTally(type: TallyScreenType.Match);
+			yield return new WaitForSeconds(7f);
 			SceneController.instance.LoadScene(sceneName: sceneToLoadNext, showLoadingText: false, collectGarbageOnTransition: true);
 		}
 	}

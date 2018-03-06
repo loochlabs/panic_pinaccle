@@ -41,8 +41,15 @@ namespace PanicPinnacle.Menus {
 		/// </summary>
 		private void Rebuild() {
 			Debug.Log("Rebuilding tally for combatant with ID: " + this.combatantId);
+
 			// Grab the scores for this combatant.
-			List<ScoreType> scores = ScoreKeeper.GetRoundScores(combatantId: this.combatantId);
+			// I'm kinda shoehorning this if/else statement, I might get rid of it later.
+			List<ScoreType> scores;
+			if (RoundTallyScreen.tallyType == TallyScreenType.Round) {
+				scores = ScoreKeeper.GetRoundScores(combatantId: this.combatantId);
+			} else {
+				scores = ScoreKeeper.GetTotalScores(combatantId: this.combatantId);
+			}
 			// Just write out the player's ID for now.
 			this.combatantNameTextMesh.Text = "Player " + this.combatantId;
 			// Initialize a string for the tally text.

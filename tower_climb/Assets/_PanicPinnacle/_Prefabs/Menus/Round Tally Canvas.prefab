@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 114622032329578410}
   - component: {fileID: 114943485924686942}
   m_Layer: 5
-  m_Name: Tally Canvas
+  m_Name: Round Tally Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

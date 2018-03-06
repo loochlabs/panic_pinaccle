@@ -216,7 +216,7 @@ namespace PanicPinnacle.Matches {
 					outroSeq.AppendCallback(new TweenCallback(delegate {
 						LegacySetState(RoundState.complete);
 						// Display the tally.
-						Menus.RoundTallyScreen.instance.DisplayTally();
+						Menus.RoundTallyScreen.instance.DisplayTally(type: Menus.TallyScreenType.Round);
 					}));
 					outroSeq.AppendInterval(5f);
 					outroSeq.AppendCallback(new TweenCallback(delegate {
