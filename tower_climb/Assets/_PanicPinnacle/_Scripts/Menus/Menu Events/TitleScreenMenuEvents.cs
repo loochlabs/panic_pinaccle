@@ -19,25 +19,24 @@ namespace PanicPinnacle.UI.Events {
         /// </summary>
         [SerializeField]
         private GameObject playButton;
-        
-        #endregion
+
+		#endregion
 
 
-        #region UNITY FUNCTIONS
+		#region UNITY FUNCTIONS
 
-        private void Awake()
-        {
-            GameController.instance.InputEventSystem.firstSelectedGameObject = playButton;
-            GameController.instance.InputEventSystem.SetSelectedGameObject(playButton);
-        }
+		private void Start() {
+			GameController.instance.InputEventSystem.firstSelectedGameObject = playButton;
+			GameController.instance.InputEventSystem.SetSelectedGameObject(playButton);
+		}
 
-        #endregion
+		#endregion
 
 
-        /// <summary>
-        /// A callback that gets run when Play is hit on the title screen.
-        /// </summary>
-        public void LoadMainMenu() {
+		/// <summary>
+		/// A callback that gets run when Play is hit on the title screen.
+		/// </summary>
+		public void LoadMainMenu() {
             Debug.Log("STARTING NEW MATCH");
             GameController.instance.StartMatch();
 		}

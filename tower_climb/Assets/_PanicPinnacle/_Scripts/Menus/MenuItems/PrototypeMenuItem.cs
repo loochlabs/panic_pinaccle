@@ -34,8 +34,6 @@ namespace PanicPinnacle.UI {
 			// Grab references to the two objects that need them.
 			this.menuItemBackground = GetComponent<Image>();
 			this.menuItemLabel = GetComponentInChildren<SuperTextMesh>();
-		}
-		private void Start() {
 			// Remember the text of the label.
 			this.menuItemText = this.menuItemLabel.Text;
 		}

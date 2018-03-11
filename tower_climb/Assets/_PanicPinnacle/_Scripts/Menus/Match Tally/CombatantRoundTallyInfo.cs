@@ -34,7 +34,14 @@ namespace PanicPinnacle.Menus {
 		/// Do that.
 		/// </summary>
 		private void OnEnable() {
-			this.Rebuild();
+			// Check if there is a tally for this info in the score keeper before proceeding.
+			if (ScoreKeeper.ContainsCombatant(id: this.combatantId, tallyscreenType: RoundTallyScreen.tallyType)) {
+				// If there is, build it.
+				this.Rebuild();
+			} else {
+				// If there isn't, don't bother.
+				this.gameObject.SetActive(false);
+			}
 		}
 		/// <summary>
 		/// Assembles the tally with the information that needs to be displayed on screen.

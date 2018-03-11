@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PanicPinnacle.Matches;
 using PanicPinnacle.Combatants;
+using System.Linq;
 
 namespace PanicPinnacle.Menus {
 
@@ -10,7 +11,7 @@ namespace PanicPinnacle.Menus {
 	/// Stores the callbacks that get used by the buttons.
 	/// </summary>
 	public class PreGameMenu : MonoBehaviour {
-        
+
 		#region FIELDS - MEMORY
 		/// <summary>
 		/// A list of players that have pressed A on the pre-game menu and are ready to start.
@@ -21,15 +22,15 @@ namespace PanicPinnacle.Menus {
 		/// </summary>
 		private bool refreshPreGameTextToggle = false;
 
-        /// <summary>
-        /// Container for combatants who have joined this Pregame
-        /// </summary>
-        private Combatant[] combatants = new Combatant[4];
+		/// <summary>
+		/// Container for combatants who have joined this Pregame
+		/// </summary>
+		private Combatant[] combatants = new Combatant[4];
 
-        /// <summary>
-        /// Check for if all players are ready and the countdown to start is active.
-        /// </summary>
-        private bool countdownActive = false;
+		/// <summary>
+		/// Check for if all players are ready and the countdown to start is active.
+		/// </summary>
+		private bool countdownActive = false;
 
 		#endregion
 
@@ -40,15 +41,15 @@ namespace PanicPinnacle.Menus {
 		[SerializeField]
 		private SuperTextMesh preGamePlayersText;
 
-        /// <summary>
-        /// Array of transforms for spawn locations.
-        /// </summary>
-        [SerializeField]
-        private Transform[] spawns = new Transform[4];
+		/// <summary>
+		/// Array of transforms for spawn locations.
+		/// </summary>
+		[SerializeField]
+		private Transform[] spawns = new Transform[4];
 
-        #endregion
+		#endregion
 
-        private void Awake() {
+		private void Awake() {
 			// Initialize the list of ready players so that everyone is not ready. 
 			this.readyPlayers.AddRange(new bool[] { false, false, false, false });
 		}
@@ -64,58 +65,51 @@ namespace PanicPinnacle.Menus {
 		private IEnumerator WaitForPlayers() {
 			while (true) {
 				// Find which players are ready for the game. Ready To play some ball. Ready to punch. hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut 
-				
+
 				for (int i = 0; i < this.readyPlayers.Count; i++) {
-                    Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerId: i);
-                    if (player.GetButtonDown("Punch") && combatants[i] == null)
-                    {
-                        Debug.Log("Creating new player with ID:" + i);
-                        MatchController.instance.CurrentMatchSettings.AddCombatant(combatantId: i);
-                        GameObject gameobj = Instantiate(
-                            original: MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerPrefab, 
-                            parent: spawns[i]);
-                        combatants[i] = gameobj.GetComponent<Player>();
-                        combatants[i].Prepare(
-                            combatantTemplate: MatchController.instance.CurrentMatchSettings.CombatantTemplates[i],
-                            combatantId: i);
-                        refreshPreGameTextToggle = true;
-                    }
+					Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerId: i);
+					if (player.GetButtonDown("Punch") && combatants[i] == null) {
+						Debug.Log("Creating new player with ID:" + i);
+						MatchController.instance.CurrentMatchSettings.AddCombatant(combatantId: i);
+						GameObject gameobj = Instantiate(
+							original: MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerPrefab,
+							parent: spawns[i]);
+						combatants[i] = gameobj.GetComponent<Player>();
+						combatants[i].Prepare(
+							combatantTemplate: MatchController.instance.CurrentMatchSettings.CombatantTemplates[i],
+							combatantId: i);
+						refreshPreGameTextToggle = true;
+					}
 				}
-                
-                //If all players are ready, start countdown timer
-                bool readyToStart = false;
-                //TODO: this is a complete brain fart and I cant think of a better way to check if there is atleast one active combatant
-                for(int i = 0; i<combatants.Length; i++)
-                {
-                    if (combatants[i]) readyToStart = true;
-                }
-                for(int i = 0; i < combatants.Length; i++)
-                {
-                    if (combatants[i])
-                    {
-                        readyToStart = readyToStart & readyPlayers[i];
-                    }
-                }
 
-                //Start a 3 second countdown if everyone is ready.
-                //Cancel the countdown otherwise.
-                if (readyToStart && !countdownActive)
-                {
-                    countdownActive = true;
-                    StartCoroutine("StartCountdown");
-                }
-                else if(!readyToStart && countdownActive)
-                {
-                    //TODO: not sure if this is the proper way to cancel this coroutine.
-                    //      Might want some sort of check to see if its running. I just didnt find anything liek that.
-                    countdownActive = false;
-                    StopCoroutine("StartCountdown");
-                }
+				//If all players are ready, start countdown timer
+				bool readyToStart = false;
+				//TODO: this is a complete brain fart and I cant think of a better way to check if there is atleast one active combatant
+				for (int i = 0; i < combatants.Length; i++) {
+					if (combatants[i]) readyToStart = true;
+				}
+				for (int i = 0; i < combatants.Length; i++) {
+					if (combatants[i]) {
+						readyToStart = readyToStart & readyPlayers[i];
+					}
+				}
+
+				//Start a 3 second countdown if everyone is ready.
+				//Cancel the countdown otherwise.
+				if (readyToStart && !countdownActive) {
+					countdownActive = true;
+					StartCoroutine("StartCountdown");
+				} else if (!readyToStart && countdownActive) {
+					//TODO: not sure if this is the proper way to cancel this coroutine.
+					//      Might want some sort of check to see if its running. I just didnt find anything liek that.
+					countdownActive = false;
+					StopCoroutine("StartCountdown");
+				}
 
 
-                //STEVE: I'll leave this here incase you want to still have UI info for the players
-                // If the list of ready players changed, refresh the text.
-                /*
+				//STEVE: I'll leave this here incase you want to still have UI info for the players
+				// If the list of ready players changed, refresh the text.
+				/*
 				if (refreshPreGameTextToggle) {
 					refreshPreGameTextToggle = false;
 
@@ -128,39 +122,38 @@ namespace PanicPinnacle.Menus {
 					}
 				}*/
 
-                yield return new WaitForEndOfFrame();
+				yield return new WaitForEndOfFrame();
 			}
 		}
 
-        /// <summary>
-        /// Start countdown to go to next round if all players are in the ready up box.
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerator StartCountdown()
-        {
-            Debug.Log("Countdown to Start is active!");
-            yield return new WaitForSeconds(3f);
-            MatchController.instance.NextPhase();
-        }
+		/// <summary>
+		/// Start countdown to go to next round if all players are in the ready up box.
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerator StartCountdown() {
+			Debug.Log("Countdown to Start is active!");
+			yield return new WaitForSeconds(3f);
+			// Tell the score keeper to startup with entries for only the combatants that came in.
+			ScoreKeeper.Prepare(this.combatants.Where(c => c!= null).Select(c => c.CombatantID).ToList());
+			MatchController.instance.NextPhase();
+		}
 
-        #region PUBLIC FUNCTIONS
-        /// <summary>
-        /// Player has entered the ready box at top of Pregame Scene.
-        /// </summary>
-        /// <param name="combatant"></param>
-        public void AddPlayer(Combatant combatant)
-        {
-            readyPlayers[combatant.CombatantID] = true;
-        }
+		#region PUBLIC FUNCTIONS
+		/// <summary>
+		/// Player has entered the ready box at top of Pregame Scene.
+		/// </summary>
+		/// <param name="combatant"></param>
+		public void AddPlayer(Combatant combatant) {
+			readyPlayers[combatant.CombatantID] = true;
+		}
 
-        /// <summary>
-        /// Player has exited ready box at top of Pregame Scene.
-        /// </summary>
-        /// <param name="combatant"></param>
-        public void RemovePlayer(Combatant combatant)
-        {
-            readyPlayers[combatant.CombatantID] = false;
-        }
-        #endregion
-    }
+		/// <summary>
+		/// Player has exited ready box at top of Pregame Scene.
+		/// </summary>
+		/// <param name="combatant"></param>
+		public void RemovePlayer(Combatant combatant) {
+			readyPlayers[combatant.CombatantID] = false;
+		}
+		#endregion
+	}
 }

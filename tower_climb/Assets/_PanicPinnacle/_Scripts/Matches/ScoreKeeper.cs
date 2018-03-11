@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using PanicPinnacle.Combatants;
+using PanicPinnacle.Menus;
 
 namespace PanicPinnacle.Matches {
 
 	/// <summary>
 	/// A class to help keep track of the scores of the different combatants.
 	/// </summary>
-	public static class ScoreKeeper  {
+	public static class ScoreKeeper {
 
 		#region FIELDS - SCORES
 		/// <summary>
@@ -24,29 +25,23 @@ namespace PanicPinnacle.Matches {
 		private static Dictionary<int, List<ScoreType>> combatantRoundScores = new Dictionary<int, List<ScoreType>>();
 		#endregion
 
-		#region CONSTRUCTOR
-		static ScoreKeeper() {
-			// Initialize the two dictionaries with lists for up to four combatants.
-			for (int i = 0; i < 4; i++) {
-				combatantTotalScores.Add(i, new List<ScoreType>());
-				combatantRoundScores.Add(i, new List<ScoreType>());
-			}
-
-			// DEBUG WHOA. Uncomment this to populate the round scores with completely arbitrary data.
-			// AddDebugScores();
-		}
-		#endregion
-
 		#region SCORE MANAGEMENT
 		/// <summary>
-		/// Resets the scores of all combatants.
+		/// Preps the ScoreKeeper to be used for the match with the IDs of the combatants it needs to keep track of.
+		/// This means if there is no key, the combatant is not playing.
 		/// </summary>
-		public static void FlushScores() {
-			// Go through each of the key value pairs that already exist within the dicts and clear out their lists.
-			// This does not clear out the dictionaries themselves, which is good, because the lists can be reused.
-			combatantRoundScores.ToList().ForEach(kvp => kvp.Value.Clear());
-			combatantTotalScores.ToList().ForEach(kvp => kvp.Value.Clear());
+		/// <param name="combatantIds"></param>
+		public static void Prepare(List<int> combatantIds) {
+			Debug.Log("Preparing score keeper for use with combatant IDs " + combatantIds);
+			// Completely flushout the dictionaries.
+			combatantTotalScores = new Dictionary<int, List<ScoreType>>();
+			combatantRoundScores = new Dictionary<int, List<ScoreType>>();
+			// Make new lists for the IDs passed in. Note that only combatants  
+			// who are actually in the game will have keys in the dictionaries.
+			combatantIds.ForEach(id => combatantTotalScores.Add(key: id, value: new List<ScoreType>()));
+			combatantIds.ForEach(id => combatantRoundScores.Add(key: id, value: new List<ScoreType>()));
 		}
+
 		/// <summary>
 		/// Add points for this round to the specified combatant.
 		/// </summary>
@@ -71,6 +66,24 @@ namespace PanicPinnacle.Matches {
 		#endregion
 
 		#region SCORE RETRIEVAL
+		/// <summary>
+		/// Checks for whether or not the combatant with the specified ID has an entry in the score.
+		/// </summary>
+		/// <param name="id">The ID of the combatant that may or may not need their scores.</param>
+		/// <param name="tallyscreenType">The type of score to get.</param>
+		/// <returns></returns>
+		public static bool ContainsCombatant(int id, TallyScreenType tallyscreenType) {
+			// Will probably refactor this later, but just check the respective dictionary
+			// to see if it has a key with the ID. If there is no key, there is no combatant.
+			switch (tallyscreenType) {
+				case TallyScreenType.Match:
+					return combatantTotalScores.ContainsKey(key: id);
+				case TallyScreenType.Round:
+					return combatantRoundScores.ContainsKey(key: id);
+				default:
+					return false;
+			}
+		}
 		/// <summary>
 		/// Returns a dictionary representing the scores of current round for the different combatants currently in game.
 		/// </summary>
@@ -113,10 +126,12 @@ namespace PanicPinnacle.Matches {
 		/// <returns></returns>
 		public static List<ScoreType> GetRoundScores(int combatantId) {
 			// Will probably remove this if statement if it never shows up but I'm a little worried so I wanna check for the time being.
-			if (RoundController.instance.Combatants.Select(c => c.CombatantID).ToList().Contains(combatantId) == false) {
-				throw new System.Exception("You're trying to get the round score of a combatant who's ID isn't actually in the round.");
-			} else {
+			try {
 				return combatantRoundScores[combatantId];
+			} catch (System.Exception e) {
+				Debug.LogError("Couldn't get scores for combatant with ID " + combatantId + "! Reason: " + e.ToString());
+				// If something goes wrong, just return a blank score.
+				return new List<ScoreType>();
 			}
 		}
 		/// <summary>

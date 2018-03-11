@@ -88,6 +88,7 @@ namespace PanicPinnacle.Menus {
 		/// <param name="index"></param>
 		/// <param name="status"></param>
 		private void SetCombatantMatchTallyActive(int index, bool status) {
+			Debug.Log("Enabling Tally Info of combatant with ID " + index);
 			this.combatantMatchTallys[index].gameObject.SetActive(status);
 		}
 		/// <summary>
