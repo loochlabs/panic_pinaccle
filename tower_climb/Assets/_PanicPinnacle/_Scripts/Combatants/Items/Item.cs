@@ -19,6 +19,14 @@ namespace PanicPinnacle.Items {
 		/// </summary>
 		private ItemTemplate itemTemplate;
 		/// <summary>
+		/// The template that stores un-modifiable data about this item.
+		/// </summary>
+		public ItemTemplate ItemTemplate {
+			get {
+				return this.itemTemplate;
+			}
+		}
+		/// <summary>
 		/// A list of effects that determine the behavior of this item.
 		/// </summary>
 		private List<ItemEffect> effects = new List<ItemEffect>();

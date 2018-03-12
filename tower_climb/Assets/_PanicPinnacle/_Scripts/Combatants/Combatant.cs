@@ -7,7 +7,7 @@ using PanicPinnacle.Combatants.Behaviors;
 using System.Linq;
 using PanicPinnacle.Events;
 using PanicPinnacle.Items;
-
+using PanicPinnacle.UI;
 namespace PanicPinnacle.Combatants {
 
 	/// <summary>
@@ -144,6 +144,13 @@ namespace PanicPinnacle.Combatants {
 		}
 		#endregion
 
+		#region FIELDS - UI
+		/// <summary>
+		/// The status to be used for this combatant's UI. May or may not get rid of this but I say that about everything don't I.
+		/// </summary>
+		private PlayerStatus combatantStatus;
+		#endregion
+
 		#region UNITY FUNCTIONS
 		private void Awake() {
 			// Find the CombatantBody attached to this Combatant.
@@ -158,6 +165,8 @@ namespace PanicPinnacle.Combatants {
 			this.CallEvent<IFixedUpdateEvent>(eventParams: this.StandardCombatantEventParams);
 		}
 		#endregion
+
+		
 
 		#region PREPARATION
 		/// <summary>
@@ -174,6 +183,14 @@ namespace PanicPinnacle.Combatants {
 			this.combatantInput = combatantTemplate.GetCombatantInput(combatant: this);
 			// Grab the behaviors from the template. This also preps them for use.
 			this.combatantBehaviors = combatantTemplate.GetCombatantBehaviors(combatant: this);
+
+			// Find the PlayerStatus that has the CombatantID that matches up with this CombatantID.
+			List<PlayerStatus> matches = FindObjectsOfType<PlayerStatus>().Where(ps => ps.CombatantID == this.CombatantID).ToList();
+			if (matches.Count > 0) {
+				this.combatantStatus = matches[0];
+				this.combatantStatus.Prepare(this);
+			}
+			
 		}
 		#endregion
 

@@ -32,6 +32,14 @@ namespace PanicPinnacle.Items {
 		[TabGroup("Metadata", "Visuals"), SerializeField]
 		private Sprite sprite;
 		/// <summary>
+		/// The sprite used to represent this power up in the game world.
+		/// </summary>
+		public Sprite Sprite {
+			get {
+				return this.sprite;
+			}
+		}
+		/// <summary>
 		/// The audio clip that should be played when this pickup is grabbed.
 		/// </summary>
 		[TabGroup("Metadata", "Audio"), SerializeField]
