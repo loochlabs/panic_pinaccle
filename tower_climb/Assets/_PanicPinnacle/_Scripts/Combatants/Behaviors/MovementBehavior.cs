@@ -15,6 +15,12 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		//Track if a jump is active
 		//prevents user from holding UP and jumping repeatedly 
 		private bool jumpActive;
+
+        /// <summary>
+        /// Audio source reference
+        /// </summary>
+        private AudioSource audio;
+
 		#endregion
 
 		#region PREPARATION
@@ -23,7 +29,7 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		/// </summary>
 		/// <param name="combatant"></param>
 		public override void Prepare(Combatant combatant) {
-
+            audio = combatant.GetComponentInChildren<AudioSource>();
 		}
 		#endregion
 
@@ -40,10 +46,10 @@ namespace PanicPinnacle.Combatants.Behaviors {
 			//ORIENTATION
 			//grab a reference here
 			Vector3 inputDirection = combatant.CombatantInput.GetMovementDirection(combatant: combatant);
-			if (inputDirection.x > 0) { combatant.Orientation = OrientationType.E; }
-			if (inputDirection.x < 0) { combatant.Orientation = OrientationType.W; }
-			if (inputDirection.y > 0) { combatant.Orientation = OrientationType.S; }
-			if (inputDirection.y < 0) { combatant.Orientation = OrientationType.N; }
+			if (inputDirection.x > 0.25f) { combatant.Orientation = OrientationType.E; }
+			if (inputDirection.x < -0.25f) { combatant.Orientation = OrientationType.W; }
+			if (inputDirection.y > 0.25f) { combatant.Orientation = OrientationType.S; }
+			if (inputDirection.y < -0.25f) { combatant.Orientation = OrientationType.N; }
 
 			//Horizontal Movement
 			//calc all directional movement, AddForce after all calculations complete
@@ -64,6 +70,12 @@ namespace PanicPinnacle.Combatants.Behaviors {
 				//reset jump once player is grounded and releases joystick from UP
 				if (jumpActive && inputDirection.y >= 0) {
 					jumpActive = false;
+
+                    //sfx
+                    //audio.pitch = Random.Range(0.5f, 1f);
+                    //audio.PlayOneShot(DataController.instance.GetSFX(SFXType.TouchGroundImpact), 0.5f);
+                    //reset pitch
+                    //audio.pitch = 1f;
 				}
 			}
 
@@ -72,10 +84,13 @@ namespace PanicPinnacle.Combatants.Behaviors {
 				&& combatant.CombatantBody.IsGrounded
 				&& !jumpActive) {
 				// If they're able to jump, add that force amount.
-				//combatant.CombatantBody.AddForce(y: combatant.CombatantTemplate.JumpPower);
 				moveDirection.y = combatant.CombatantTemplate.JumpPower;
 				jumpActive = true;
-			}
+
+                //sfx
+                audio.pitch = Random.Range(0.85f, 1f);
+                audio.PlayOneShot(DataController.instance.GetSFX(SFXType.Jump1));
+            }
 
 			//add movement force with all conditions
 			combatant.CombatantBody.AddForce(moveDirection);

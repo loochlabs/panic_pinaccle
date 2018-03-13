@@ -70,6 +70,20 @@ namespace PanicPinnacle.Combatants {
 		public CombatantStateType State {
 			get { return state; }
 		}
+
+        /// <summary>
+        /// Keep track of aggressor againt combatant for knockout score.
+        /// </summary>
+        private Combatant aggressor;
+
+        /// <summary>
+        /// Keep track of aggressor againt combatant for knockout score.
+        /// </summary>
+        public Combatant Aggressor {
+            get { return aggressor; }
+            set { aggressor = value; }
+        }
+
 		#endregion
 
 		#region FIELDS - BEHAVIORS AND INPUT	
@@ -164,17 +178,38 @@ namespace PanicPinnacle.Combatants {
 		private void FixedUpdate() {
 			this.CallEvent<IFixedUpdateEvent>(eventParams: this.StandardCombatantEventParams);
 		}
-		#endregion
 
-		
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            CombatantEventParams cep = StandardCombatantEventParams;
+            cep.collision = collision;
+            CallEvent<IOnTriggerEnter2DEvent>(eventParams: cep);
+        }
 
-		#region PREPARATION
-		/// <summary>
-		/// Prepares this combatant with the information stored in a CombatantTemplate.
-		/// </summary>
-		/// <param name="combatantTemplate">The template to use for initialization.</param>
-		/// <param name="combatantId">The ID that will be assigned to this combatant..</param>
-		public virtual void Prepare(CombatantTemplate combatantTemplate, int combatantId) {
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            CombatantEventParams cep = StandardCombatantEventParams;
+            cep.collision = collision;
+            CallEvent<IOnTriggerExit2DEvent>(eventParams: cep);
+        }
+
+        private void OnTriggerStay2D(Collider2D collision)
+        {
+            CombatantEventParams cep = StandardCombatantEventParams;
+            cep.collision = collision;
+            CallEvent<IOnTriggerStay2DEvent>(eventParams: cep);
+        }
+        #endregion
+
+
+
+        #region PREPARATION
+        /// <summary>
+        /// Prepares this combatant with the information stored in a CombatantTemplate.
+        /// </summary>
+        /// <param name="combatantTemplate">The template to use for initialization.</param>
+        /// <param name="combatantId">The ID that will be assigned to this combatant..</param>
+        public virtual void Prepare(CombatantTemplate combatantTemplate, int combatantId) {
 			// Save the combatant ID. It will be needed during the preparation process as well.
 			this.combatantId = combatantId;
 			// Save a reference to the template, because it will be needed.

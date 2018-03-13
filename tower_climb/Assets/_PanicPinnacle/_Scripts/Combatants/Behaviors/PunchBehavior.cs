@@ -50,14 +50,19 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		/// Original grav modifier at beginning of scene
 		/// </summary>
 		private float originalGravModifier;
-		#endregion
 
-		#region PREPARATION
-		/// <summary>
-		/// Preps this behavior for use.
-		/// </summary>
-		/// <param name="combatant">The combatant that is using this behavior.</param>
-		public override void Prepare(Combatant combatant) {
+        /// <summary>
+        /// Audio source reference
+        /// </summary>
+        private AudioSource audio;
+        #endregion
+
+        #region PREPARATION
+        /// <summary>
+        /// Preps this behavior for use.
+        /// </summary>
+        /// <param name="combatant">The combatant that is using this behavior.</param>
+        public override void Prepare(Combatant combatant) {
 			Debug.Log("NOTE: This will fail if the combatant does not have the proper objects as part of their children. See if this can be refactored.");
 			// Look for the punch box in this combatant's children.
 			this.punchboxGameObject = combatant.gameObject.transform.Find("Punch Box").gameObject;
@@ -73,7 +78,10 @@ namespace PanicPinnacle.Combatants.Behaviors {
 
 			originalGravModifier = combatant.CombatantBody.GravityScale;
 			targetsToPunch = new List<Player>();
-		}
+
+            //sfx
+            audio = combatant.GetComponentInChildren<AudioSource>();
+        }
 		#endregion
 
 		#region PUNCHING
@@ -86,11 +94,12 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		private void PunchCombatant(Combatant combatant, Combatant target) {
 
 			// THIS IS A COMPLETELY ARBITRARY POINT I AM CHOOSING TO TEST THIS FUNCTIONALITY FEEL FREE TO REMOVE THANKS - Chris
-			ScoreKeeper.AddPoints(combatantId: combatant.CombatantID, scoreType: ScoreType.Knockout);
+			//ScoreKeeper.AddPoints(combatantId: combatant.CombatantID, scoreType: ScoreType.Knockout);
 
 			//impact direction to send targets
 			Vector2 impactDirection = Vector2.zero;
 			target.SetState(CombatantStateType.dazed);
+            target.Aggressor = combatant;
 
 			//calculate trajectory of impact
 			Vector3 dv = target.transform.position - combatant.transform.position;
@@ -111,7 +120,7 @@ namespace PanicPinnacle.Combatants.Behaviors {
 				target.SetState(CombatantStateType.playing);
 			}));
 			dazeSeq.Play();
-		}
+        }
 		#endregion
 
 		#region INTERFACE IMPLEMENTATION - IUPDATEEVENT
@@ -141,7 +150,7 @@ namespace PanicPinnacle.Combatants.Behaviors {
 			punchboxGameObject.transform.localEulerAngles = punchboxRotation;
 
 			// First, see if the combatant is trying to punch and if they are allowed to.
-			if (combatant.CombatantInput.GetPunchInput(combatant: combatant) == true) {
+			if (combatant.CombatantInput.GetPunchInput(combatant: combatant)) {
 
 				foreach (Player target in targetsToPunch) {
 					PunchCombatant(combatant: combatant, target: target);
@@ -187,7 +196,10 @@ namespace PanicPinnacle.Combatants.Behaviors {
 						break;
 				}
 				combatant.CombatantBody.AddForce(direction: propellDirection, magnitude: propellentForceMagnitude);
-			}
+
+                //sfx
+                audio.PlayOneShot(DataController.instance.GetSFX(SFXType.Punch1));
+            }
 		}
 		#endregion
 
@@ -196,9 +208,7 @@ namespace PanicPinnacle.Combatants.Behaviors {
 			Combatant combatant = eventParams.combatant;
 			Collider2D collision = eventParams.collision;
 
-			// Debug.Log("ENTER: " + collision);
-
-			if (collision.tag == "Player" && collision.gameObject.GetComponent<Combatant>() != combatant) {
+            if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>() != combatant) {
 				//If already state == punching, punch our new target
 				if (combatant.State == CombatantStateType.punching) {
 					PunchCombatant(combatant: combatant, target: collision.gameObject.GetComponent<Player>());
@@ -217,8 +227,6 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		public void OnTriggerExit2D(CombatantEventParams eventParams) {
 			Combatant combatant = eventParams.combatant;
 			Collider2D collision = eventParams.collision;
-
-			// Debug.Log("EXIT: " + collision);
 
 			if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>() != combatant) {
 				targetsToPunch.Remove(collision.gameObject.GetComponent<Player>());

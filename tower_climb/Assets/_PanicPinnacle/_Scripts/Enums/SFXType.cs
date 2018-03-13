@@ -14,6 +14,10 @@ namespace PanicPinnacle {
 		Punch1 = 2001,
 		Punch2 = 2002,
 		Jump1 = 2101,
+        PunchImpact = 2201,
+        TouchGroundImpact = 2202,
+        BoundKnockout = 2301,
+        PlayerTouchGoal = 2401,
 		ERROR = 9999,
 	}
 
