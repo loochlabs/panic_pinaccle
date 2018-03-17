@@ -27,7 +27,7 @@ MonoBehaviour:
   roundCount: 2
   survivaleScoreValue: 5
   knockoutScoreValue: 2
-  playerPrefab: {fileID: 1063099046413674, guid: 254730344beb872469f4556ddf8e5225,
+  playerPrefab: {fileID: 1063099046413674, guid: c7e3d57bcfdd28b46876610f432f7b83,
     type: 2}
   combatantTemplates:
   - {fileID: 11400000, guid: 608b8335f79f824408012f5f909349ca, type: 2}

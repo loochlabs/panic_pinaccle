@@ -2070,6 +2070,7 @@ MonoBehaviour:
   - {fileID: 1016249848480038}
   boundsMoveRate: 0.6
   boundsEndDistThreshold: 0.5
+  boundEndScaleRate: 0.5
 --- !u!212 &212033234843404024
 SpriteRenderer:
   m_ObjectHideFlags: 1
