@@ -11,14 +11,21 @@ namespace PanicPinnacle.Combatants {
 	[RequireComponent(typeof(PlayerPhysicsBody)), RequireComponent(typeof(PlayerAnimator))]
 	public class Player : Combatant {
 
+        #region SCENE REFS
 
-		#region PREPARATION
-		/// <summary>
-		/// Prepares this combatant with the information stored in a CombatantTemplate.
-		/// </summary>
-		/// <param name="combatantTemplate">The template to use for initialization.</param>
-		/// <param name="combatantId">The ID that will be assigned to this combatant..</param>
-		public override void Prepare(CombatantTemplate combatantTemplate, int combatantId) {
+        //audio
+        private AudioSource audio;
+
+        #endregion
+
+
+        #region PREPARATION
+        /// <summary>
+        /// Prepares this combatant with the information stored in a CombatantTemplate.
+        /// </summary>
+        /// <param name="combatantTemplate">The template to use for initialization.</param>
+        /// <param name="combatantId">The ID that will be assigned to this combatant..</param>
+        public override void Prepare(CombatantTemplate combatantTemplate, int combatantId) {
 			// Call the base so that the default settings are in place.
 			base.Prepare(combatantTemplate, combatantId);
 			Debug.Log("Preparing Player with ID: " + combatantId);
@@ -30,12 +37,57 @@ namespace PanicPinnacle.Combatants {
             //Prepare round properties of this player
 			GetComponentInChildren<SpriteRenderer>().color =
                 MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerColors[combatantId];
-            
+
+            //sfx
+            audio = gameObject.GetComponentInChildren<AudioSource>();
         }
 
-		#endregion
-	}
+        #endregion
 
+        #region GAME EVENTS
 
+        /// <summary>
+        /// Knockout player if they touch environment bounds.
+        /// </summary>
+        public void Knockout()
+        {
+            Debug.Log("Player " + CombatantID + " knockedout!");
 
+            this.SetState(CombatantStateType.dead);
+
+            if (Aggressor)
+            {
+                ScoreKeeper.AddPoints(combatantId: Aggressor.CombatantID, scoreType: ScoreType.Knockout);
+            }
+
+            //sfx
+            audio.PlayOneShot(DataController.instance.GetSFX(SFXType.BoundKnockout));
+
+            //cleanup player
+            combatantBody.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
+            this.enabled = false;
+        }
+
+        public void GoalTouch()
+        {
+            Debug.Log("Player " + CombatantID + " completed goal!");
+
+            this.SetState(CombatantStateType.dead);
+
+            //scoring
+            ScoreKeeper.AddPoints(combatantId: CombatantID, scoreType: ScoreType.Survival);
+            
+            //sfx
+            audio.PlayOneShot(DataController.instance.GetSFX(SFXType.PlayerTouchGoal));
+            //TODO: play animation
+
+            //cleanup player
+            combatantBody.StopVertical();
+            combatantBody.StopHorizontal();
+            combatantBody.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
+            this.enabled = false;
+        }
+
+        #endregion
+    }
 }

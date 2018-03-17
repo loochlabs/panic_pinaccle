@@ -45,6 +45,14 @@ namespace PanicPinnacle.Combatants {
 		/// Needed so I can actually apply forces and whatnot.
 		/// </summary>
 		protected Rigidbody2D rigidBody;
+
+        /// <summary>
+        /// The RigidBody2D component attached to this body.
+        /// </summary>
+        public Rigidbody2D Rigidbody
+        {
+            get { return rigidBody; }
+        }
 		#endregion
 
 		private void Awake() {

@@ -92,10 +92,7 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		/// <param name="combatant"></param>
 		/// <param name="target"></param>
 		private void PunchCombatant(Combatant combatant, Combatant target) {
-
-			// THIS IS A COMPLETELY ARBITRARY POINT I AM CHOOSING TO TEST THIS FUNCTIONALITY FEEL FREE TO REMOVE THANKS - Chris
-			//ScoreKeeper.AddPoints(combatantId: combatant.CombatantID, scoreType: ScoreType.Knockout);
-
+            
 			//impact direction to send targets
 			Vector2 impactDirection = Vector2.zero;
 			target.SetState(CombatantStateType.dazed);
@@ -151,6 +148,13 @@ namespace PanicPinnacle.Combatants.Behaviors {
 
 			// First, see if the combatant is trying to punch and if they are allowed to.
 			if (combatant.CombatantInput.GetPunchInput(combatant: combatant)) {
+
+                //impact sfx
+                Debug.Log("target count " + targetsToPunch.Count);
+                if(targetsToPunch.Count != 0)
+                {
+                    audio.PlayOneShot(DataController.instance.GetSFX(SFXType.PunchImpact), 0.7f);
+                }
 
 				foreach (Player target in targetsToPunch) {
 					PunchCombatant(combatant: combatant, target: target);
@@ -211,7 +215,8 @@ namespace PanicPinnacle.Combatants.Behaviors {
             if (collision.tag == "Player" && collision.gameObject.GetComponent<Player>() != combatant) {
 				//If already state == punching, punch our new target
 				if (combatant.State == CombatantStateType.punching) {
-					PunchCombatant(combatant: combatant, target: collision.gameObject.GetComponent<Player>());
+                    PunchCombatant(combatant: combatant, target: collision.gameObject.GetComponent<Player>());
+                    audio.PlayOneShot(DataController.instance.GetSFX(SFXType.PunchImpact), 0.7f);
 				}
 				//add target to list for when we punch
 				else {

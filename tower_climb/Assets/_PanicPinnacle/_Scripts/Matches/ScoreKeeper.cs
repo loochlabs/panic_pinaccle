@@ -49,7 +49,15 @@ namespace PanicPinnacle.Matches {
 		/// <param name="scoreType">The type of points to add.</param>
 		public static void AddPoints(int combatantId, ScoreType scoreType) {
 			Debug.Log("Adding score of type " + scoreType + " to combatant with ID: " + combatantId);
-			combatantRoundScores[combatantId].Add(scoreType);
+            try
+            {
+                combatantRoundScores[combatantId].Add(scoreType);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Debug.LogError("CombatantID not found in ScoreKeeper!");
+            }
+			
 		}
 		/// <summary>
 		/// Adds the scores of the combatant in the round to the total scores.
