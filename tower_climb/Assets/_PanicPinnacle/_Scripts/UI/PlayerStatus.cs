@@ -174,7 +174,7 @@ namespace PanicPinnacle.UI {
 			// Iterate through the available power ups, and set the sprites that are provided to the images.
 			for (i = 0; i < powerUps.Count; i++) {
 				this.powerUpImages[i].color = Color.white;
-				this.powerUpImages[i].sprite = powerUps[i].ItemTemplate.Sprite;
+				this.powerUpImages[i].sprite = powerUps[i].ItemTemplate.ItemSprite;
 			}
 			// There may potentailly be unused power up images. In that case, hide them.
 			for (i = powerUps.Count; i < this.powerUpImages.Count; i++) {

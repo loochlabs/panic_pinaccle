@@ -30,13 +30,26 @@ namespace PanicPinnacle.Items {
 		/// The sprite used to represent this power up in the game world.
 		/// </summary>
 		[TabGroup("Metadata", "Visuals"), SerializeField]
-		private Sprite sprite;
+		private Sprite itemSprite;
 		/// <summary>
 		/// The sprite used to represent this power up in the game world.
 		/// </summary>
-		public Sprite Sprite {
+		public Sprite ItemSprite {
 			get {
-				return this.sprite;
+				return this.itemSprite;
+			}
+		}
+		/// <summary>
+		/// The icon used to show this item in a combatant's status. May be the same as the item's world sprite for debugging purposes.
+		/// </summary>
+		[TabGroup("Metadata", "Visuals"), SerializeField]
+		private Sprite itemIcon;
+		/// <summary>
+		/// The icon used to show this item in a combatant's status. May be the same as the item's world sprite for debugging purposes.
+		/// </summary>
+		public Sprite ItemIcon {
+			get {
+				return this.itemIcon;
 			}
 		}
 		/// <summary>

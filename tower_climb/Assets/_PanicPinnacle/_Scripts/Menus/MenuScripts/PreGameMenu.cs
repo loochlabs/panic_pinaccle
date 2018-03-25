@@ -64,8 +64,7 @@ namespace PanicPinnacle.Menus {
 		/// <returns></returns>
 		private IEnumerator WaitForPlayers() {
 			while (true) {
-				// Find which players are ready for the game. Ready To play some ball. Ready to punch. hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut hut 
-
+				// Find which players are ready for the game.
 				for (int i = 0; i < this.readyPlayers.Count; i++) {
 					Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerId: i);
 					if (player.GetButtonDown("Punch") && combatants[i] == null) {

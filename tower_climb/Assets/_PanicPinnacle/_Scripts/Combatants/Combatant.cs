@@ -274,6 +274,7 @@ namespace PanicPinnacle.Combatants {
 				return true;
 			} else {
 				// If it wasn't found, return false.
+				Debug.LogWarning("Couldn't remove item from combatant.");
 				return false;
 			}
 		}

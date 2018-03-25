@@ -23,3 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_PanicPinnacle/_Scenes/DEBUG/Placeholder Mock Tally.unity
     guid: c72bb84e0025d5c47ad4249223c7f9d1
+  - enabled: 1
+    path: Assets/_PanicPinnacle/_Scenes/DEBUG/Debug Round - Anims with Tally and also
+      Items Wow.unity
+    guid: 9c9b74ed655fbef4c80efc4b8de57603
