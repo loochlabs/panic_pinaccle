@@ -96,6 +96,14 @@ namespace PanicPinnacle.Combatants {
 		/// </summary>
 		private List<Item> items = new List<Item>();
 		/// <summary>
+		/// The list of items in this combatant's posession.
+		/// </summary>
+		public List<Item> Items {
+			get {
+				return this.items;
+			}
+		}
+		/// <summary>
 		/// The class that provides the input for the combatant.
 		/// </summary>
 		private CombatantInput combatantInput;
@@ -248,6 +256,7 @@ namespace PanicPinnacle.Combatants {
 			foreach (Item item in this.items) {
 				item.CallEvent<T>(eventParams: eventParams);
 			}
+
 		}
 		#endregion
 
@@ -260,6 +269,10 @@ namespace PanicPinnacle.Combatants {
 			this.items.Add(item);
 			// Invoke the event on the item that tells it that it was just added to the combatant.
 			item.CallEvent<IOnItemAddEvent>(new CombatantEventParams(combatant: this, item: item, collision: null));
+
+			if (this.combatantStatus != null) {
+				this.combatantStatus.RefreshStatus();
+			}
 		}
 		/// <summary>
 		/// Removes an item from the combatant's inventory.
@@ -271,6 +284,12 @@ namespace PanicPinnacle.Combatants {
 			if (this.items.Remove(item) == true) {
 				// If it was successfully removed, call the event that says it just did that.
 				item.CallEvent<IOnItemRemoveEvent>(new CombatantEventParams(combatant: this, item: item, collision: null));
+
+				// Refresh the status, regardless of context.
+				if (this.combatantStatus != null) {
+					this.combatantStatus.RefreshStatus();
+				}
+
 				return true;
 			} else {
 				// If it wasn't found, return false.
@@ -287,6 +306,10 @@ namespace PanicPinnacle.Combatants {
 		/// <param name="state"></param>
 		public void SetState(CombatantStateType state) {
 			this.state = state;
+			// Refresh the status on this change.
+			if (this.combatantStatus != null) {
+				this.combatantStatus.RefreshStatus();
+			}
 		}
 		#endregion
 	}

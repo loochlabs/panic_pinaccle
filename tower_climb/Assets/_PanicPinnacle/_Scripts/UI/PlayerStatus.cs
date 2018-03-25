@@ -4,6 +4,7 @@ using UnityEngine;
 using PanicPinnacle.Combatants;
 using UnityEngine.UI;
 using PanicPinnacle.Items;
+using PanicPinnacle.Matches;
 
 namespace PanicPinnacle.UI {
 
@@ -96,8 +97,8 @@ namespace PanicPinnacle.UI {
 		/// Refreshes the status with updated information.
 		/// </summary>
 		public void RefreshStatus() {
-			Debug.LogWarning("Set the color of the back image.");
-			// this.backImage.canvasRenderer.SetColor(color: ???);
+			// Look into the match template for this current match and pick out the appropriate color.
+			this.backImage.canvasRenderer.SetColor(color: MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerColors[this.CombatantID]);
 
 			Debug.LogWarning("Set the bust up image.");
 			// this.bustUpImage.sprite = ???;
@@ -110,6 +111,10 @@ namespace PanicPinnacle.UI {
 				Debug.LogWarning("Set the placement of the combatant.");
 				// this.SetRoundPlacementLabel(combatant.SomeValueThatHasTheirPlacement);
 			}
+
+			// Set the images that correspond to the different powerups.
+			this.SetPowerUps(powerUps: this.combatant.Items);
+
 		}
 		/// <summary>
 		/// Hides the status for when it's not needed anymore.
