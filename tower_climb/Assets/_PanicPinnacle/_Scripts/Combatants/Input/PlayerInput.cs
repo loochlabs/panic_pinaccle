@@ -57,6 +57,28 @@ namespace PanicPinnacle.Input {
 			// Just get the value of the punch button being pressed.
 			return this.rewiredPlayer.GetButtonDown("Punch");
 		}
+		/// <summary>
+		/// Grabs whether or not the combatant is trying to punch in the given direction.
+		/// </summary>
+		/// <param name="combatant"></param>
+		/// <returns></returns>
+		public override bool GetFourWayPunchInput(Combatant combatant, OrientationType orientationType) {
+			// N/E/S/W correspond to Up/Right/Down/Left. 
+			// I just think its convinient to use OrientationType like this I guess.
+			switch (orientationType) {
+				case OrientationType.N:
+					return this.rewiredPlayer.GetButtonDown("Punch Up");
+				case OrientationType.E:
+					return this.rewiredPlayer.GetButtonDown("Punch Right");
+				case OrientationType.S:
+					return this.rewiredPlayer.GetButtonDown("Punch Down");
+				case OrientationType.W:
+					return this.rewiredPlayer.GetButtonDown("Punch Left");
+				default:
+					Debug.LogError("There is no definition for a punch in this direction. Are you trying to get a diagonal punch?");
+					return false;
+			}
+		}
 		#endregion
 
 

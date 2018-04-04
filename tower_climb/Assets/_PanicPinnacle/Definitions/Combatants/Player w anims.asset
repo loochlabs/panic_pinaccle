@@ -41,31 +41,31 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 3|PanicPinnacle.Combatants.Behaviors.PunchBehavior, Assembly-CSharp
+      Data: 3|AnimationBehavior, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|ParticleBehavior, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|PanicPinnacle.Combatants.Behaviors.FourWayPunchBehavior, Assembly-CSharp
     - Name: propellentForceMagnitude
       Entry: 4
-      Data: 500
+      Data: 10
     - Name: impactForceMagnitude
       Entry: 4
-      Data: 200
+      Data: 10
     - Name: bodyGravityModifier
       Entry: 4
-      Data: 0.005
+      Data: 0.05
     - Name: punchDuration
       Entry: 4
       Data: 0.5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 4|AnimationBehavior, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 5|ParticleBehavior, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 

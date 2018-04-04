@@ -50,6 +50,12 @@ namespace PanicPinnacle.Input {
 		/// <param name="combatant">The combatant that may or may not be trying to punch.</param>
 		/// <returns>Whether or not this combatatant is trying to punch.</returns>
 		public abstract bool GetPunchInput(Combatant combatant);
+		/// <summary>
+		/// Grabs whether or not the combatant is trying to punch in the given direction.
+		/// </summary>
+		/// <param name="combatant"></param>
+		/// <returns></returns>
+		public abstract bool GetFourWayPunchInput(Combatant combatant, OrientationType orientationType);
 		#endregion
 
 
