@@ -43,6 +43,36 @@ namespace PanicPinnacle.Combatants.Behaviors {
 		/// </summary>
 		[TabGroup("Punch Behavior", "Attributes"), PropertyTooltip("How long should this punch be active for?"), SerializeField]
 		private float punchDuration = 0.5f;
+		/// <summary>
+		/// How much should punching deplete the meter by?
+		/// </summary>
+		[TabGroup("Punch Behavior", "Meter"), PropertyTooltip("How much should punching deplete the meter by?"), SerializeField]
+		private float meterDepletion = 5f;
+		/// <summary>
+		/// How much of the meter should be restored *per second* when the player is grounded?
+		/// </summary>
+		[TabGroup("Punch Behavior", "Meter"), PropertyTooltip("How much of the meter should be restored *per second* when the player is grounded?"), SerializeField]
+		private float meterRestorationRate = 10f;
+		/// <summary>
+		/// How much should the meter store in total?
+		/// </summary>
+		[TabGroup("Punch Behavior", "Meter"), PropertyTooltip("How much should the meter store in total?"), SerializeField]
+		private float meterMax = 20f;
+		/// <summary>
+		/// How much is currently stored in the meter?
+		/// </summary>
+		private float meterAmount = 0f;
+		/// <summary>
+		/// How much is currently stored in the meter?
+		/// </summary>
+		private float MeterAmount {
+			get {
+				return this.meterAmount;
+			} set {
+				// When setting the amount stored on this meter, make sure to clamp it so it doesn't exceed the maximum allowed amount.
+				this.meterAmount = Mathf.Clamp(value: value, min: 0f, max: this.meterMax);
+			}
+		}
 		#endregion
 
 		#region FIELDS - SCENE REFERENCES
@@ -130,11 +160,28 @@ namespace PanicPinnacle.Combatants.Behaviors {
 
 		#region INTERFACE IMPLEMENTATION - IUPDATEEVENT
 		public void FixedUpdate(CombatantEventParams eventParams) {
+
 			// Grabbing a reference so I don't need to rewrite everything.
 			Combatant combatant = eventParams.combatant;
-
+			
 			if (combatant.State == CombatantStateType.dazed) { return; }
 			if (combatant.State == CombatantStateType.punching) { return; }
+
+			// Restore part of the player's punch meter if they are grounded.
+			if (combatant.CombatantBody.IsGrounded == true) {
+				this.MeterAmount += (this.meterRestorationRate * Time.fixedDeltaTime);
+			}
+
+			// After restoring, double check to make sure the player has enough meter to punch. If not, back out.
+			// TODO: Might wanna go "dark souls stamina" style on this and allow them to punch as long as its not zero,
+			// but make meter restoration take very slightly longer if punching at a value in between zero and the stamina cost?
+			if (this.MeterAmount < this.meterDepletion) { return; }
+
+			//
+			//
+			// If code is executing after this point, it means the player potentially may be punching and is also allowed to do so.
+			//
+			//
 
 			// Okay so here's how this works.
 			FourWayPunchBehavior.punchDirections
@@ -217,6 +264,9 @@ namespace PanicPinnacle.Combatants.Behaviors {
 
 					//sfx
 					audio.PlayOneShot(DataController.instance.GetSFX(SFXType.Punch1));
+
+					// Deplete the meter after the punch.
+					this.MeterAmount -= this.meterDepletion;
 
 				});
 

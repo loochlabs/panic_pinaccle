@@ -1258,7 +1258,7 @@ MonoBehaviour:
         _elementIdentifierId: 16
         _axisRange: 0
         _invert: 0
-        _axisContribution: 0
+        _axisContribution: 1
         _keyboardKeyCode: 0
         _modifierKey1: 0
         _modifierKey2: 0
@@ -1280,7 +1280,7 @@ MonoBehaviour:
         _elementIdentifierId: 18
         _axisRange: 0
         _invert: 0
-        _axisContribution: 1
+        _axisContribution: 0
         _keyboardKeyCode: 0
         _modifierKey1: 0
         _modifierKey2: 0
@@ -1584,7 +1584,7 @@ MonoBehaviour:
         _elementIdentifierId: 16
         _axisRange: 0
         _invert: 0
-        _axisContribution: 0
+        _axisContribution: 1
         _keyboardKeyCode: 0
         _modifierKey1: 0
         _modifierKey2: 0
@@ -1606,7 +1606,7 @@ MonoBehaviour:
         _elementIdentifierId: 18
         _axisRange: 0
         _invert: 0
-        _axisContribution: 1
+        _axisContribution: 0
         _keyboardKeyCode: 0
         _modifierKey1: 0
         _modifierKey2: 0
@@ -1888,7 +1888,7 @@ MonoBehaviour:
         _elementIdentifierId: 19
         _axisRange: 0
         _invert: 0
-        _axisContribution: 0
+        _axisContribution: 1
         _keyboardKeyCode: 0
         _modifierKey1: 0
         _modifierKey2: 0
@@ -1910,7 +1910,7 @@ MonoBehaviour:
         _elementIdentifierId: 21
         _axisRange: 0
         _invert: 0
-        _axisContribution: 1
+        _axisContribution: 0
         _keyboardKeyCode: 0
         _modifierKey1: 0
         _modifierKey2: 0

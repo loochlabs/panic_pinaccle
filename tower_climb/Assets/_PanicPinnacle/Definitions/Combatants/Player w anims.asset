@@ -66,6 +66,15 @@ MonoBehaviour:
     - Name: punchDuration
       Entry: 4
       Data: 0.5
+    - Name: meterDepletion
+      Entry: 4
+      Data: 5
+    - Name: meterRestorationRate
+      Entry: 4
+      Data: 10
+    - Name: meterMax
+      Entry: 4
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
