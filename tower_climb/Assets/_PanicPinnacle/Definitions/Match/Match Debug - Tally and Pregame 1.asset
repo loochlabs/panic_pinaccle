@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de5317e4853a8ec44b3d1a420cbaf9ba, type: 3}
-  m_Name: Match Debug - Tally Ver
+  m_Name: Match Debug - Tally and Pregame 1
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -20,22 +20,22 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  matchName: matchDebug1
-  titlescreenSceneName: 
-  pregameSceneName: 
+  matchName: matchDebug2
+  titlescreenSceneName: TitleScreen
+  pregameSceneName: PreGame
   matchTallySceneName: Placeholder Mock Tally
   roundCount: 2
   survivaleScoreValue: 5
   knockoutScoreValue: 2
-  playerPrefab: {fileID: 1063099046413674, guid: 254730344beb872469f4556ddf8e5225,
+  playerPrefab: {fileID: 1063099046413674, guid: c7e3d57bcfdd28b46876610f432f7b83,
     type: 2}
   combatantTemplates:
   - {fileID: 11400000, guid: 608b8335f79f824408012f5f909349ca, type: 2}
   maxPlayerCount: 4
   playerColors:
-  - {r: 0.9098039, g: 0.41960785, b: 0.3137255, a: 1}
-  - {r: 0.29411766, g: 0.85490197, b: 1, a: 1}
-  - {r: 1, g: 0.85490197, b: 0.34509805, a: 1}
-  - {r: 0.7294118, g: 0.3254902, b: 1, a: 1}
+  - {r: 0.9098039, g: 0.7924402, b: 0.7670896, a: 1}
+  - {r: 0.8235294, g: 0.9637255, b: 1, a: 1}
+  - {r: 1, g: 0.96524596, b: 0.84313726, a: 1}
+  - {r: 0.9433653, g: 0.85882354, b: 1, a: 1}
   roundSettings:
   - {fileID: 11400000, guid: 7dec948dac467464f82f27f9c35196cb, type: 2}
