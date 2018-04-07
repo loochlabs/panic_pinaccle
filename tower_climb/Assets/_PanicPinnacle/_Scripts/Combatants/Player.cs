@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PanicPinnacle.Matches;
+using cakeslice;
 
 namespace PanicPinnacle.Combatants {
 
@@ -37,6 +38,11 @@ namespace PanicPinnacle.Combatants {
             //Prepare round properties of this player
 			GetComponentInChildren<SpriteRenderer>().color =
                 MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerColors[combatantId];
+            GetComponentInChildren<Outline>().color = combatantId;
+            //Outline ot = GetComponentInChildren<Outline>();
+            //ot.color = combatantId;
+            //ot.enabled = false;
+            //ot.enabled = true;
 
             //sfx
             audio = gameObject.GetComponentInChildren<AudioSource>();

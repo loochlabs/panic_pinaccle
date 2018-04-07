@@ -5,6 +5,7 @@ using PanicPinnacle.Combatants;
 using DG.Tweening;
 using PanicPinnacle.Legacy;
 using PanicPinnacle.Matches.Legacy;
+using cakeslice;
 
 namespace PanicPinnacle.Matches {
 
@@ -34,6 +35,11 @@ namespace PanicPinnacle.Matches {
 		// Mostly just have these here so I can add in old code.
 		// Likely will replace later but it isn't important enough that I need to do it right now immediately.
 		private RoundState state;
+        public RoundState State
+        {
+            get { return state; }
+        }
+
 		private GameObject mainCamera; //@TODO: move to LevelSettings
 		[SerializeField]
 		private LevelSettings level;
@@ -82,6 +88,7 @@ namespace PanicPinnacle.Matches {
 			Debug.Log("PREPARING ROUND");
 			// Save the settings, in case they are needed.
 			this.currentRoundSettings = roundSettings;
+            //StartRound();
 		}
 		/// <summary>
 		/// Prepares the round in debug mode. WILL CHANGE THIS LATER PROBABLY.
@@ -133,7 +140,7 @@ namespace PanicPinnacle.Matches {
 			Debug.Log("STARTING ROUND");
 			// Look for the level settings somewhere within this scene.
 			this.level = GameObject.FindObjectOfType<LevelSettings>();
-            
+
 			//Instantiate and prepare our Combatants
 			foreach (var ct in MatchController.instance.CurrentMatchSettings.CombatantTemplates) {
 				GameObject player = Instantiate(
@@ -145,7 +152,17 @@ namespace PanicPinnacle.Matches {
 
 			// Call the legacy function that sets the state and starts the round.
 			this.LegacySetState(state: RoundState.intro);
-		}
+
+            /*
+            OutlineEffect.Instance.DestroyMaterials();
+            Outline[] o = FindObjectsOfType<Outline>();
+
+            foreach (Outline oL in o)
+            {
+                oL.enabled = false;
+                oL.enabled = true;
+            }*/
+        }
 		#endregion
 
 		#region LEGACY
@@ -233,7 +250,7 @@ namespace PanicPinnacle.Matches {
 				case RoundState.complete:
 					//@TODO goto Match Tally
 					Debug.Log("ROUND COMPLETE");
-
+                    this.state = RoundState.none;
 					break;
 			}
 		}
@@ -271,7 +288,8 @@ namespace PanicPinnacle.Matches {
 			pause = 3,          //
 			allfail = 4,        //all players have failed (knocked out of bounds)
 			outro = 5,          //outro cinematic
-			complete = 6        //setup and goto Match Tally scene
+			complete = 6,        //setup and goto Match Tally scene
+            none = 99
 		}
 	}
 }

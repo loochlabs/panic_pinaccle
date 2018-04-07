@@ -56,7 +56,7 @@ MonoBehaviour:
       Data: 5|PanicPinnacle.Combatants.Behaviors.FourWayPunchBehavior, Assembly-CSharp
     - Name: propellentForceMagnitude
       Entry: 4
-      Data: 10
+      Data: 300
     - Name: impactForceMagnitude
       Entry: 4
       Data: 10
