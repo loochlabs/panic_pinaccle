@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using PanicPinnacle.Matches;
 using System.Linq;
+using Sirenix.OdinInspector;
 
 namespace PanicPinnacle.Menus {
 
@@ -16,17 +17,25 @@ namespace PanicPinnacle.Menus {
 		/// <summary>
 		/// The ID of the combatant that this tally info should build.
 		/// </summary>
-		[SerializeField]
+		[SerializeField, TabGroup("Settings", "Settings")]
 		private int combatantId;
 		#endregion
 
 		#region FIELDS - SCENE REFERENCES
-		[SerializeField]
+		[SerializeField, TabGroup("Settings", "Scene References")]
 		private SuperTextMesh combatantNameTextMesh;
-		[SerializeField]
+		[SerializeField, TabGroup("Settings", "Scene References")]
 		private Image combatantPortrait;
-		[SerializeField]
+		/// <summary>
+		/// The text that shows the breakdown of scores for the given round.
+		/// </summary>
+		[SerializeField, TabGroup("Settings", "Scene References")]
 		private SuperTextMesh roundTallyTextMesh;
+		/// <summary>
+		/// The text that shows the numerical sum of the breakdown of scores for the given round.
+		/// </summary>
+		[SerializeField, TabGroup("Settings", "Scene References")]
+		private SuperTextMesh totalScoreTextMesh;
 		#endregion
 
 		/// <summary>
@@ -63,18 +72,29 @@ namespace PanicPinnacle.Menus {
 			string roundTallyText = "";
 
 			try {
-				// Generate the tally text. For right now I'm just going to convert the score types to strings and append them on new lines.
+				/*// Generate the tally text. For right now I'm just going to convert the score types to strings and append them on new lines.
 				roundTallyText = scores
 					.Select(s => s.ToString())              // Convert the scores into strings.
-					.Aggregate((i, j) => i + "\n" + j);     // Add them into a new string that has a newline as a delimiter.
+					.Aggregate((i, j) => i + "\n" + j);     // Add them into a new string that has a newline as a delimiter.*/
+				// Generate the tally text. For right now I'm just going to convert the score types to strings and append them on new lines.
+				roundTallyText = ScoreKeeper
+					.ConvertScoresToStrings(scores: scores) // Convert the scores into strings.
+					.Aggregate((i, j) => i + "\n" + j);		// Add them into a new string that has a newline as a delimiter.
+				
 			} catch (System.InvalidOperationException e) {
 				// This exception happens when there's no elements in the list.
 				Debug.LogWarning("InvalidOperationException was caught when building round tally! Info:\n" + e.Message);
 			}
-			
+		
 			// Set the new text.
 			this.roundTallyTextMesh.Text = roundTallyText;
-			
+
+			// Also get the numerical sum of those scores.
+			this.totalScoreTextMesh.Text = "TOTAL: " + ScoreKeeper.GetScoresValue(scores: scores);
+
+			// Tint the color appropriately. The player grabs their color from the same source (the match controller) so this should work.
+			this.combatantPortrait.color = MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerColors[this.combatantId];
+
 		}
 
 	}

@@ -29,11 +29,11 @@ namespace PanicPinnacle.Menus {
 		/// </summary>
 		[SerializeField]
 		private List<CombatantRoundTallyInfo> combatantMatchTallys = new List<CombatantRoundTallyInfo>();
-		/// <summary>
+		/*/// <summary>
 		/// A simple image that can be used to fade in/out for an effect.
 		/// </summary>
 		[Space(10), SerializeField]
-		private Image backgroundImage;
+		private Image faderImage;*/
 		#endregion
 
 		#region UNITY FUNCTIONS
@@ -43,7 +43,7 @@ namespace PanicPinnacle.Menus {
 		}
 		private void Start() {
 			// Clear out the match tally from being seen, if it's displayed.
-			this.backgroundImage.CrossFadeColor(Color.clear, 0.0f, true, true);
+			// this.faderImage.CrossFadeColor(Color.clear, 0.0f, true, true);
 			this.SetAllCombatantMatchTallysActive(status: false);
 			this.HideTally();
             // StartCoroutine(DebugShowAfterSeconds());
@@ -64,13 +64,19 @@ namespace PanicPinnacle.Menus {
 			tallyType = type;
 
 			this.roundTallyScreenGameObject.SetActive(true);
-			this.backgroundImage.CrossFadeColor(new Color(0f, 0f, 0f, 0.8f), 0.5f, true, true);
+			// this.faderImage.CrossFadeColor(new Color(0f, 0f, 0f, 0.8f), 0.5f, true, true);
 			Debug.Log("DISPLAYING TALLY");
 			// First off, turn off all tallys and enable the ones that line up with combatant IDs.
 			this.SetAllCombatantMatchTallysActive(status: false);
-			foreach (Combatant combatant in RoundController.instance.Combatants) {
-				this.SetCombatantMatchTallyActive(index: combatant.CombatantID, status: true);
+
+			try {
+				foreach (Combatant combatant in RoundController.instance.Combatants) {
+					this.SetCombatantMatchTallyActive(index: combatant.CombatantID, status: true);
+				}
+			} catch (System.Exception e) {
+				Debug.LogError("Couldn't show combatants! Reason: " + e.Message);
 			}
+			
 
             //go to next phase after 5 seconds
             //TODO: probably want to start this once all UI anims are complete. 

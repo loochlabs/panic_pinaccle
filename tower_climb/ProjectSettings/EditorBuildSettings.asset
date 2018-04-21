@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/_PanicPinnacle/_Scenes/DEBUG/MOCK MainMenu.unity
+    path: 
     guid: 19fb1f1f4a6ed3f49b1dc9f98d7645cb
   - enabled: 0
-    path: Assets/_PanicPinnacle/_Scenes/DEBUG/Chris - Debug Round 4.unity
+    path: 
     guid: de4f0823e775f72468f49532f1d51b16
   - enabled: 1
     path: Assets/_PanicPinnacle/_Scenes/Menus/TitleScreen.unity
@@ -27,3 +27,6 @@ EditorBuildSettings:
     path: Assets/_PanicPinnacle/_Scenes/DEBUG/Debug Round - Anims with Tally and also
       Items Wow.unity
     guid: 9c9b74ed655fbef4c80efc4b8de57603
+  - enabled: 1
+    path: Assets/_PanicPinnacle/_Scenes/Menus/TallyScreen.unity
+    guid: 9b3841abf50e2a24489693de993edbc0

@@ -12,6 +12,16 @@ namespace PanicPinnacle.Matches {
 	/// </summary>
 	public static class ScoreKeeper {
 
+		#region FIELDS - CONSTANTS
+		/// <summary>
+		/// The value that each kind of score type is worth. 
+		/// </summary>
+		public static readonly Dictionary<ScoreType, int> scoreValueDict = new Dictionary<ScoreType, int>() {
+			{ScoreType.Survival, 3},
+			{ScoreType.Knockout, 1 }
+		};
+		#endregion
+
 		#region FIELDS - SCORES
 		/// <summary>
 		/// Maintains the total scores of the different combatants.
@@ -151,6 +161,33 @@ namespace PanicPinnacle.Matches {
 		public static List<ScoreType> GetTotalScores(int combatantId) {
 			// Will explain later why I'm not doing a similar check like I am above but it's not for a reason I'm content with.
 			return combatantTotalScores[combatantId];
+		}
+		#endregion
+
+		#region SCORE UTILITIES
+		/// <summary>
+		/// Converts a list of score types into strings that also contain the amount of points that they are worth.
+		/// Very helpful for the tally screen.
+		/// </summary>
+		/// <param name="scores">The scores that need to be converted to also contain their values.</param>
+		/// <returns></returns>
+		public static List<string> ConvertScoresToStrings(List<ScoreType> scores) {
+			// Convert the score type to a string, add a plus sign, and then add the integer that is stored in the score dict.
+			// Yes it's possible to just re-assign the numbers in the ScoreType enum itself but I'm worried that may break something.
+			return scores.Select(st => st.ToString() + " +" + scoreValueDict[st]).ToList();
+		}
+		/// <summary>
+		/// Gets the numerical sum value of the score types passed in.
+		/// </summary>
+		/// <param name="scores">The scores that need to be summed up.</param>
+		/// <returns></returns>
+		public static int GetScoresValue(List<ScoreType> scores) {
+			// Initialize a counter.
+			int total = 0;
+			// Go through each score and retrieve its actual value and add it back to that total.
+			scores.ForEach(st => total += scoreValueDict[st]);
+			// Return the total.
+			return total;
 		}
 		#endregion
 

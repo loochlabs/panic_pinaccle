@@ -98,10 +98,12 @@ namespace PanicPinnacle.UI {
 		/// </summary>
 		public void RefreshStatus() {
 			// Look into the match template for this current match and pick out the appropriate color.
-			this.backImage.canvasRenderer.SetColor(color: MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerColors[this.CombatantID]);
+			// this.backImage.canvasRenderer.SetColor(color: MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerColors[this.CombatantID]);
 
-			Debug.LogWarning("Set the bust up image.");
+			//Debug.LogWarning("Set the bust up image.");
 			// this.bustUpImage.sprite = ???;
+			this.bustUpImage.color = MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerColors[this.CombatantID];
+
 
 			// Set the combatant's name to "Player" and whatever id they have.
 			this.combatantNameLabel.Text = "Player " + combatant.CombatantID.ToString();
