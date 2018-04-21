@@ -12,6 +12,25 @@ namespace PanicPinnacle {
 
 		public static AudioController instance;
 
+		#region FIELDS - SETTINGS
+		/// <summary>
+		/// A setting that determines how much the volume should be multiplied by. 
+		/// </summary>
+		private static float volumeMultiplier = 1f;
+		/// <summary>
+		/// A setting that determines how much the volume should be multiplied by. 
+		/// </summary>
+		public static float VolumeMultiplier {
+			get {
+				return volumeMultiplier;
+			}
+			set {
+				// Clamp it between 0 and 1 just to be on the safe side.
+				volumeMultiplier = Mathf.Clamp01(value);
+			}
+		}
+		#endregion
+
 		#region FIELDS - SCENE REFERENCES
 		/// <summary>
 		/// A list of audio sources that are used for playing music/sfx.
@@ -38,7 +57,8 @@ namespace PanicPinnacle {
 		/// <param name="clip">The AudioClip of the SFX.</param>
 		/// <param name="volumeScale">The volume to play this SFX at.</param>
 		public void PlaySFX(AudioClip clip, float volumeScale = 1f) {
-			this.audioSources[0].PlayOneShot(clip: clip, volumeScale: volumeScale);
+			// The volume scale will also get multiplied by the volumeMultiplier, which is set by the settings menu at the start of the game.
+			this.audioSources[0].PlayOneShot(clip: clip, volumeScale: (volumeScale * volumeMultiplier));
 		}
 		/// <summary>
 		/// Plays an SFX.
@@ -46,10 +66,12 @@ namespace PanicPinnacle {
 		/// <param name="type">The type of SFX to play.</param>
 		/// <param name="volumeScale">The volume to play this SFX at.</param>
 		public void PlaySFX(SFXType type, float volumeScale = 1f) {
+			// The volume scale will also get multiplied by the volumeMultiplier, which is set by the settings menu at the start of the game.
+
 			// When given a type, retreive its clip from the DataManager and play it as normal.
 			this.PlaySFX(
 				clip: DataController.instance.GetSFX(type: type),
-				volumeScale: volumeScale);
+				volumeScale: (volumeScale * volumeMultiplier));
 		}
 		#endregion
 
