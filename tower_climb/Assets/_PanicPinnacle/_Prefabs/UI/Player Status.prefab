@@ -414,7 +414,7 @@ MonoBehaviour:
   font: {fileID: 12800000, guid: 506494c301e51064995a5340639af71a, type: 3}
   color:
     serializedVersion: 2
-    rgba: 4287496447
+    rgba: 4294967295
   richText: 1
   readDelay: 0
   speedReadScale: 2

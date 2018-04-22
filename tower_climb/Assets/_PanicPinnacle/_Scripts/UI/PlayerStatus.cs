@@ -110,8 +110,10 @@ namespace PanicPinnacle.UI {
 
 			// Set the round placement string if they are out.
 			if (this.combatant.State == CombatantStateType.dead) {
-				Debug.LogWarning("Set the placement of the combatant.");
-				// this.SetRoundPlacementLabel(combatant.SomeValueThatHasTheirPlacement);
+				// I need to figure out a good place to add round placement without stepping over my own feet so for now I'm gonna have it say "OUT".
+				this.SetRoundPlacementLabel("OUT");
+				// Fade out the bustup image.
+				this.bustUpImage.CrossFadeColor(targetColor: Color.gray, duration: 0.5f, ignoreTimeScale: true, useAlpha: false);
 			}
 
 			// Set the images that correspond to the different powerups.
@@ -158,7 +160,14 @@ namespace PanicPinnacle.UI {
 		/// </summary>
 		/// <param name="str">The exact string to set.</param>
 		private void SetRoundPlacementLabel(string str) {
-			this.placementLabel.Text = "<j=sample>" + str;
+			// If the string is not null, turn on the game object for it as well.
+			if (str != "") {
+				this.placementLabel.gameObject.SetActive(true);
+				this.placementLabel.Text = "<j=sample>" + str;
+			} else {
+				this.placementLabel.gameObject.SetActive(false);
+			}
+			
 		}
 		/// <summary>
 		/// Fades the the bustup/front/back images to a specified color.

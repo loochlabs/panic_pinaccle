@@ -275,11 +275,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114058524643608980, guid: 3cb4f5e1a7935cb45b27e84dff3fc28e,
-        type: 2}
-      propertyPath: textMesh
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3cb4f5e1a7935cb45b27e84dff3fc28e, type: 2}
   m_IsPrefabParent: 0
