@@ -76,7 +76,9 @@ namespace PanicPinnacle.Combatants.Behaviors {
                     MatchController.instance.CurrentMatchSettings.MatchTemplate.PlayerColors[combatant.CombatantID];
             }
 
-			originalGravModifier = combatant.CombatantBody.GravityScale;
+			// originalGravModifier = combatant.CombatantBody.GravityScale;
+			originalGravModifier = combatant.CombatantBody.gravityScale;
+
 			targetsToPunch = new List<Player>();
 
             //sfx
@@ -168,13 +170,15 @@ namespace PanicPinnacle.Combatants.Behaviors {
 				Sequence seq = DOTween.Sequence();
 				seq.AppendCallback(new TweenCallback(delegate {
 					combatant.SetState(CombatantStateType.punching);
-					combatant.CombatantBody.GravityScale = bodyGravityModifier;
+					// combatant.CombatantBody.GravityScale = bodyGravityModifier;
+					combatant.CombatantBody.SetGravityScale(gravityScale: bodyGravityModifier);
 					punchboxGameObject.SetActive(true);
 				}));
 				seq.AppendInterval(interval: this.punchDuration);
 				seq.AppendCallback(new TweenCallback(delegate {
 					combatant.SetState(CombatantStateType.playing);
-					combatant.CombatantBody.GravityScale = originalGravModifier;
+					// combatant.CombatantBody.GravityScale = originalGravModifier;
+					combatant.CombatantBody.SetGravityScale(gravityScale: originalGravModifier);
 					punchboxGameObject.SetActive(false);
 				}));
 				seq.Play();

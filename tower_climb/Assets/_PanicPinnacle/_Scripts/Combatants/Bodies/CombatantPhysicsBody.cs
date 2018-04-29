@@ -23,16 +23,14 @@ namespace PanicPinnacle.Combatants {
 
 		#region FIELDS - PHYSICS
 		/// <summary>
-		/// The gravity scale for this combatant's body.
+		/// Gets added to the GravityScale whenever it is accessed.
+		/// Good for when an item needs to change the gravity of a combatant.
 		/// </summary>
-		public float GravityScale {
-			get {
-				return this.rigidBody.gravityScale;
-			}
-			set {
-				this.rigidBody.gravityScale = value;
-			}
-		}
+		private float gravityModifier = 0f;
+		/// <summary>
+		/// The "primary" scale of the gravity. 
+		/// </summary>
+		public float gravityScale { get; private set; }		
 		#endregion
 
 		#region FIELDS - SCENE REFERENCES
@@ -58,6 +56,8 @@ namespace PanicPinnacle.Combatants {
 		private void Awake() {
 			// Grab a reference to the rigidbody.
 			this.rigidBody = GetComponent<Rigidbody2D>();
+			// Get the default gravity scale from the RigidBody.
+			this.gravityScale = this.rigidBody.gravityScale;
 			// Also get a reference to the Combatant.
 			this.combatant = GetComponent<Combatant>();
 		}
@@ -121,6 +121,27 @@ namespace PanicPinnacle.Combatants {
 		/// </summary>
 		public void StopVertical() {
 			rigidBody.velocity = new Vector2(x: this.rigidBody.velocity.x, y: 0f);
+		}
+		#endregion
+
+		#region FORCES - GRAVITY
+		/// <summary>
+		/// Sets the gravity scale of the RigidBody.
+		/// </summary>
+		/// <param name="gravityScale">The scale to update the rigidbody to.</param>
+		public void SetGravityScale(float gravityScale) {
+			this.gravityScale = gravityScale;
+			this.rigidBody.gravityScale = this.gravityScale + this.gravityModifier;
+		}
+		/// <summary>
+		/// Adds to the gravity modifier.
+		/// </summary>
+		/// <param name="modifier"></param>
+		public void AddGravityModifier(float modifier) {
+			// Add to the gravity modifier.
+			this.gravityModifier += modifier;
+			// Update the scale on the rigidbody.
+			this.SetGravityScale(gravityScale: this.gravityScale);
 		}
 		#endregion
 
