@@ -26,10 +26,20 @@ namespace PanicPinnacle.UI.Events {
 		[SerializeField]
 		private GameObject optionsButton;
 		/// <summary>
+		/// The button that transitions over to the credits when hit.
+		/// </summary>
+		[SerializeField]
+		private GameObject creditsButton;
+		/// <summary>
 		/// The button that gets selected at first when the screen transitions over to the settings.
 		/// </summary>
 		[SerializeField]
 		private GameObject okayButton;
+		/// <summary>
+		/// The button that is highlighted automatically when the credits have been transitioned to.
+		/// </summary>
+		[SerializeField]
+		private GameObject creditsBackButton;
 		/// <summary>
 		/// The RectTransform of the game object that encapsulates the entire settings menu.
 		/// (I could just as easily have gotten the GameObject but with canvases its easier for me to use the RectTransform.)
@@ -90,7 +100,22 @@ namespace PanicPinnacle.UI.Events {
 		/// A callback that gets run when the Credits button is hit on the title screen.
 		/// </summary>
 		public void TransitionToCredits() {
-			Debug.LogError("Not implemented yet.");
+			// Use DOTween to transition the menu over.
+			this.entireMenuTransform.DOAnchorPos(
+				endValue: (this.entireMenuTransform.anchoredPosition + new Vector2(x: 1920f, y: 0f)),
+				duration: 0.5f,
+				snapping: true);
+			// Also set the okay button as the new selection (this technically happens before the tween is completed but its a half second so whatever lmao)
+			GameController.instance.InputEventSystem.SetSelectedGameObject(this.creditsBackButton);
+		}
+		public void TransitionBackFromCredits() {
+			// Use DOTween to transition the menu over.
+			this.entireMenuTransform.DOAnchorPos(
+				endValue: (this.entireMenuTransform.anchoredPosition + new Vector2(x: -1920f, y: 0f)),
+				duration: 0.5f,
+				snapping: true);
+			// Set the play button back as the default option.
+			GameController.instance.InputEventSystem.SetSelectedGameObject(this.creditsButton);
 		}
 	}
 }
