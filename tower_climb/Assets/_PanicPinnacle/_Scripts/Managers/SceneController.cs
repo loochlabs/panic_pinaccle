@@ -36,6 +36,9 @@ namespace PanicPinnacle {
 			// A quick float to modify how long the fade in/out transitions are.
 			float fadetime = 0.5f;
 
+			// Tell the AudioController to fade out. Unless we want songs to persist through scenes, I don't see any reason not to put this here.
+			AudioController.instance.StopMusic(fadeTime: (fadetime-0.5f));
+
 			// Create a new sequence.
 			Sequence seq = DOTween.Sequence();
 			// Fade out the screen.

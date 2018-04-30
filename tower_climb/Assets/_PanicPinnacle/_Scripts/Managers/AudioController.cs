@@ -75,6 +75,45 @@ namespace PanicPinnacle {
 		}
 		#endregion
 
+		#region MUSIC
+		/// <summary>
+		/// Plays an audio track.
+		/// </summary>
+		/// <param name="clip">The music clip to play.</param>
+		/// <param name="volumeScale">The volume to play this music at.</param>
+		public void PlayMusic(AudioClip clip, float volumeScale = 1f) {
+			// Give it the clip to play.
+			this.audioSources[1].clip = clip;
+			// Reset the volume, because if the music was previously faded out, the volume needs to be toggled again.
+			this.audioSources[1].volume = volumeScale * VolumeMultiplier;
+			// Play it.
+			this.audioSources[1].Play();
+		}
+		/// <summary>
+		/// Fades the music out and stops it.
+		/// </summary>
+		public void StopMusic(float fadeTime = 0.5f) {
+			// To stop the music, just call the FadeMusic routine.
+			this.StartCoroutine(this.FadeMusic(fadeTime: fadeTime));
+		}
+		/// <summary>
+		/// Fades the music to a specific volume.
+		/// </summary>
+		/// <param name="fadeTime">The amount of time to fade the volume.</param>
+		/// <returns></returns>
+		private IEnumerator FadeMusic(float fadeTime) {
+			// Grab the volume level at the start.
+			float startVolume = this.audioSources[1].volume;
+			// While the audio is still higher than zero, continue to fade it out.
+			while (this.audioSources[1].volume > 0) {
+				this.audioSources[1].volume -= startVolume * (Time.deltaTime / fadeTime);
+				yield return null;
+			}
+			// Stop it completely at this point.
+			this.audioSources[1].Stop();
+		}
+		#endregion
+
 	}
 
 }
