@@ -91,6 +91,7 @@ namespace PanicPinnacle.UI {
 			seq.AppendCallback(new TweenCallback(delegate {
 				this.NumberRectTransforms[0].DOAnchorPosX(endValue: 0f, duration: (this.animationDuration / 6f), snapping: true);
 				this.numberImages[0].CrossFadeAlpha(alpha: 1f, duration: (this.animationDuration / 6f), ignoreTimeScale: true);
+				AudioController.instance.PlaySFX(type: SFXType.MenuSelect);
 			}));
 			seq.AppendInterval(interval: this.animationDuration / 3f);
 			seq.AppendCallback(new TweenCallback(delegate {
@@ -105,6 +106,7 @@ namespace PanicPinnacle.UI {
 			seq.AppendCallback(new TweenCallback(delegate {
 				this.NumberRectTransforms[1].DOAnchorPosX(endValue: 0f, duration: (this.animationDuration / 6f), snapping: true);
 				this.numberImages[1].CrossFadeAlpha(alpha: 1f, duration: (this.animationDuration / 6f), ignoreTimeScale: true);
+				AudioController.instance.PlaySFX(type: SFXType.MenuSelect);
 			}));
 			seq.AppendInterval(interval: this.animationDuration / 3f);
 			seq.AppendCallback(new TweenCallback(delegate {
@@ -120,6 +122,7 @@ namespace PanicPinnacle.UI {
 			seq.AppendCallback(new TweenCallback(delegate {
 				this.NumberRectTransforms[2].DOAnchorPosX(endValue: 0f, duration: (this.animationDuration / 6f), snapping: true);
 				this.numberImages[2].CrossFadeAlpha(alpha: 1f, duration: (this.animationDuration / 6f), ignoreTimeScale: true);
+				AudioController.instance.PlaySFX(type: SFXType.MenuSelect);
 			}));
 			seq.AppendInterval(interval: this.animationDuration / 3f);
 			seq.AppendCallback(new TweenCallback(delegate {
@@ -151,6 +154,7 @@ namespace PanicPinnacle.UI {
 			// Turn the PANIC text on.
 			seq.AppendCallback(new TweenCallback(delegate {
 				this.panicLabel.gameObject.SetActive(true);
+				AudioController.instance.PlaySFX(type: SFXType.BoundKnockout);
 			}));
 
 			// Wait a second.
