@@ -228,6 +228,10 @@ namespace PanicPinnacle.Matches {
 
 				case RoundState.outro:
 					Debug.Log("ROUND OUTRO");
+
+					// Call the outro animation.
+					UI.RoundOutroAnimation.instance.Play();
+
 					Sequence outroSeq = DOTween.Sequence();
 					outroSeq.AppendInterval(interval: 1f);
 					outroSeq.AppendCallback(new TweenCallback(delegate {

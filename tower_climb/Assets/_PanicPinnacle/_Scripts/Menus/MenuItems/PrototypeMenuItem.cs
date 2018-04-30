@@ -48,6 +48,7 @@ namespace PanicPinnacle.UI {
 			this.menuItemBackground.CrossFadeColor(targetColor: Color.white, duration: 0f, ignoreTimeScale: true, useAlpha: true);
 			// Also revert the text.
 			this.menuItemLabel.Text = "<c=black>" + this.menuItemText;
+			AudioController.instance.PlaySFX(type: SFXType.MenuHover);
 		}
 		public override void OnSelect(BaseEventData eventData) {
 			// When this button is selected, change its color.
@@ -56,6 +57,7 @@ namespace PanicPinnacle.UI {
 			this.menuItemLabel.Text = "<j=sample><c=white>" + this.menuItemText;
 		}
 		public override void OnSubmit(BaseEventData eventData) {
+			AudioController.instance.PlaySFX(type: SFXType.MenuSelect);
 			// When this button is submited, make it white again.
 			this.menuItemBackground.CrossFadeColor(targetColor: Color.white, duration: 0f, ignoreTimeScale: true, useAlpha: true);
 			// Also revert the text.
