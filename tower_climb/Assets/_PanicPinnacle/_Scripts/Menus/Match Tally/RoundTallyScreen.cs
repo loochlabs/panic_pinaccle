@@ -29,12 +29,18 @@ namespace PanicPinnacle.Menus {
 		/// </summary>
 		[SerializeField]
 		private List<CombatantRoundTallyInfo> combatantMatchTallys = new List<CombatantRoundTallyInfo>();
+		/// <summary>
+		/// The GameObject that is shown when the tally is ready to proceed.
+		/// </summary>
+		[SerializeField]
+		private GameObject inputConfirmationGameObject;
 		/*/// <summary>
 		/// A simple image that can be used to fade in/out for an effect.
 		/// </summary>
 		[Space(10), SerializeField]
 		private Image faderImage;*/
 		#endregion
+
 
 		#region UNITY FUNCTIONS
 		private void Awake() {
@@ -50,6 +56,7 @@ namespace PanicPinnacle.Menus {
 
             //Show tally
             DisplayTally(TallyScreenType.Round);
+			
 		}
 		#endregion
 
@@ -113,10 +120,30 @@ namespace PanicPinnacle.Menus {
         /// <returns></returns>
         private IEnumerator NextPhaseCountdown()
         {
-            yield return new WaitForSeconds(5f);
-            MatchController.instance.NextPhase();
+			// Disable the input confirmation object.
+			this.inputConfirmationGameObject.SetActive(false);
+			yield return new WaitForSeconds(5f);
+			// Re-enable the input confirmation, so that the players now know they can proceed.
+			this.inputConfirmationGameObject.SetActive(true);
+			// Wait for input to continue.
+			this.StartCoroutine(this.WaitForInput());
         }
-
+		/// <summary>
+		/// A routine that waits for input from the first player before proceeding.
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerator WaitForInput() {
+			// Loop indefinitely, until input from the first player is noticed.
+			while (true) {
+				if (Rewired.ReInput.players.GetPlayer(0).GetAnyButtonDown() == true) {
+					// Upon input, go to the next phase and break out of this loop.
+					MatchController.instance.NextPhase();
+					break;
+				} else {
+					yield return new WaitForEndOfFrame();
+				}
+			}
+		}
 		#endregion
 
 		/*#region DEBUG
