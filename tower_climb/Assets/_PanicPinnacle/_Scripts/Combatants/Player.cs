@@ -78,7 +78,7 @@ namespace PanicPinnacle.Combatants {
         {
             Debug.Log("Player " + CombatantID + " completed goal!");
 
-            this.SetState(CombatantStateType.dead);
+            this.SetState(CombatantStateType.safe);
 
             //scoring
             ScoreKeeper.AddPoints(combatantId: CombatantID, scoreType: ScoreType.Survival);

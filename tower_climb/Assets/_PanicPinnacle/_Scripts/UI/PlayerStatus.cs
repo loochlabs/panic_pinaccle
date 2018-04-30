@@ -114,6 +114,11 @@ namespace PanicPinnacle.UI {
 				this.SetRoundPlacementLabel("OUT");
 				// Fade out the bustup image.
 				this.bustUpImage.CrossFadeColor(targetColor: Color.gray, duration: 0.5f, ignoreTimeScale: true, useAlpha: false);
+			} else if (this.combatant.State == CombatantStateType.safe) {
+				// I need to figure out a good place to add round placement without stepping over my own feet so for now I'm gonna have it say "OUT".
+				this.SetRoundPlacementLabel("<size=240>SAFE");
+				// Fade out the bustup image.
+				this.bustUpImage.CrossFadeColor(targetColor: Color.green, duration: 0.5f, ignoreTimeScale: true, useAlpha: false);
 			}
 
 			// Set the images that correspond to the different powerups.

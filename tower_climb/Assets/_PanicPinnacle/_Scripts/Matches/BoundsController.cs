@@ -14,7 +14,7 @@ namespace PanicPinnacle.Matches
             {
                 //knockout player
                 Player player = collision.gameObject.GetComponent<Player>();
-                if(player.State == CombatantStateType.dead) { return; }
+                if(player.State == CombatantStateType.dead || player.State == CombatantStateType.safe) { return; }
 
                 Debug.Log("PLAYER " + player.CombatantID + " touched bounds!");
                 player.Knockout();
