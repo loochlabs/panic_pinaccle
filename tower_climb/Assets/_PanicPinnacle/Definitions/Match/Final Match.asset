@@ -24,7 +24,7 @@ MonoBehaviour:
   titlescreenSceneName: TitleScreen
   pregameSceneName: PreGame
   matchTallySceneName: TallyScreen
-  roundCount: 1
+  roundCount: 2
   survivaleScoreValue: 5
   knockoutScoreValue: 2
   playerPrefab: {fileID: 1063099046413674, guid: c7e3d57bcfdd28b46876610f432f7b83,

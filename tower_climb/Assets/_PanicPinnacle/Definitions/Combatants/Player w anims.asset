@@ -59,7 +59,7 @@ MonoBehaviour:
       Data: 300
     - Name: impactForceMagnitude
       Entry: 4
-      Data: 10
+      Data: 300
     - Name: bodyGravityModifier
       Entry: 4
       Data: 0.05
